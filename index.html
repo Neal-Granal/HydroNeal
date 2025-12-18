@@ -14,7 +14,7 @@
     <!-- Open Graph -->
     <meta property="og:title" content="HydroNeal – Le Grimoire Ancestral">
     <meta property="og:description" content="Découvrez l'art de l'hydromel forgé dans l'ombre.">
-    <meta property="og:image" content="https://www.hydroneal.ca/couverturegrimoire.png">
+    <meta property="og:image" content="https://www.hydroneal.ca/couverturegrimoire.jpg">
     <meta property="og:url" content="https://www.hydroneal.ca/">
     <meta property="og:type" content="website">
     
@@ -31,8 +31,10 @@
         @import url('https://fonts.googleapis.com/css2?family=MedievalSharp&family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;700&family=Uncial+Antiqua&family=Noto+Sans+Runic&display=swap');
 
         :root {
+            /* Palette Sang & Or */
             --blood-red: #8a0b0b;
             --blood-dark: #4a0000;
+            
             --gold: #FFD700; 
             --gold-shadow: #B8860B;
             --parchment-bg: #d4c5a3; 
@@ -71,7 +73,6 @@
         .firefly:nth-child(3) { animation-duration: 18s; animation-delay: 5s; }
         .firefly:nth-child(4) { animation-duration: 22s; animation-delay: 1s; }
         .firefly:nth-child(5) { animation-duration: 30s; animation-delay: 8s; }
-        
         @keyframes fly {
             0% { transform: translate(-50vw, 50vh) scale(0); opacity: 0; }
             20% { opacity: 0.6; }
@@ -437,7 +438,7 @@
                 <div class="page-content">
                     <img src="icone-taverne.png" alt="Taverne" class="deco-icon">
                     <h2>Rumeurs de la Taverne</h2>
-                    <p style="text-align:center; opacity:0.8;">Ce que l'on murmure dans les auberges...</p>
+                    <p style="text-align:center; opacity:0.8;">Ce que l'on murmure dans les auberges mal famées...</p>
                     <div style="background:rgba(138,11,11,0.05); padding:15px; border-left:4px solid #8a0b0b; margin-bottom:15px;">
                         <p style="margin:0; font-size:1em; font-style:italic;">"On raconte que celui qui le brasse parle aux loups les nuits de pleine lune... et que les loups lui répondent en lui indiquant les meilleures ruches sauvages."</p>
                         <span style="display:block; text-align:right; font-family:'Cinzel'; color:#b8860b; font-size:0.85em; margin-top:5px;">- Vieux voyageur au comptoir</span>
@@ -628,7 +629,7 @@
             var iframe = document.querySelector('#sc-player');
             widget = SC.Widget(iframe);
             
-            // On attend que le widget soit prêt
+            // Tentative de réglage volume au chargement
             widget.bind(SC.Widget.Events.READY, function() {
                 // On met le volume mais on NE lance PAS en autoplay pour éviter l'erreur
                 widget.setVolume(30);
@@ -654,7 +655,7 @@
 
         // API GEMINI 1.5 - CLÉ UNIQUE (À REMPLACER SI NÉCESSAIRE)
         const apiKey = "AIzaSyCMfqbhNp1vVVP6gNjNchr_veh7PjyFePI";
-        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-001:generateContent?key=${apiKey}`;
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
 
         async function callGemini(prompt) {
             try {
