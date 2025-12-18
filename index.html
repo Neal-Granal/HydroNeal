@@ -81,7 +81,7 @@
         }
 
         /* =========================================
-           3. TITRE OR SUPRÊME
+           3. TITRE OR & SOUS-TITRE
            ========================================= */
         .title-wrapper {
             margin-top: 30px; margin-bottom: 20px; text-align: center;
@@ -94,19 +94,17 @@
         }
 
         h1.main-title {
-            font-family: 'Cinzel Decorative', cursive; font-size: 5em;
+            font-family: 'Cinzel Decorative', cursive; font-size: 5em; color: var(--gold);
             text-transform: uppercase; margin: 0;
-            /* NOUVEAU DÉGRADÉ OR ULTRA RICHE */
-            color: #b38728;
-            background: linear-gradient(to bottom, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            background: linear-gradient(to bottom, #cfc09f 22%, #634f2c 24%, #cfc09f 26%, #cfc09f 27%, #ffecb3 40%, #3a2c0f 78%); 
             -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
-            filter: drop-shadow(0 2px 0px rgba(0,0,0,0.8)) drop-shadow(0 0 10px rgba(255, 215, 0, 0.3));
-            animation: majesticFloat 6s ease-in-out infinite;
+            filter: drop-shadow(0 4px 0px rgba(0,0,0,0.6));
+            animation: floatTitle 6s ease-in-out infinite;
             line-height: 1; letter-spacing: 2px;
         }
-        @keyframes majesticFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
+        @keyframes floatTitle {
+            0%, 100% { transform: translateY(0); filter: drop-shadow(0 5px 15px rgba(0,0,0,0.6)); }
+            50% { transform: translateY(-8px); filter: drop-shadow(0 15px 25px rgba(212, 175, 55, 0.3)); }
         }
 
         h3.sub-title {
@@ -118,7 +116,7 @@
         }
 
         /* =========================================
-           4. BOUGIES
+           4. BOUGIES & LIVRE
            ========================================= */
         .candle-container { position: fixed; top: 50%; z-index: 5; pointer-events: none; transition: opacity 1s; }
         .candle-left { left: 5%; }
@@ -134,6 +132,7 @@
             margin: 0 auto; transform-origin: bottom center; position: absolute; top: -35px; left: 50%; transform: translateX(-50%);
         }
         @keyframes flicker { 0% { transform: translateX(-50%) scale(1) rotate(-1deg); opacity: 0.9; } 100% { transform: translateX(-50%) scale(1.05) rotate(1deg); opacity: 1; } }
+        
         .candle-base {
             width: 45px; height: 140px; background: linear-gradient(90deg, #3e2723, #5d4037, #281815);
             margin: 0 auto; border-radius: 4px; box-shadow: inset 0 -30px 40px rgba(0,0,0,0.9), 0 10px 20px rgba(0,0,0,0.5); position: relative;
@@ -141,13 +140,11 @@
         .candle-base::before { content: ''; position: absolute; top: 0; left: 10px; width: 6px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 3px; }
         .candle-wick { width: 2px; height: 10px; background: #111; position: absolute; top: -10px; left: 50%; transform: translateX(-50%); }
 
-        /* =========================================
-           5. LIVRE
-           ========================================= */
         .book-wrapper {
             margin: 30px 0 60px 0; filter: drop-shadow(0 60px 100px rgba(0,0,0,0.95)); 
             width: 95vw; display: flex; justify-content: center; z-index: 10; perspective: 2000px;
         }
+
         .fallback-mode .book-wrapper { flex-direction: column; align-items: center; gap: 40px; }
         .fallback-mode .page {
             position: relative !important; width: 100% !important; max-width: 600px; height: auto !important;
@@ -165,6 +162,11 @@
             box-shadow: inset 0 0 100px rgba(60, 40, 20, 0.25), inset 0 0 20px rgba(0,0,0,0.1);
             color: var(--ink-color); border: 1px solid rgba(139, 69, 19, 0.15);
             position: relative; overflow: hidden; display: flex; flex-direction: column;
+        }
+
+        .watermark {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            font-size: 250px; opacity: 0.03; color: var(--blood-red); font-family: 'Cinzel Decorative'; pointer-events: none; z-index: 0;
         }
 
         .page--cover-front .page-content {
@@ -198,13 +200,9 @@
             transform: rotate(-2deg); box-shadow: 0 5px 15px rgba(0,0,0,0.5);
         }
 
-        /* =========================================
-           6. ÉLÉMENTS DE CONTENU
-           ========================================= */
         h2 {
             font-family: 'Cinzel Decorative', cursive; color: var(--blood-red); font-size: 2.2em;
-            text-align: center; border-bottom: 3px double rgba(138, 11, 11, 0.3); 
-            padding-bottom: 12px; margin-bottom: 25px;
+            text-align: center; border-bottom: 3px double rgba(138, 11, 11, 0.3); padding-bottom: 12px; margin-bottom: 25px;
             text-shadow: 1px 1px 0 rgba(255,255,255,0.4); position: relative;
         }
         h2::after { content: '❧'; display: block; font-size: 0.6em; color: var(--gold-dim); margin-top: 5px; opacity: 0.7; }
@@ -259,13 +257,16 @@
         .btn-rune::before { content: 'ᚠ'; position: absolute; left: 10px; opacity: 0.3; font-size: 1.5em; }
         .btn-rune::after { content: 'ᚢ'; position: absolute; right: 10px; opacity: 0.3; font-size: 1.5em; }
         .btn-rune:hover { border-color: var(--gold-bright); color: var(--gold-bright); box-shadow: 0 0 20px rgba(212, 175, 55, 0.4); text-shadow: 0 0 8px var(--gold); transform: translateY(-2px); }
-        
+        .btn-rune:active { transform: translateY(1px); }
+
         .input-magic {
             background: transparent; border: none; border-bottom: 3px solid var(--blood-red);
             font-family: 'MedievalSharp', cursive; font-size: 1.5em; color: var(--ink-color);
             width: 80%; text-align: center; margin: 20px auto; display: block; outline: none;
             position: relative; z-index: 1000;
         }
+        .input-magic:focus { border-bottom-color: var(--gold); }
+        .input-magic::placeholder { color: rgba(90, 74, 58, 0.5); font-style: italic; font-size: 0.8em;}
         .generated-content {
             min-height: 80px; border: none; padding: 10px; margin-top: 25px;
             background: transparent; white-space: pre-wrap; font-size: 1.3em;
@@ -289,6 +290,7 @@
             margin-top: auto; text-align: center; border-top: 4px solid var(--gold-dim);
             font-family: 'Cinzel', serif; z-index: 20; position: relative;
             background-image: url('https://www.transparenttextures.com/patterns/black-scales.png');
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.8);
         }
         .footer-content { max-width: 1200px; margin: 0 auto; display: flex; justify-content: center; gap: 60px; flex-wrap: wrap; }
         .footer-col h4 { color: var(--gold); margin-bottom: 20px; font-size: 1.2em; border-bottom: 1px solid #444; padding-bottom: 10px; letter-spacing: 1px; }
@@ -310,6 +312,7 @@
     <div class="candle-container candle-left"><div class="candle-flame"></div><div class="candle-wick"></div><div class="candle-base"></div></div>
     <div class="candle-container candle-right"><div class="candle-flame"></div><div class="candle-wick"></div><div class="candle-base"></div></div>
 
+    <!-- AUDIO SOUNDCLOUD -->
     <iframe id="sc-player" src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/michael-ghelfi/alchemy-laboratory&auto_play=false&show_artwork=false&visual=false" width="1" height="1" scrolling="no" frameborder="0" allow="autoplay" style="position:fixed; top:-100px;"></iframe>
     <div class="audio-control" onclick="toggleAudio()">🔊</div>
 
@@ -339,6 +342,7 @@
             <!-- PAGE 1 : HISTOIRE -->
             <div class="page page-loaded">
                 <div class="page-content">
+                    <div class="watermark">H</div>
                     <img src="icone-loup.png" alt="Loup" class="deco-icon">
                     <h2>L'Alchimiste Sauvage</h2>
                     <div class="divider">~ ❦ ~</div>
@@ -358,7 +362,7 @@
                     <p>Tout commence quand la lune est haute. Le miel de sarrasin, noir et dense comme une nuit sans étoiles, est versé lentement dans l'eau de source purifiée. C'est ici que les levures ancestrales sont éveillées.</p>
                     
                     <h4>II — La Chambre des Eaux</h4>
-                    <p>Le breuvage sacré est ensuite scellé et transporté dans le <strong>Sanctuaire de Faïence</strong>. C'est une chambre aux murs blancs où l'eau pure coule sur commande. Là, caché aux yeux des profanes, bercé par le chant discret des fluides, l'hydromel fermente en paix.</p>
+                    <p>Le breuvage sacré est ensuite scellé et transporté dans le <strong>Sanctuaire de Faïence</strong>. C'est une chambre secrète aux murs d'un blanc immaculé, où l'eau pure coule sur commande. Là, caché aux yeux des profanes, bercé par le chant discret des fluides, l'hydromel fermente en paix.</p>
                     
                     <h4>III — La Transmutation</h4>
                     <p>Au fil des lunes, le sucre meurt pour renaître en esprit. Le liquide trouble s'éclaircit, révélant son âme dorée. Ce qui n'était que nourriture devient légende.</p>
@@ -369,15 +373,12 @@
             <div class="page page-loaded">
                 <div class="page-content">
                     <h2>Grimoire des Saveurs</h2>
-                    
                     <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 25px;">
                         <img src="front-label.png" alt="Face" style="height: 350px; width:48%; border-radius: 3px; object-fit: contain;">
                         <img src="back-label.png" alt="Dos" style="height: 350px; width:48%; border-radius: 3px; object-fit: contain;">
                     </div>
-
                     <div class="divider">~ ❧ ~</div>
                     <p style="text-align:center; font-style:italic; font-weight:bold; margin-bottom:15px; color:#5d0000;">Cuvée Sarrasin Noir (🌑)</p>
-                    
                     <ul class="flavor-list">
                         <li><span class="tag">Robe :</span> Sombre comme l'ambre fossile, reflets cuivrés.</li>
                         <li><span class="tag">Nez :</span> Puissant. Miel brut, cuir tanné, terre humide.</li>
@@ -391,19 +392,15 @@
                 <div class="page-content">
                     <img src="icone-taverne.png" alt="Taverne" class="deco-icon">
                     <h2>Rumeurs de la Taverne</h2>
-                    <p style="text-align:center; opacity:0.8;">Ce que l'on murmure dans les auberges mal famées...</p>
-                    
+                    <p style="text-align:center; opacity:0.8;">Ce que l'on murmure dans les auberges...</p>
                     <div style="background:rgba(138,11,11,0.05); padding:15px; border-left:4px solid #8a0b0b; margin-bottom:15px;">
-                        <p style="margin:0; font-size:1em; font-style:italic;">"On raconte que celui qui le brasse parle aux loups les nuits de pleine lune... et que les loups lui répondent en lui indiquant les meilleures ruches sauvages."</p>
+                        <p style="margin:0; font-size:1em; font-style:italic;">"On raconte que celui qui le brasse parle aux loups les nuits de pleine lune... et que les loups lui répondent."</p>
                         <span style="display:block; text-align:right; font-family:'Cinzel'; color:#b8860b; font-size:0.85em; margin-top:5px;">- Vieux voyageur au comptoir</span>
                     </div>
-                    
                     <div id="ai-rumor-zone" class="generated-content" style="display:none;"></div>
                     <div class="loader" id="rumor-loader"></div>
                     <div class="rune-container">
-                        <button class="btn-rune" onclick="generateRumor(event)" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()">
-                            Consulter les Esprits
-                        </button>
+                        <button class="btn-rune" onclick="generateRumor(event)" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()">Consulter les Esprits</button>
                     </div>
                 </div>
             </div>
@@ -417,9 +414,7 @@
                     <input type="text" id="ingredient-input" class="input-magic" placeholder="Ex: Larmes de Dragon..." 
                            onpointerdown="event.stopPropagation()" onclick="event.stopPropagation()">
                     <div class="rune-container">
-                        <button class="btn-rune" onclick="generateLegend(event)" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()">
-                            Transmuter
-                        </button>
+                        <button class="btn-rune" onclick="generateLegend(event)" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()">Transmuter</button>
                     </div>
                     <div class="loader" id="legend-loader"></div>
                     <div id="legend-output" class="generated-content">
@@ -428,29 +423,21 @@
                 </div>
             </div>
 
-            <!-- PAGE 6 : LE BESTIAIRE (IMAGE GROSSE + LAYOUT G/D) -->
+            <!-- PAGE 6 : LE BESTIAIRE -->
             <div class="page page-loaded">
                 <div class="page-content">
                     <img src="icone-loup.png" alt="Beast" class="deco-icon">
                     <h2>Le Bestiaire des Ombres</h2>
                     <div class="divider">~ ⚔ ~</div>
-                    
-                    <!-- Carte 1 : Image Gauche (220px) / Texte Droite -->
-                    <div class="beast-card">
+                    <div style="border: 1px solid var(--gold-dim); padding:10px; margin-top:15px; background:rgba(0,0,0,0.05);">
                         <img src="loup-de-fer.png" class="beast-img" alt="Loup">
-                        <div class="beast-info">
-                            <span class="beast-name">Le Loup de Fer</span>
-                            <p class="beast-desc">Gardien spirituel de la cuvée. Son hurlement fait vibrer les touries, accélérant la magie.</p>
-                        </div>
+                        <strong style="color:#8a0b0b; font-size:1.1em;">Le Loup de Fer</strong>
+                        <p style="font-size:0.95em; margin-top:5px;">Gardien spirituel de la cuvée. Son hurlement fait vibrer les touries, accélérant la magie.</p>
                     </div>
-
-                    <!-- Carte 2 : Texte Gauche / Image Droite (220px) -->
-                    <div class="beast-card alt">
-                        <div class="beast-info">
-                            <span class="beast-name">La Levure Vorace</span>
-                            <p class="beast-desc">Microscopique mais redoutable. Elle dévore le sucre pour offrir l'esprit en retour.</p>
-                        </div>
+                    <div style="border: 1px solid var(--gold-dim); padding:10px; margin-top:15px; background:rgba(0,0,0,0.05);">
                         <img src="levure-vorace.png" class="beast-img" alt="Levure">
+                        <strong style="color:#8a0b0b; font-size:1.1em;">La Levure Vorace</strong>
+                        <p style="font-size:0.95em; margin-top:5px;">Microscopique mais redoutable. Elle dévore le sucre pour offrir l'esprit en retour.</p>
                     </div>
                 </div>
             </div>
@@ -460,9 +447,9 @@
                 <div class="page-content">
                     <h2>La Carte du Royaume</h2>
                     <div class="divider">~ 🗺️ ~</div>
-                    <!-- CARTE SANS BORDURE -->
-                    <img src="carte-royaume.png" class="map-image" style="width:100%; height:auto; mix-blend-mode: multiply; border:none; box-shadow:none;">
+                    <img src="carte-royaume.png" class="map-image" style="width:100%; height:auto; mix-blend-mode: multiply;">
                     <p style="font-size:0.9em; margin-top:20px; font-style:italic; text-align:center;">"Tous les chemins mènent à la Chambre des Eaux, là où la magie opère."</p>
+                    <p>Le royaume souterrain s'étend bien au-delà des murs visibles. C'est un réseau de connaissances qui relie chaque bouteille à son buveur.</p>
                 </div>
             </div>
 
@@ -481,22 +468,16 @@
                 </div>
             </div>
 
-            <!-- PAGE 9 : FAQ (ÉTENDUE) -->
+            <!-- PAGE 9 : FAQ -->
             <div class="page page-loaded">
                 <div class="page-content">
                     <h2>Foire Aux Quêtes</h2>
                     <div class="divider">~ ? ~</div>
-                    
                     <strong style="color:#8a0b0b;">Q: Quel est ce lieu secret ?</strong>
                     <p style="font-size:0.95em;">R: Une chambre mystique aux murs lisses et blancs, vouée à la purification.</p>
-                    
-                    <strong style="color:#8a0b0b;">Q: Comment conserver ce nectar ?</strong>
-                    <p style="font-size:0.95em;">R: À l'abri de la lumière, dans la fraîcheur d'un cellier ou d'une cave en pierre. Debout, comme une sentinelle.</p>
-                    
-                    <strong style="color:#8a0b0b;">Q: Quel mets pour accompagner ?</strong>
-                    <p style="font-size:0.95em;">R: Des viandes fumées, des fromages forts comme le roc, ou simplement du pain noir.</p>
-
-                    <strong style="color:#8a0b0b;">Q: Où trouver HydroNeal ?</strong>
+                    <strong style="color:#8a0b0b;">Q: Puis-je en donner à mon dragon ?</strong>
+                    <p style="font-size:0.95em;">R: Déconseillé. Le souffle de feu pourrait faire fondre la pierre.</p>
+                    <strong style="color:#8a0b0b;">Q: Où trouver ce nectar ?</strong>
                     <p style="font-size:0.95em;">R: Il ne se trouve pas, il se mérite. Contactez l'Alchimiste.</p>
                 </div>
             </div>
@@ -610,8 +591,8 @@
             document.getElementById('rune-display').textContent = res;
         }
 
-        // API GEMINI 1.5
-        const part1 = "AIzaSyCMfqbhNp1v"; const part2 = "VVP6gNjNchr_veh7PjyFePI"; const apiKey = part1 + part2;
+        // API GEMINI 1.5 - CLÉ UNIQUE (À REMPLACER SI NÉCESSAIRE)
+        const apiKey = "AIzaSyCMfqbhNp1vVVP6gNjNchr_veh7PjyFePI";
         const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
 
         async function callGemini(prompt) {
