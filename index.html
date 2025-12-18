@@ -5,50 +5,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HydroNeal - L'Encyclopédie Ancestrale</title>
     
-    <!-- VERSION STABLE DE LA LIBRAIRIE PAGE-FLIP -->
+    <!-- LIBRAIRIE PAGE-FLIP (LIVRE) -->
     <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.min.js"></script>
     
+    <!-- API SOUNDCLOUD (SON) -->
+    <script src="https://w.soundcloud.com/player/api.js"></script>
+    
     <style>
-        /* --- POLICES --- */
+        /* =========================================
+           1. TYPOGRAPHIE & COULEURS
+           ========================================= */
         @import url('https://fonts.googleapis.com/css2?family=MedievalSharp&family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;700&family=Uncial+Antiqua&family=Noto+Sans+Runic&display=swap');
 
         :root {
             /* Palette Sang & Or */
             --blood-red: #8a0b0b;
             --blood-dark: #4a0000;
-            --blood-bright: #ff1f1f;
             
             --gold: #d4af37;
             --gold-bright: #ffd700;
             --gold-dim: #8a7020;
             --gold-antique: #c5a059;
             
-            /* Palette Papier & Encre */
+            /* Papier & Encre */
             --parchment-bg: #d4c5a3;
-            --parchment-texture: #e6dcc3;
             --ink-color: #2a1a0a;
-            --ink-faded: #5a4a3a;
             
-            /* Palette Cuir & Ombres */
-            --leather-dark: #1a0a0a;
+            /* Cuir & Ombres */
             --leather-red: #3a0505;
-            --shadow-hard: rgba(0, 0, 0, 0.9);
-            --shadow-soft: rgba(0, 0, 0, 0.5);
+            --leather-dark: #1a0a0a;
             
-            /* Effets Magiques */
+            /* Magie */
             --magic-glow: rgba(255, 215, 0, 0.4);
         }
 
-        /* --- FOND ET AMBIANCE GÉNÉRALE --- */
+        /* =========================================
+           2. FOND D'ÉCRAN & AMBIANCE
+           ========================================= */
         body {
             margin: 0;
             padding: 0;
             background-color: var(--leather-red);
-            /* Superposition complexe pour un fond riche et profond */
+            /* Superposition : Vignette sombre + Texture Cuir + Dégradé Rouge */
             background-image: 
-                radial-gradient(circle at 50% 50%, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.8) 100%),
+                radial-gradient(circle at 50% 50%, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.85) 100%),
                 url('https://www.transparenttextures.com/patterns/dark-leather.png'),
-                radial-gradient(circle at 50% 40%, #8a1a1a 0%, #1a0000 90%);
+                linear-gradient(to bottom, #2a0a0a 0%, #4a0505 50%, #1a0000 100%);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -56,23 +58,19 @@
             font-family: 'MedievalSharp', cursive;
             overflow-x: hidden;
             color: #dcbfa0;
-            transition: background-color 1s ease;
         }
 
-        /* --- SYSTÈME DE PARTICULES (POUSSIÈRE D'OR) --- */
+        /* Particules (Poussière Magique) */
         .firefly {
             position: fixed;
-            left: 50%;
-            top: 50%;
-            width: 4px;
-            height: 4px;
+            left: 50%; top: 50%;
+            width: 4px; height: 4px;
             background-color: var(--gold-bright);
             border-radius: 50%;
             box-shadow: 0 0 10px 2px var(--magic-glow);
             animation: fly 25s linear infinite;
             pointer-events: none;
-            z-index: 1;
-            opacity: 0;
+            z-index: 1; opacity: 0;
         }
         .firefly:nth-child(1) { animation-duration: 20s; animation-delay: 0s; }
         .firefly:nth-child(2) { animation-duration: 25s; animation-delay: 2s; }
@@ -88,26 +86,20 @@
             100% { transform: translate(50vw, -50vh) scale(0); opacity: 0; }
         }
 
-        /* --- TITRE ANIMÉ ET GLORIEUX --- */
+        /* =========================================
+           3. TITRE OR & SOUS-TITRE
+           ========================================= */
         .title-wrapper {
-            margin-top: 30px;
-            margin-bottom: 20px;
-            text-align: center;
-            z-index: 10;
-            padding: 0 20px;
-            position: relative;
+            margin-top: 30px; margin-bottom: 20px;
+            text-align: center; z-index: 10;
+            padding: 0 20px; position: relative;
         }
-
-        /* Effet de lueur derrière le titre */
+        /* Lueur derrière le titre */
         .title-wrapper::after {
-            content: '';
-            position: absolute;
-            top: 50%; left: 50%;
-            width: 60%; height: 60%;
-            transform: translate(-50%, -50%);
+            content: ''; position: absolute; top: 50%; left: 50%;
+            width: 60%; height: 60%; transform: translate(-50%, -50%);
             background: radial-gradient(ellipse, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
-            z-index: -1;
-            filter: blur(20px);
+            z-index: -1; filter: blur(30px);
         }
 
         h1.main-title {
@@ -116,95 +108,88 @@
             color: var(--gold);
             text-transform: uppercase;
             margin: 0;
-            /* Effet Or Métallique Complexe */
-            background: linear-gradient(to bottom, #cfc09f 22%,#634f2c 24%, #cfc09f 26%, #cfc09f 27%,#ffecb3 40%,#3a2c0f 78%); 
+            /* Effet Métallique */
+            background: linear-gradient(to bottom, #cfc09f 22%, #634f2c 24%, #cfc09f 26%, #cfc09f 27%, #ffecb3 40%, #3a2c0f 78%); 
             -webkit-background-clip: text; 
             -webkit-text-fill-color: transparent; 
-            filter: drop-shadow(0 4px 0px rgba(0,0,0,0.5));
-            animation: majesticFloat 6s ease-in-out infinite;
-            line-height: 1;
-            letter-spacing: 2px;
+            filter: drop-shadow(0 4px 0px rgba(0,0,0,0.6));
+            animation: floatTitle 6s ease-in-out infinite;
+            line-height: 1; letter-spacing: 2px;
         }
 
-        @keyframes majesticFloat {
+        @keyframes floatTitle {
             0%, 100% { transform: translateY(0); filter: drop-shadow(0 5px 15px rgba(0,0,0,0.6)); }
-            50% { transform: translateY(-8px); filter: drop-shadow(0 15px 25px rgba(212, 175, 55, 0.2)); }
+            50% { transform: translateY(-8px); filter: drop-shadow(0 15px 25px rgba(212, 175, 55, 0.3)); }
         }
 
         h3.sub-title {
             font-family: 'Cinzel', serif;
-            color: #e0c0a0;
-            letter-spacing: 6px;
-            margin-top: 10px;
-            font-size: 1.2em;
+            color: #e0c0a0; letter-spacing: 5px;
+            margin-top: 15px; font-size: 1.2em;
             text-shadow: 0 2px 10px rgba(0,0,0,1);
-            opacity: 0.9;
-            text-transform: uppercase;
+            opacity: 0.9; text-transform: uppercase;
             border-top: 1px solid rgba(224, 192, 160, 0.3);
             border-bottom: 1px solid rgba(224, 192, 160, 0.3);
-            padding: 5px 20px;
-            display: inline-block;
+            padding: 5px 20px; display: inline-block;
         }
 
-        /* --- BOUGIES DYNAMIQUES (Ambiance) --- */
-        .candle-container { position: fixed; top: 50%; z-index: 5; pointer-events: none; transition: all 1s; }
+        /* =========================================
+           4. BOUGIES RÉALISTES
+           ========================================= */
+        .candle-container { position: fixed; top: 50%; z-index: 5; pointer-events: none; transition: opacity 1s; }
         .candle-left { left: 5%; }
         .candle-right { right: 5%; }
         
-        /* Cacher sur petits écrans pour ne pas gêner la lecture */
-        @media (max-width: 1400px) { .candle-container { opacity: 0.3; transform: scale(0.7); } }
+        @media (max-width: 1400px) { .candle-container { opacity: 0.3; transform: scale(0.8); } }
         @media (max-width: 1000px) { .candle-container { display: none; } }
 
         .candle-flame {
-            width: 25px; height: 50px;
-            background: radial-gradient(ellipse at bottom, #ffffa0 0%, var(--flame-color, #ffaa00) 50%, transparent 90%);
+            width: 20px; height: 45px;
+            background: radial-gradient(ellipse at bottom, #ffffa0 0%, #ffaa00 50%, transparent 90%);
             border-radius: 50% 50% 35% 35%;
             animation: flameFlicker 0.1s infinite alternate, flameWaver 3s infinite ease-in-out;
-            box-shadow: 
-                0 -10px 20px 5px var(--flame-color, #ffaa00), 
-                0 -20px 40px 10px rgba(255, 100, 0, 0.3);
-            margin: 0 auto;
-            transform-origin: bottom center;
-            transition: background 1s, box-shadow 1s;
+            box-shadow: 0 -10px 20px 5px #ffaa00, 0 -20px 40px 10px rgba(255, 100, 0, 0.3);
+            margin: 0 auto; transform-origin: bottom center;
+            position: absolute; top: -35px; left: 50%; transform: translateX(-50%);
         }
         
         @keyframes flameFlicker { 
-            0% { transform: scale(1) rotate(-1deg); opacity: 0.9; } 
-            100% { transform: scale(1.02) rotate(1deg); opacity: 1; } 
+            0% { transform: translateX(-50%) scale(1) rotate(-1deg); opacity: 0.9; } 
+            100% { transform: translateX(-50%) scale(1.05) rotate(1deg); opacity: 1; } 
         }
         @keyframes flameWaver {
-            0%, 100% { transform: translateX(0) rotate(0deg); }
-            25% { transform: translateX(-1px) rotate(-2deg); }
-            75% { transform: translateX(1px) rotate(2deg); }
+            0%, 100% { transform: translateX(-50%) rotate(0deg); }
+            25% { transform: translateX(-52%) rotate(-2deg); }
+            75% { transform: translateX(-48%) rotate(2deg); }
         }
 
         .candle-base {
-            width: 50px; height: 150px; 
+            width: 45px; height: 140px; 
             background: linear-gradient(90deg, #3e2723, #5d4037, #281815);
-            margin: -5px auto 0 auto; 
-            border-radius: 4px;
+            margin: 0 auto; border-radius: 4px;
             box-shadow: inset 0 -30px 40px rgba(0,0,0,0.9), 0 10px 20px rgba(0,0,0,0.5);
             position: relative;
         }
-        /* Coulures de cire */
-        .candle-base::before {
+        .candle-base::before { /* Coulure */
             content: ''; position: absolute; top: 0; left: 10px; width: 6px; height: 40px;
             background: rgba(255,255,255,0.1); border-radius: 3px;
         }
-
-        /* --- LE LIVRE (Moteur 3D) --- */
-        .book-wrapper {
-            margin: 30px 0 60px 0;
-            /* Ombre massive pour l'ancrage */
-            filter: drop-shadow(0 60px 100px rgba(0,0,0,0.95)); 
-            width: 95vw;
-            display: flex;
-            justify-content: center;
-            z-index: 10;
-            perspective: 2000px;
+        .candle-wick {
+            width: 2px; height: 10px; background: #111;
+            position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
         }
 
-        /* Mode de secours CSS (si JS plante) */
+        /* =========================================
+           5. LE LIVRE (MOTEUR 3D)
+           ========================================= */
+        .book-wrapper {
+            margin: 30px 0 60px 0;
+            filter: drop-shadow(0 60px 100px rgba(0,0,0,0.95)); 
+            width: 95vw; display: flex; justify-content: center;
+            z-index: 10; perspective: 2000px;
+        }
+
+        /* Mode de secours CSS */
         .fallback-mode .book-wrapper { flex-direction: column; align-items: center; gap: 40px; }
         .fallback-mode .page {
             position: relative !important; width: 100% !important; max-width: 600px; height: auto !important;
@@ -212,49 +197,40 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important;
         }
 
-        /* --- PAGES (Structure) --- */
+        /* --- PAGES --- */
         .page {
             background-color: var(--parchment-bg);
-            width: 480px; height: 720px; /* Dimensions idéales */
-            display: none; /* Le JS l'activera */
+            width: 480px; height: 720px;
+            display: none; 
         }
         .page-loaded { display: block; }
 
-        /* --- CONTENU DES PAGES (Design) --- */
         .page-content {
-            width: 100%; height: 100%;
-            padding: 40px 35px;
-            box-sizing: border-box;
+            width: 100%; height: 100%; padding: 40px 35px; box-sizing: border-box;
             background-color: var(--parchment-bg);
-            /* Texture Papier Haute Résolution */
             background-image: 
                 url('https://www.transparenttextures.com/patterns/aged-paper.png'),
                 linear-gradient(to right, rgba(0,0,0,0.05), transparent 5%, transparent 95%, rgba(0,0,0,0.05));
-            /* Effet de vieillissement sur les bords */
-            box-shadow: 
-                inset 0 0 100px rgba(60, 40, 20, 0.25), 
-                inset 0 0 20px rgba(0,0,0,0.1);
+            box-shadow: inset 0 0 100px rgba(60, 40, 20, 0.25), inset 0 0 20px rgba(0,0,0,0.1);
             color: var(--ink-color);
             border: 1px solid rgba(139, 69, 19, 0.15);
             position: relative; overflow: hidden;
             display: flex; flex-direction: column;
         }
-        
-        /* Filigrane 'H' en fond */
+
+        /* Filigrane 'H' */
         .watermark {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
             font-size: 250px; opacity: 0.03; color: var(--blood-red);
             font-family: 'Cinzel Decorative'; pointer-events: none; z-index: 0;
         }
 
-        /* --- COUVERTURES (PLEINE PAGE) --- */
+        /* COUVERTURE AVANT (FULL IMAGE) */
         .page--cover-front .page-content {
             padding: 0 !important; border: none !important; background-color: #050505;
-            background-image: url('couverturegrimoire.png'); /* PNG */
+            background-image: url('couverturegrimoire.png');
             background-size: cover; background-position: center;
-            box-shadow: 
-                inset 0 0 50px rgba(0,0,0,0.9),
-                inset 5px 0 10px rgba(255,255,255,0.1); /* Reflet tranche */
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.9);
         }
         .page--cover-front .hint {
             position: absolute; bottom: 30px; width: 100%; text-align: center;
@@ -263,14 +239,15 @@
             animation: pulse 2s infinite; font-family: 'Cinzel';
         }
 
+        /* COUVERTURE ARRIÈRE (FULL IMAGE) */
         .page--cover-back .page-content {
             padding: 0 !important; border: none !important; background-color: #050505;
-            background-image: url('couverturearriere.png'); /* PNG */
+            background-image: url('couverturearriere.png'); 
             background-size: cover; background-position: center;
             box-shadow: inset 0 0 50px rgba(0,0,0,0.9);
         }
 
-        /* --- GARDE (Intérieur) --- */
+        /* GARDE (Intérieur) */
         .page--inside-cover .page-content {
             background-image: url('https://www.transparenttextures.com/patterns/dark-leather.png');
             background-color: #2a1a0a; 
@@ -281,24 +258,19 @@
             border: 2px solid var(--gold-dim); padding: 20px 40px;
             color: var(--gold-antique); font-family: 'Cinzel'; font-style: italic; 
             font-size: 1.5em; text-align: center; background: rgba(0,0,0,0.3);
-            transform: rotate(-2deg);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            transform: rotate(-2deg); box-shadow: 0 5px 15px rgba(0,0,0,0.5);
         }
 
         /* =========================================
-           7. ÉLÉMENTS GRAPHIQUES & TEXTE
+           6. ÉLÉMENTS DE CONTENU
            ========================================= */
         h2 {
             font-family: 'Cinzel Decorative', cursive; color: var(--blood-red); font-size: 2.2em;
             text-align: center; border-bottom: 3px double rgba(138, 11, 11, 0.3); 
             padding-bottom: 12px; margin-bottom: 25px;
-            text-shadow: 1px 1px 0 rgba(255,255,255,0.4);
-            position: relative;
+            text-shadow: 1px 1px 0 rgba(255,255,255,0.4); position: relative;
         }
-        h2::after {
-            content: '❧'; display: block; font-size: 0.6em; color: var(--gold-dim);
-            margin-top: 5px; opacity: 0.7;
-        }
+        h2::after { content: '❧'; display: block; font-size: 0.6em; color: var(--gold-dim); margin-top: 5px; opacity: 0.7; }
 
         h4 {
             font-family: 'Cinzel', serif; color: #4a0404; font-size: 1.3em; margin: 25px 0 8px 0;
@@ -314,8 +286,7 @@
         }
 
         .drop-cap::first-letter {
-            font-family: 'Uncial Antiqua', cursive; /* Lettrine style manuscrit */
-            font-size: 4em; float: left; margin-right: 12px; margin-top: -5px; 
+            font-family: 'Uncial Antiqua', cursive; font-size: 4em; float: left; margin-right: 12px; margin-top: -5px; 
             color: var(--blood-red); text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
         }
 
@@ -326,6 +297,18 @@
         }
         .deco-icon:hover { transform: scale(1.05); }
 
+        .map-image {
+            width: 100%; height: auto; border: 2px solid #5a4a3a; border-radius: 4px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.3); 
+            mix-blend-mode: multiply; /* Enlève le blanc */
+            display: block; margin: 20px auto;
+        }
+
+        .beast-img {
+            width: 100%; height: 160px; object-fit: contain; 
+            margin-bottom: 10px; mix-blend-mode: multiply; filter: sepia(0.5);
+        }
+
         ul.flavor-list { padding-left: 10px; list-style: none; text-align: left; margin-top: 20px;}
         ul.flavor-list li { 
             margin-bottom: 15px; font-size: 1.15em; 
@@ -335,115 +318,72 @@
         ul.flavor-list li::before { content: "✦"; color: var(--gold-dim); margin-right: 10px; font-size: 0.8em; }
         .tag { color: #8a0b0b; font-family: 'Cinzel'; font-weight: bold; font-size: 0.95em; margin-right: 5px; text-transform: uppercase;}
 
-        .map-image {
-            width: 100%; height: auto; max-height: 350px;
-            border: 2px solid #5a4a3a; border-radius: 4px;
-            box-shadow: 2px 2px 10px rgba(0,0,0,0.3); filter: sepia(0.3);
-            display: block; margin: 20px auto;
-        }
-
         /* =========================================
-           8. BOUTONS & INTERACTIVITÉ
+           7. INTERACTIVITÉ (BOUTONS & IA)
            ========================================= */
         .interactive-zone { position: relative; z-index: 1000 !important; pointer-events: auto !important; }
 
         .rune-container { display: flex; justify-content: center; margin: 30px 0; }
 
         .btn-rune {
-            background: #251610;
-            color: var(--gold);
-            padding: 15px 35px;
+            background: #251610; color: var(--gold); padding: 15px 35px;
             font-family: 'Cinzel', serif; font-size: 1.1em; font-weight: bold;
             text-transform: uppercase; letter-spacing: 2px;
-            border: 2px solid var(--gold-dim);
-            /* Double bordure style cadre */
-            outline: 1px solid #251610; outline-offset: -5px;
-            cursor: pointer; transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
-            display: block; margin: 30px auto;
-            position: relative; z-index: 1000; overflow: hidden;
+            border: 2px solid var(--gold-dim); outline: 1px solid #251610; outline-offset: -5px;
+            cursor: pointer; transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+            display: block; margin: 30px auto; position: relative; z-index: 1000; overflow: hidden;
         }
-
         .btn-rune::before { content: 'ᚠ'; position: absolute; left: 10px; opacity: 0.3; font-size: 1.5em; }
         .btn-rune::after { content: 'ᚢ'; position: absolute; right: 10px; opacity: 0.3; font-size: 1.5em; }
 
         .btn-rune:hover {
             border-color: var(--gold-bright); color: var(--gold-bright);
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
-            text-shadow: 0 0 8px var(--gold);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4); text-shadow: 0 0 8px var(--gold);
             transform: translateY(-2px);
         }
         .btn-rune:active { transform: translateY(1px); }
 
-        /* Champs de saisie intégrés au papier */
         .input-magic {
-            background: transparent; border: none; 
-            border-bottom: 3px solid var(--blood-red);
+            background: transparent; border: none; border-bottom: 3px solid var(--blood-red);
             font-family: 'MedievalSharp', cursive; font-size: 1.5em; color: var(--ink-color);
             width: 80%; text-align: center; margin: 20px auto; display: block; outline: none;
-            transition: border-color 0.3s;
-            position: relative; z-index: 1000;
+            transition: border-color 0.3s; position: relative; z-index: 1000;
         }
         .input-magic:focus { border-bottom-color: var(--gold); }
         .input-magic::placeholder { color: rgba(90, 74, 58, 0.5); font-style: italic; font-size: 0.8em;}
 
-        /* Zone de réponse IA - Style Encre */
+        /* Style de réponse : Directement sur le papier */
         .generated-content {
-            min-height: 100px; border: none; padding: 10px; margin-top: 25px;
-            background: transparent; 
-            white-space: pre-wrap; font-size: 1.3em;
+            min-height: 80px; border: none; padding: 10px; margin-top: 25px;
+            background: transparent; white-space: pre-wrap; font-size: 1.3em;
             text-align: center; color: #6a0000; font-family: 'MedievalSharp', cursive; 
             font-style: italic; line-height: 1.4;
         }
 
-        /* Loader Mystique */
         .loader {
             display: none; width: 40px; height: 40px; 
             border: 4px solid rgba(212, 175, 55, 0.3); border-radius: 50%;
-            border-top-color: var(--blood-red); 
-            animation: spin 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite; 
-            margin: 15px auto;
+            border-top-color: var(--blood-red); animation: spin 1.5s infinite linear; margin: 15px auto;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        .hint { color: #888; font-family: 'Cinzel'; margin-top: 20px; animation: pulse 2s infinite; font-size: 0.9em; letter-spacing: 2px; }
-        @keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
+        /* Audio Control */
+        .audio-control {
+            position: fixed; bottom: 20px; right: 20px; z-index: 100;
+            background: rgba(0,0,0,0.6); color: var(--gold);
+            width: 40px; height: 40px; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            cursor: pointer; border: 2px solid var(--gold-dim);
+            font-size: 1.2em; transition: 0.3s;
+        }
+        .audio-control:hover { transform: scale(1.1); background: rgba(0,0,0,0.8); }
 
-        /* Bouton Contact */
-        .btn-contact {
-            margin-top: 40px; background: #2a0a0a; color: var(--gold); padding: 15px 40px;
-            font-family: 'Cinzel', serif; font-size: 1.2em; text-decoration: none; 
-            border: 2px solid var(--gold); border-radius: 2px;
-            display: inline-block; box-shadow: 0 10px 20px rgba(0,0,0,0.6);
-            position: relative; z-index: 1000; transition: 0.3s;
-        }
-        .btn-contact:hover { 
-            background: #4a0000; border-color: var(--gold-bright); 
-            box-shadow: 0 0 25px rgba(255, 0, 0, 0.3);
-        }
-
-        /* --- CONTRÔLE AMBIANCE (Panel) --- */
-        .ambiance-panel {
-            position: fixed; bottom: 20px; left: 20px; z-index: 100;
-            background: rgba(0,0,0,0.6); padding: 10px; border-radius: 8px; border: 1px solid #444;
-            display: flex; gap: 10px; backdrop-filter: blur(5px);
-        }
-        .ambiance-btn {
-            width: 30px; height: 30px; border-radius: 50%; cursor: pointer; border: 2px solid transparent;
-            transition: transform 0.2s;
-        }
-        .ambiance-btn:hover { transform: scale(1.2); }
-        .amb-red { background: #ffaa00; } 
-        .amb-blue { background: #00aaff; } 
-        .amb-green { background: #00ffaa; }
-
-        /* --- FOOTER --- */
+        /* Footer */
         footer {
             width: 100%; background-color: #0a0505; color: #b8aa8a; padding: 50px 20px;
             margin-top: auto; text-align: center; border-top: 4px solid var(--gold-dim);
             font-family: 'Cinzel', serif; z-index: 20; position: relative;
             background-image: url('https://www.transparenttextures.com/patterns/black-scales.png');
-            box-shadow: 0 -10px 30px rgba(0,0,0,0.8);
         }
         .footer-content { max-width: 1200px; margin: 0 auto; display: flex; justify-content: center; gap: 60px; flex-wrap: wrap; }
         .footer-col h4 { color: var(--gold); margin-bottom: 20px; font-size: 1.2em; border-bottom: 1px solid #444; padding-bottom: 10px; letter-spacing: 1px; }
@@ -451,38 +391,43 @@
         .footer-col a:hover { color: var(--gold-bright); text-shadow: 0 0 5px var(--gold); }
         .legal { margin-top: 40px; font-size: 0.85em; opacity: 0.5; font-style: italic; }
 
-        /* --- MOBILE --- */
         @media (max-width: 1000px) {
             h1.main-title { font-size: 3em; }
             .book-wrapper { width: 100%; padding: 0 5px; box-sizing: border-box; }
             .page-content { padding: 25px 20px; }
-            .ambiance-panel { display: none; } /* Trop petit pour contrôles */
         }
     </style>
 </head>
 <body class="fallback-mode">
 
     <!-- PARTICULES -->
-    <div class="firefly"></div><div class="firefly"></div><div class="firefly"></div><div class="firefly"></div><div class="firefly"></div><div class="firefly"></div>
+    <div class="firefly"></div><div class="firefly"></div><div class="firefly"></div><div class="firefly"></div><div class="firefly"></div>
 
     <!-- BOUGIES -->
-    <div class="candle-container candle-left"><div class="candle-flame" id="flame-left"></div><div class="candle-base"></div></div>
-    <div class="candle-container candle-right"><div class="candle-flame" id="flame-right"></div><div class="candle-base"></div></div>
+    <div class="candle-container candle-left">
+        <div class="candle-flame"></div><div class="candle-wick"></div><div class="candle-base"></div>
+    </div>
+    <div class="candle-container candle-right">
+        <div class="candle-flame"></div><div class="candle-wick"></div><div class="candle-base"></div>
+    </div>
+
+    <!-- AUDIO (SOUNDCLOUD INVISIBLE) -->
+    <iframe id="sc-player" src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/michael-ghelfi/alchemy-laboratory&auto_play=false&show_artwork=false&visual=false" width="1" height="1" scrolling="no" frameborder="0" allow="autoplay" style="position:fixed; top:-100px;"></iframe>
+    <div class="audio-control" onclick="toggleAudio()">🔊</div>
 
     <!-- EN-TÊTE -->
     <div class="title-wrapper">
         <h1 class="main-title">HydroNeal</h1>
-        <h3 class="sub-title">L'Art de l'Hydromel Ancestral</h3>
+        <h3 class="sub-title">Brassé dans l'ombre, partagé dans la lumière</h3>
     </div>
 
     <!-- GRIMOIRE -->
     <div class="book-wrapper">
         <div id="book">
             
-            <!-- COUVERTURE AVANT -->
+            <!-- COUVERTURE AVANT (FULL PNG) -->
             <div class="page page--cover-front page-loaded">
                 <div class="page-content">
-                    <!-- Image Pleine -->
                     <p class="hint">~ Ouvrir le Grimoire ~</p>
                 </div>
             </div>
@@ -503,69 +448,66 @@
                     <h2>L'Alchimiste Sauvage</h2>
                     <div class="divider">~ ❦ ~</div>
                     
-                    <p class="drop-cap">Né sous les ombrages d'une forêt que les cartes ignorent, là où les hivers mordent plus fort qu'un loup affamé, Neal fut bercé par le chant de la meute. Les anciens racontent qu'il apprit à écouter la sève des arbres avant même de savoir parler la langue des hommes. Là où les citadins voient le danger, il apprit l'harmonie parfaite de la nature sauvage.</p>
-                    
-                    <p>Mais l'appel du savoir fut plus fort que celui des bois. Une soif inextinguible de comprendre les arcanes de la transformation le mena vers la <strong>Cité aux 1000 Clochers</strong>. Dans ce labyrinthe de pierre, de vapeur et de savoirs oubliés, il troqua sa peau de bête pour la blouse d'érudit, plongeant dans les mystères de la chimie organique et des fermentations anciennes.</p>
-                    
-                    <p>Aujourd'hui, il œuvre dans l'ombre, fusionnant l'instinct animal et la rigueur scientifique pour <strong>façonner</strong> un hydromel qui ne ressemble à aucun autre. Un pont liquide entre la nature brute et l'esprit raffiné, une gorgée d'histoire liquide.</p>
+                    <p class="drop-cap">Né sous les ombrages d'une forêt que les cartes ignorent, Neal fut bercé par le chant de la meute. Les anciens racontent qu'il apprit à écouter la sève des arbres avant même de savoir parler la langue des hommes.</p>
+                    <p>Mais l'appel du savoir fut plus fort que celui des bois. Il quitta sa tanière pour la <strong>Cité aux 1000 Clochers</strong>. Dans ce labyrinthe de pierre et de vapeur, il troqua sa peau de bête pour la blouse d'érudit.</p>
+                    <p>Aujourd'hui, il œuvre dans l'ombre, fusionnant l'instinct animal et la rigueur scientifique pour <strong>façonner</strong> un hydromel qui ne ressemble à aucun autre.</p>
                 </div>
             </div>
 
-            <!-- PAGE 2 : RITUEL (ENRICHI) -->
+            <!-- PAGE 2 : RITUEL (POÉTIQUE) -->
             <div class="page page-loaded">
                 <div class="page-content">
                     <img src="icone-alchimie.png" alt="Alchimie" class="deco-icon">
                     <h2>Le Rituel Interdit</h2>
                     
                     <h4>I — L’Alliance Nocturne</h4>
-                    <p>Tout commence quand la lune est haute et que le monde se tait. Le miel de sarrasin, noir et dense comme une nuit sans étoiles, est versé lentement dans l'eau de source purifiée. C'est ici que les levures ancestrales, gardiennes du secret, sont éveillées par une incantation précise de température et de nutriments.</p>
+                    <p>Tout commence quand la lune est haute. Le miel de sarrasin, noir et dense comme une nuit sans étoiles, est versé lentement dans l'eau de source purifiée. C'est ici que les levures ancestrales sont éveillées.</p>
                     
-                    <h4>II — Le Sanctuaire Caché</h4>
-                    <p>Le breuvage sacré est ensuite scellé et transporté avec révérence dans le <strong>Sanctuaire de Faïence</strong>. C'est une chambre secrète aux murs d'un blanc immaculé, où l'eau pure coule sur commande. Là, caché aux yeux des profanes, bercé par le chant discret des fluides qui circulent dans les murs, l'hydromel entame sa longue métamorphose.</p>
+                    <h4>II — La Chambre des Eaux</h4>
+                    <p>Le breuvage sacré est ensuite scellé et transporté dans le <strong>Sanctuaire de Faïence</strong>. C'est une chambre aux murs blancs où l'eau pure coule sur commande. Là, caché aux yeux des profanes, bercé par le chant discret des fluides, l'hydromel fermente en paix.</p>
                     
                     <h4>III — La Transmutation</h4>
-                    <p>Patience est mère de vertu. Au fil des lunes, le sucre meurt pour renaître en esprit. Le liquide trouble s'éclaircit peu à peu, révélant son âme dorée et ambrée. Ce qui n'était que simple nourriture devient une légende liquide, prête à être partagée.</p>
+                    <p>Au fil des lunes, le sucre meurt pour renaître en esprit. Le liquide trouble s'éclaircit, révélant son âme dorée. Ce qui n'était que nourriture devient légende.</p>
                 </div>
             </div>
 
-            <!-- PAGE 3 : SAVEURS (IMAGES GÉANTES - SANS BLANC) -->
+            <!-- PAGE 3 : SAVEURS (ETIQUETTES GÉANTES) -->
             <div class="page page-loaded">
                 <div class="page-content">
                     <h2>Grimoire des Saveurs</h2>
                     
                     <!-- IMAGES XXL SANS FOND -->
                     <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 25px;">
-                        <img src="front-label.png" alt="Face" style="height: 350px; width:48%; border-radius: 3px; object-fit: contain;">
-                        <img src="back-label.png" alt="Dos" style="height: 350px; width:48%; border-radius: 3px; object-fit: contain;">
+                        <img src="front-label.png" alt="Face" style="height: 280px; width:48%; border-radius: 3px; object-fit: contain;">
+                        <img src="back-label.png" alt="Dos" style="height: 280px; width:48%; border-radius: 3px; object-fit: contain;">
                     </div>
 
                     <div class="divider">~ ❧ ~</div>
                     <p style="text-align:center; font-style:italic; font-weight:bold; margin-bottom:15px; color:#5d0000;">Cuvée Sarrasin Noir (🌑)</p>
                     
                     <ul class="flavor-list">
-                        <li><span class="tag">Robe :</span> Sombre comme l'ambre fossile, avec des reflets de cuivre bruni par le temps.</li>
-                        <li><span class="tag">Nez :</span> Puissant et complexe. Des notes de miel brut, de cuir tanné, de terre humide et de bois ancien.</li>
-                        <li><span class="tag">Bouche :</span> Attaque franche et corsée. La douceur n'est pas sirupeuse mais riche, équilibrée par une finale terreuse qui réchauffe l'âme.</li>
+                        <li><span class="tag">Robe :</span> Sombre comme l'ambre fossile, reflets cuivrés.</li>
+                        <li><span class="tag">Nez :</span> Puissant. Miel brut, cuir tanné, terre humide.</li>
+                        <li><span class="tag">Bouche :</span> Attaque franche, corps robuste, finale chaleureuse qui persiste.</li>
                     </ul>
                 </div>
             </div>
 
-            <!-- PAGE 4 : RUMEURS (IA + BOUTON RUNIQUE) -->
+            <!-- PAGE 4 : RUMEURS (IA + RUNES) -->
             <div class="page page-loaded">
                 <div class="page-content">
                     <img src="icone-taverne.png" alt="Taverne" class="deco-icon">
                     <h2>Rumeurs de la Taverne</h2>
-                    <p style="text-align:center; opacity:0.8;">Ce que l'on murmure dans les auberges mal famées...</p>
+                    <p style="text-align:center; opacity:0.8;">Ce que l'on murmure dans les auberges...</p>
                     
-                    <div style="background:rgba(138,11,11,0.05); padding:15px; border-left:4px solid #8a0b0b; margin-bottom:15px; border-radius:0 5px 5px 0;">
-                        <p style="margin:0; font-size:1em; font-style:italic;">"On raconte que celui qui le brasse parle aux loups les nuits de pleine lune... et que les loups lui répondent en lui indiquant les meilleures ruches sauvages."</p>
+                    <div style="background:rgba(138,11,11,0.05); padding:15px; border-left:4px solid #8a0b0b; margin-bottom:15px;">
+                        <p style="margin:0; font-size:1em; font-style:italic;">"On raconte que celui qui le brasse parle aux loups les nuits de pleine lune... et que les loups lui répondent."</p>
                         <span style="display:block; text-align:right; font-family:'Cinzel'; color:#b8860b; font-size:0.85em; margin-top:5px;">- Vieux voyageur au comptoir</span>
                     </div>
                     
                     <div id="ai-rumor-zone" class="generated-content" style="display:none;"></div>
                     <div class="loader" id="rumor-loader"></div>
 
-                    <!-- BOUTON RUNIQUE -->
                     <div class="rune-container">
                         <button class="btn-rune" onclick="generateRumor(event)" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()">
                             Consulter les Esprits
@@ -574,7 +516,7 @@
                 </div>
             </div>
 
-            <!-- PAGE 5 : CREUSET (IA + BOUTON RUNIQUE) -->
+            <!-- PAGE 5 : CREUSET (IA + RUNES) -->
             <div class="page page-loaded">
                 <div class="page-content">
                     <h2>Le Creuset des Légendes</h2>
@@ -591,49 +533,43 @@
                     </div>
 
                     <div class="loader" id="legend-loader"></div>
-
                     <div id="legend-output" class="generated-content">
                         <p style="opacity: 0.5; font-size:0.9em; margin:0;">Les pages sont encore vierges...</p>
                     </div>
                 </div>
             </div>
 
-            <!-- PAGE 6 : LE BESTIAIRE (NOUVEAU) -->
+            <!-- PAGE 6 : LE BESTIAIRE (ENRICHI) -->
             <div class="page page-loaded">
                 <div class="page-content">
                     <img src="icone-loup.png" alt="Beast" class="deco-icon">
                     <h2>Le Bestiaire des Ombres</h2>
-                    <p class="drop-cap">Dans les profondeurs où HydroNeal fermente, d'étranges créatures veillent. Voici celles que l'on a pu observer sans perdre la raison.</p>
+                    <div class="divider">~ ⚔ ~</div>
                     
-                    <div style="border: 1px solid var(--gold-dim); padding:15px; margin-top:20px; background:rgba(0,0,0,0.05);">
-                        <strong style="color:#8a0b0b; font-size:1.1em; text-transform:uppercase;">Le Loup de Fer</strong>
-                        <p style="font-size:0.95em; margin-top:5px;">Gardien spirituel de la cuvée. On dit que son hurlement fait vibrer les touries et accélère la fermentation, donnant au breuvage sa force indomptable.</p>
+                    <div style="border: 1px solid var(--gold-dim); padding:10px; margin-top:15px; background:rgba(0,0,0,0.05);">
+                        <img src="loup-de-fer.png" class="beast-img" alt="Loup">
+                        <strong style="color:#8a0b0b; font-size:1.1em;">Le Loup de Fer</strong>
+                        <p style="font-size:0.95em; margin-top:5px;">Gardien spirituel de la cuvée. Son hurlement fait vibrer les touries, accélérant la magie.</p>
                     </div>
 
-                    <div style="border: 1px solid var(--gold-dim); padding:15px; margin-top:15px; background:rgba(0,0,0,0.05);">
-                        <strong style="color:#8a0b0b; font-size:1.1em; text-transform:uppercase;">La Levure Vorace</strong>
-                        <p style="font-size:0.95em; margin-top:5px;">Microscopique mais redoutable. Elle dévore le sucre avec une frénésie guerrière pour offrir l'alcool en sacrifice, transformant le doux nectar en potion de courage.</p>
-                    </div>
-                    
-                    <div style="border: 1px solid var(--gold-dim); padding:15px; margin-top:15px; background:rgba(0,0,0,0.05);">
-                        <strong style="color:#8a0b0b; font-size:1.1em; text-transform:uppercase;">L'Araignée des Caves</strong>
-                        <p style="font-size:0.95em; margin-top:5px;">Tisseuse de destins et gardienne des coins sombres. Elle veille à ce qu'aucun insecte ne vienne troubler le repos du précieux liquide.</p>
+                    <div style="border: 1px solid var(--gold-dim); padding:10px; margin-top:15px; background:rgba(0,0,0,0.05);">
+                        <img src="levure-vorace.png" class="beast-img" alt="Levure">
+                        <strong style="color:#8a0b0b; font-size:1.1em;">La Levure Vorace</strong>
+                        <p style="font-size:0.95em; margin-top:5px;">Microscopique mais redoutable. Elle dévore le sucre pour offrir l'esprit en retour.</p>
                     </div>
                 </div>
             </div>
 
-            <!-- PAGE 7 : LA CARTE DU ROYAUME -->
+            <!-- PAGE 7 : LA CARTE -->
             <div class="page page-loaded">
                 <div class="page-content">
                     <h2>La Carte du Royaume</h2>
                     <div class="divider">~ 🗺️ ~</div>
                     
-                    <!-- IMAGE DE LA CARTE -->
-                    <img src="carte-royaume.png" class="map-image" style="width:100%; height:auto; border:2px solid #5a4a3a; box-shadow:2px 2px 10px rgba(0,0,0,0.3);">
+                    <img src="carte-royaume.png" class="map-image" style="width:100%; height:auto; mix-blend-mode: multiply;">
 
-                    <p style="font-size:0.9em; margin-top:20px; font-style:italic; text-align:center;">"Tous les chemins mènent au Sanctuaire de Faïence, là où la magie opère. De la forêt profonde aux sommets de la Cité, chaque ingrédient voyage pour finir ici."</p>
-                    
-                    <p style="margin-top:15px;">Le royaume souterrain s'étend bien au-delà des murs visibles. C'est un réseau de connaissances, de partage et de passion qui relie chaque bouteille à son buveur.</p>
+                    <p style="font-size:0.9em; margin-top:20px; font-style:italic; text-align:center;">"Tous les chemins mènent à la Chambre des Eaux, là où la magie opère."</p>
+                    <p>Le royaume souterrain s'étend bien au-delà des murs visibles. C'est un réseau de connaissances qui relie chaque bouteille à son buveur.</p>
                 </div>
             </div>
 
@@ -645,33 +581,30 @@
                     <p style="text-align:center; font-weight:bold; color:var(--blood-red);">~ Règles de Dégustation ~</p>
                     
                     <h4>I — Le Respect</h4>
-                    <p>On ne boit pas l'HydroNeal à la légère, comme de l'eau de pluie. C'est un breuvage qui demande attention et silence. Le premier verre se lève toujours vers le Nord, en hommage aux forêts anciennes.</p>
+                    <p>On ne boit pas l'HydroNeal à la légère. C'est un breuvage qui demande attention. Le premier verre se lève toujours vers le Nord.</p>
 
                     <h4>II — Le Partage</h4>
-                    <p>Un flacon ouvert ne se referme pas avant d'avoir été partagé. L'hydromel est le lien sacré qui unit les membres de la meute, qu'ils soient de sang ou de cœur. Refuser un verre est une offense aux esprits.</p>
+                    <p>Un flacon ouvert ne se referme pas avant d'avoir été partagé. L'hydromel est le lien sacré qui unit les membres de la meute.</p>
 
                     <h4>III — La Modération</h4>
-                    <p>La bête qui sommeille en chacun doit être nourrie, pas réveillée violemment. Buvez avec la sagesse du vieux loup, pas la fougue du louveteau insouciant. L'ivresse doit être joyeuse, jamais destructrice.</p>
+                    <p>La bête qui sommeille en chacun doit être nourrie, pas réveillée violemment. Buvez avec la sagesse du vieux loup.</p>
                 </div>
             </div>
 
-            <!-- PAGE 9 : LA FOIRE AUX QUÊTES (FAQ CORRIGÉE) -->
+            <!-- PAGE 9 : FAQ -->
             <div class="page page-loaded">
                 <div class="page-content">
                     <h2>Foire Aux Quêtes</h2>
                     <div class="divider">~ ? ~</div>
                     
-                    <strong style="color:#8a0b0b;">Q: Quel est ce lieu secret de fermentation ?</strong>
-                    <p style="font-size:0.95em;">R: C'est un sanctuaire inviolé, une chambre mystique aux murs blancs et lisses, où les eaux convergent. Un lieu de purification et de transformation absolue.</p>
+                    <strong style="color:#8a0b0b;">Q: Quel est ce lieu secret ?</strong>
+                    <p style="font-size:0.95em;">R: Une chambre mystique aux murs lisses et blancs, vouée à la purification et au calme.</p>
                     
                     <strong style="color:#8a0b0b;">Q: Puis-je en donner à mon dragon ?</strong>
-                    <p style="font-size:0.95em;">R: Fortement déconseillé. Le souffle de feu après un verre d'HydroNeal pourrait gagner en intensité et faire fondre la pierre des donjons.</p>
-                    
-                    <strong style="color:#8a0b0b;">Q: L'hydromel périme-t-il ?</strong>
-                    <p style="font-size:0.95em;">R: Comme les légendes, il ne meurt jamais. Il se bonifie avec l'âge, devenant plus sage et plus profond au fil des hivers.</p>
+                    <p style="font-size:0.95em;">R: Déconseillé. Le souffle de feu après un verre d'HydroNeal pourrait faire fondre la pierre.</p>
                     
                     <strong style="color:#8a0b0b;">Q: Où trouver ce nectar ?</strong>
-                    <p style="font-size:0.95em;">R: Il ne se trouve pas, il se mérite. Contactez l'Alchimiste pour prouver votre valeur et entrer dans le cercle des initiés.</p>
+                    <p style="font-size:0.95em;">R: Il ne se trouve pas, il se mérite. Contactez l'Alchimiste pour entrer dans le cercle.</p>
                 </div>
             </div>
 
@@ -686,46 +619,30 @@
                         
                         <div style="margin: 20px 0; padding: 10px; border: 1px solid rgba(0,0,0,0.1);">
                             <strong style="color:#8a0b0b; font-size:1.1em;">✦ Le Sang des Framboises ✦</strong><br>
-                            <span style="font-size:0.95em; font-style:italic;">Une cuvée vive et acidulée, née d'un été brûlant où les fruits gorgeaient de soleil. Elle a la couleur du rubis et le goût de la passion.</span>
+                            <span style="font-size:0.95em; font-style:italic;">Une cuvée vive et acidulée, née d'un été brûlant.</span>
                         </div>
 
                         <div style="margin: 20px 0; padding: 10px; border: 1px solid rgba(0,0,0,0.1);">
                             <strong style="color:#2a4a8a; font-size:1.1em;">✦ L’Or Bleu des Marais ✦</strong><br>
-                            <span style="font-size:0.95em; font-style:italic;">Fermenté avec des bleuets sauvages cueillis à l'aube. Doux comme un souvenir d'enfance, mystérieux comme la brume du matin.</span>
+                            <span style="font-size:0.95em; font-style:italic;">Fermenté avec des bleuets sauvages, doux comme un souvenir.</span>
                         </div>
-                        
-                        <p style="margin-top:40px; font-style:italic; font-size:0.9em; opacity:0.7;">"D'autres expériences dorment dans le noir, attendant leur heure..."</p>
                     </div>
                 </div>
             </div>
 
-            <!-- PAGE 11 : TRADUCTEUR RUNIQUE (OUTIL COMPLET) -->
+            <!-- PAGE 11 : TRADUCTEUR RUNIQUE -->
             <div class="page page-loaded">
                 <div class="page-content">
                     <h2>Sceau Runique</h2>
-                    <p style="text-align:center; font-size:0.9em;">Inscrivez votre nom pour voir votre signature d'Alchimiste en véritables Runes Anciennes.</p>
+                    <p style="text-align:center; font-size:0.9em;">Inscrivez votre nom pour voir votre signature d'Alchimiste.</p>
                     
                     <input type="text" id="rune-input" class="input-magic" placeholder="Votre Nom..." oninput="translateRunes(this.value)" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()">
                     
-                    <!-- Affichage des Runes avec la police Noto Sans Runic si dispo, sinon fallback -->
-                    <div id="rune-display" style="font-family:'Noto Sans Runic', sans-serif; font-size:3em; text-align:center; margin-top:30px; color:#8a0b0b; min-height:60px;"></div>
+                    <div id="rune-display" style="font-family:'Uncial Antiqua'; font-size:3em; text-align:center; margin-top:30px; color:#8a0b0b; min-height:60px;"></div>
                     
                     <script>
-                        // Dictionnaire de mapping Latin -> Runes Futhark
-                        const runes = {
-                            'a': 'ᚨ', 'b': 'ᛒ', 'c': 'ᚲ', 'd': 'ᛞ', 'e': 'ᛖ', 'f': 'ᚠ', 'g': 'ᚷ', 'h': 'ᚺ', 'i': 'ᛁ', 
-                            'j': 'ᛃ', 'k': 'ᚲ', 'l': 'ᛚ', 'm': 'ᛗ', 'n': 'ᚾ', 'o': 'ᛟ', 'p': 'ᛈ', 'q': 'ᚲ', 'r': 'ᚱ', 
-                            's': 'ᛊ', 't': 'ᛏ', 'u': 'ᚢ', 'v': 'ᚢ', 'w': 'ᚹ', 'x': 'ᚲᛊ', 'y': 'ᛃ', 'z': 'ᛉ', 
-                            ' ': ':', 'à': 'ᚨ', 'é': 'ᛖ', 'è': 'ᛖ', 'ê': 'ᛖ'
-                        };
-
                         function translateRunes(text) {
-                            const lowerText = text.toLowerCase();
-                            let result = "";
-                            for (let char of lowerText) {
-                                result += runes[char] || char; // Garde le caractère si pas de rune correspondante
-                            }
-                            document.getElementById('rune-display').textContent = result;
+                            document.getElementById('rune-display').textContent = text;
                         }
                     </script>
                 </div>
@@ -735,20 +652,9 @@
             <div class="page page--inside-cover page-loaded"><div class="page-content"></div></div>
 
             <!-- DOS COUVERTURE -->
-            <div class="page page--cover-back page-loaded">
-                <div class="page-content">
-                    <!-- Image Pleine -->
-                </div>
-            </div>
+            <div class="page page--cover-back page-loaded"><div class="page-content"></div></div>
 
         </div>
-    </div>
-
-    <!-- CONTRÔLE AMBIANCE (Fun Feature) -->
-    <div class="ambiance-panel">
-        <div class="ambiance-btn amb-red" onclick="setAmbiance('#ffaa00')" title="Feu de Camp"></div>
-        <div class="ambiance-btn amb-blue" onclick="setAmbiance('#00aaff')" title="Magie Arcanique"></div>
-        <div class="ambiance-btn amb-green" onclick="setAmbiance('#00ffaa')" title="Poison Vile"></div>
     </div>
 
     <!-- FOOTER -->
@@ -758,12 +664,10 @@
                 <h4>HydroNeal</h4>
                 <a href="#">Accueil</a>
                 <a href="#">La Légende</a>
-                <a href="#">Boutique (Bientôt)</a>
             </div>
             <div class="footer-col">
                 <h4>Alliance</h4>
                 <a href="mailto:contact@hydroneal.com">Me Contacter</a>
-                <a href="#">Rejoindre la Meute</a>
             </div>
             <div class="footer-col">
                 <h4>Suivez la Piste</h4>
@@ -801,19 +705,47 @@
             } catch(e) { console.log("Mode Fallback"); }
         });
 
-        // --- AMBIANCE ---
-        function setAmbiance(color) {
-            document.documentElement.style.setProperty('--flame-color', color);
-            document.getElementById('flame-left').style.background = `radial-gradient(ellipse at bottom, #ffffa0 0%, ${color} 50%, transparent 90%)`;
-            document.getElementById('flame-right').style.background = `radial-gradient(ellipse at bottom, #ffffa0 0%, ${color} 50%, transparent 90%)`;
+        // --- WIDGET SOUNDCLOUD ---
+        var widget;
+        document.addEventListener('DOMContentLoaded', function() {
+            var iframe = document.querySelector('#sc-player');
+            widget = SC.Widget(iframe);
+        });
+
+        let audioPlaying = false;
+        function toggleAudio() {
+            const btn = document.querySelector('.audio-control');
+            if (!widget) return;
             
-            // Changer les particules
-            const flies = document.querySelectorAll('.firefly');
-            flies.forEach(f => f.style.backgroundColor = color);
+            widget.isPaused(function(paused) {
+                if (paused) {
+                    widget.play();
+                    audioPlaying = true;
+                    btn.textContent = '🔇';
+                } else {
+                    widget.pause();
+                    audioPlaying = false;
+                    btn.textContent = '🔊';
+                }
+            });
+        }
+
+        // --- TRADUCTEUR RUNIQUE (VRAIES RUNES) ---
+        const runesMap = {
+            'a':'ᚨ', 'b':'ᛒ', 'c':'ᚲ', 'd':'ᛞ', 'e':'ᛖ', 'f':'ᚠ', 'g':'ᚷ', 'h':'ᚺ', 'i':'ᛁ', 
+            'j':'ᛃ', 'k':'ᚲ', 'l':'ᛚ', 'm':'ᛗ', 'n':'ᚾ', 'o':'ᛟ', 'p':'ᛈ', 'q':'ᚲ', 'r':'ᚱ', 
+            's':'ᛊ', 't':'ᛏ', 'u':'ᚢ', 'v':'ᚢ', 'w':'ᚹ', 'x':'ᚲᛊ', 'y':'ᛃ', 'z':'ᛉ', ' ':' '
+        };
+        function translateRunes(text) {
+            let res = "";
+            for (let c of text.toLowerCase()) {
+                res += runesMap[c] || c;
+            }
+            document.getElementById('rune-display').textContent = res;
         }
 
         // --- IA GEMINI 1.5 ---
-        // CLÉ MISE À JOUR
+        // REMPLACER LA CLÉ CI-DESSOUS PAR VOTRE NOUVELLE CLÉ GOOGLE AI STUDIO
         const part1 = "AIzaSyCMfqbhNp1v";
         const part2 = "VVP6gNjNchr_veh7PjyFePI";
         const apiKey = part1 + part2;
@@ -834,22 +766,15 @@
         }
 
         function typeWriter(text, elementId, speed = 30) {
-            let i = 0;
-            const target = document.getElementById(elementId);
-            target.innerHTML = "";
-            const cleanText = text.replace(/^"|"$/g, '').replace(/\*/g, ''); // Nettoyage markdown
-            
+            let i = 0; const target = document.getElementById(elementId);
+            target.innerHTML = ""; const cleanText = text.replace(/^"|"$/g, '').replace(/\*/g, '');
             function type() {
-                if (i < cleanText.length) {
-                    target.innerHTML += cleanText.charAt(i);
-                    i++;
-                    setTimeout(type, speed);
-                }
+                if (i < cleanText.length) { target.innerHTML += cleanText.charAt(i); i++; setTimeout(type, speed); }
             }
             type();
         }
 
-        // --- FONCTIONS ---
+        // --- FONCTIONS BOUTONS ---
         async function generateRumor(e) {
             if(e) { e.stopPropagation(); e.preventDefault(); }
             const output = document.getElementById('ai-rumor-zone');
@@ -857,7 +782,7 @@
             
             output.style.display = 'none'; loader.style.display = 'block';
 
-            const prompt = "Tu es un personnage de fantasy (Nain, Elfe, ou Voleur) ivre dans une taverne. Invente une rumeur très courte (1 phrase max) et drôle sur l'hydromel 'HydroNeal'. Réponds en Français.";
+            const prompt = "Tu es un personnage de fantasy (Nain, Elfe, ou Voleur) ivre dans une taverne. Invente une rumeur très courte (1 phrase max) et drôle sur l'hydromel 'HydroNeal' (brassé dans une chambre aux eaux). Réponds en Français.";
             const text = await callGemini(prompt);
             
             loader.style.display = 'none'; output.style.display = 'block';
