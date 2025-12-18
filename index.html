@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -13,7 +13,8 @@
         @import url('https://fonts.googleapis.com/css2?family=MedievalSharp&family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;700&display=swap');
 
         :root {
-            --blood-red: #660000;
+            --blood-red: #8a0b0b; /* Rouge cire plus vif */
+            --wax-shadow: #3a0000;
             --gold: #d4af37;
             --gold-bright: #ffd700;
             --gold-dim: #8a7020;
@@ -22,14 +23,15 @@
             --leather-dark: #1a0a0a;
         }
 
-        /* --- FOND --- */
+        /* --- FOND AMÉLIORÉ --- */
         body {
             margin: 0;
             padding: 0;
-            background-color: #4a0505; 
+            background-color: #1a0a0a;
+            /* Fond Table en Bois + Vignette */
             background-image: 
-                url('https://www.transparenttextures.com/patterns/dark-leather.png'),
-                radial-gradient(circle at 50% 40%, #8a1a1a 0%, #2a0000 90%);
+                radial-gradient(circle at 50% 50%, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.9) 90%),
+                url('https://www.transparenttextures.com/patterns/wood-pattern.png');
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -37,6 +39,35 @@
             font-family: 'MedievalSharp', cursive;
             overflow-x: hidden;
             color: #dcbfa0;
+            position: relative;
+        }
+
+        /* --- PARTICULES FLOTTANTES (LUCIOLES/POUSSIÈRE) --- */
+        .firefly {
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            width: 4px;
+            height: 4px;
+            background-color: #ffd700;
+            border-radius: 50%;
+            box-shadow: 0 0 10px 2px rgba(255, 215, 0, 0.4);
+            animation: fly 15s linear infinite;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0;
+        }
+        .firefly:nth-child(1) { animation-duration: 20s; animation-delay: 0s; }
+        .firefly:nth-child(2) { animation-duration: 25s; animation-delay: 2s; }
+        .firefly:nth-child(3) { animation-duration: 18s; animation-delay: 5s; }
+        .firefly:nth-child(4) { animation-duration: 22s; animation-delay: 1s; }
+        
+        @keyframes fly {
+            0% { transform: translate(-50vw, 50vh) scale(0); opacity: 0; }
+            20% { opacity: 0.8; }
+            50% { transform: translate(20vw, -20vh) scale(1); }
+            80% { opacity: 0.8; }
+            100% { transform: translate(50vw, -50vh) scale(0); opacity: 0; }
         }
 
         /* --- TITRE ANIMÉ --- */
@@ -50,7 +81,7 @@
 
         h1.main-title {
             font-family: 'Cinzel Decorative', cursive;
-            font-size: 4em;
+            font-size: 4.5em;
             color: var(--gold);
             text-transform: uppercase;
             margin: 0;
@@ -58,22 +89,22 @@
             -webkit-background-clip: text; 
             -webkit-text-fill-color: transparent; 
             filter: drop-shadow(0 2px 0px rgba(0,0,0,0.5));
-            animation: float 5s ease-in-out infinite;
-            line-height: 1.2;
+            animation: float 6s ease-in-out infinite;
+            line-height: 1.1;
         }
 
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 
         h3.sub-title {
             font-family: 'Cinzel', serif; color: #e0c0a0; letter-spacing: 3px;
-            margin-top: 5px; font-size: 1.1em; text-shadow: 0 2px 5px rgba(0,0,0,1); opacity: 0.9;
+            margin-top: 5px; font-size: 1.1em; text-shadow: 0 2px 5px rgba(0,0,0,1); opacity: 0.8;
         }
 
         /* --- BOUGIES --- */
         .candle-container { position: fixed; top: 50%; z-index: 5; pointer-events: none; }
-        .candle-left { left: 2%; }
-        .candle-right { right: 2%; }
-        @media (max-width: 1300px) { .candle-container { display: none; } }
+        .candle-left { left: 5%; }
+        .candle-right { right: 5%; }
+        @media (max-width: 1400px) { .candle-container { display: none; } }
 
         .candle-flame {
             width: 20px; height: 40px;
@@ -96,31 +127,22 @@
             margin: 20px 0 50px 0;
             width: 95vw;
             display: flex; justify-content: center;
-            /* Si JS plante, ceci assure que le contenu est visible */
             min-height: 600px;
+            filter: drop-shadow(0 50px 100px rgba(0,0,0,0.8));
+            z-index: 10;
         }
 
         /* Mode de secours */
-        .fallback-mode .book-wrapper {
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-        }
+        .fallback-mode .book-wrapper { flex-direction: column; align-items: center; gap: 20px; }
         .fallback-mode .page {
-            position: relative !important;
-            width: 100% !important;
-            max-width: 600px;
-            height: auto !important;
-            margin-bottom: 20px;
-            display: block !important;
-            transform: none !important;
+            position: relative !important; width: 100% !important; max-width: 600px; height: auto !important;
+            margin-bottom: 20px; display: block !important; transform: none !important;
         }
 
         /* --- PAGES --- */
         .page {
             background-color: var(--parchment-bg);
-            /* Dimensions par défaut pour le moteur */
-            width: 400px; height: 600px; 
+            width: 450px; height: 650px; /* Un peu plus grand */
             display: none; 
         }
         .page-loaded { display: block; }
@@ -128,96 +150,134 @@
         /* --- CONTENU DES PAGES --- */
         .page-content {
             width: 100%; height: 100%;
-            padding: 30px;
+            padding: 35px;
             box-sizing: border-box;
             background-color: var(--parchment-bg);
             background-image: url('https://www.transparenttextures.com/patterns/aged-paper.png');
-            box-shadow: inset 0 0 60px rgba(60, 40, 20, 0.4), inset 0 0 10px rgba(0,0,0,0.2);
+            /* Ombre interne plus prononcée pour l'effet vieux livre */
+            box-shadow: inset 0 0 80px rgba(60, 40, 20, 0.3), inset 0 0 15px rgba(0,0,0,0.2);
             color: var(--ink-color);
             border: 1px solid rgba(139, 69, 19, 0.2);
             position: relative; overflow: hidden;
             display: flex; flex-direction: column;
         }
+        /* Coins de page usés */
+        .page-content::after {
+            content: ""; position: absolute; top:0; left:0; width:100%; height:100%;
+            background: radial-gradient(circle at center, transparent 90%, rgba(80, 50, 20, 0.1) 100%);
+            pointer-events: none;
+        }
 
-        /* COUVERTURE AVANT (FULL IMAGE JPG) */
+        /* COUVERTURE AVANT */
         .page--cover-front .page-content {
-            padding: 0 !important;
-            border: none !important;
-            background-color: #000;
+            padding: 0 !important; border: none !important; background-color: #000;
             background-image: url('couverturegrimoire.jpg');
-            background-size: cover;
-            background-position: center;
-            box-shadow: inset 0 0 30px rgba(0,0,0,0.8);
+            background-size: cover; background-position: center;
+            box-shadow: inset 0 0 40px rgba(0,0,0,0.9);
         }
         .page--cover-front .hint {
-            position: absolute;
-            bottom: 20px;
-            width: 100%;
-            text-align: center;
-            color: rgba(255, 255, 255, 0.7);
-            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
-            font-weight: bold;
-            z-index: 10;
+            position: absolute; bottom: 30px; width: 100%; text-align: center;
+            color: rgba(255, 215, 0, 0.8); text-shadow: 0 2px 4px rgba(0,0,0,1);
+            font-weight: bold; z-index: 10; font-size: 1.1em; letter-spacing: 1px;
+            animation: pulse 2s infinite;
         }
 
-        /* COUVERTURE ARRIÈRE (FULL IMAGE JPG) */
+        /* COUVERTURE ARRIÈRE */
         .page--cover-back .page-content {
-            padding: 0 !important;
-            border: none !important;
-            background-color: #000;
+            padding: 0 !important; border: none !important; background-color: #000;
             background-image: url('couverturearriere.jpg'); 
-            background-size: cover;
-            background-position: center;
-            box-shadow: inset 0 0 30px rgba(0,0,0,0.8);
+            background-size: cover; background-position: center;
+            box-shadow: inset 0 0 40px rgba(0,0,0,0.9);
         }
 
         .cover-emblem {
-            max-height: 40%; width: auto; 
-            border: 5px double var(--gold); border-radius: 4px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.8); 
-            filter: sepia(0.3) contrast(1.1); position: relative; z-index: 2;
+            max-height: 40%; width: auto; border: 5px double var(--gold); border-radius: 4px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8); filter: sepia(0.3) contrast(1.1); position: relative; z-index: 2;
         }
 
         .page--inside-cover .page-content {
             background-image: url('https://www.transparenttextures.com/patterns/dark-leather.png');
             background-color: #2a1a0a; box-shadow: inset 0 0 100px rgba(0,0,0,0.9);
-            justify-content: center; align-items: center;
+            justify-content: center; align-items: center; border:none;
         }
 
-        /* --- ÉLÉMENTS --- */
+        /* --- ÉLÉMENTS DECORATIFS --- */
         h2 {
             font-family: 'Cinzel Decorative', cursive; color: var(--blood-red); font-size: 2em;
             text-align: center; border-bottom: 3px double rgba(138, 11, 11, 0.4); 
             padding-bottom: 10px; margin-bottom: 20px;
+            text-shadow: 1px 1px 0 rgba(255,255,255,0.4);
         }
         h4 {
             font-family: 'Cinzel', serif; color: #4a0404; font-size: 1.2em; margin: 20px 0 5px 0;
-            text-transform: uppercase; font-weight: bold;
+            text-transform: uppercase; font-weight: bold; border-bottom: 1px solid rgba(138, 11, 11, 0.2); display: inline-block;
         }
-        p { font-size: 1.15em; line-height: 1.4; text-align: justify; margin: 0 0 15px 0; }
+        p { font-size: 1.15em; line-height: 1.5; text-align: justify; margin: 0 0 15px 0; }
+        
+        .divider {
+            text-align: center; color: var(--gold-dim); font-size: 1.5em; margin: 10px 0;
+            font-family: 'MedievalSharp'; opacity: 0.7;
+        }
+
         .drop-cap::first-letter {
             font-family: 'Cinzel Decorative'; font-size: 3.5em; float: left; margin-right: 10px; margin-top: -5px; color: var(--blood-red);
         }
         .deco-icon {
-            width: 100px; display: block; margin: 0 auto 15px auto;
+            width: 120px; display: block; margin: 0 auto 15px auto;
             filter: sepia(1) hue-rotate(-30deg) saturate(1.5) contrast(1.2); opacity: 0.9;
         }
 
-        /* --- INTERACTIF --- */
-        .interactive-zone {
-            position: relative; z-index: 1000 !important; pointer-events: auto !important;
+        /* --- BOUTONS STYLE SCEAU DE CIRE --- */
+        .interactive-zone { position: relative; z-index: 1000 !important; pointer-events: auto !important; }
+
+        .wax-seal-container {
+            display: flex; justify-content: center; margin: 25px 0;
         }
 
-        .btn-magic {
-            background: linear-gradient(135deg, rgba(74, 4, 4, 0.1), rgba(74, 4, 4, 0.2));
-            color: #4a0404; padding: 12px 25px;
-            font-family: 'Cinzel', serif; font-size: 1em; 
-            border: 2px solid #4a0404; border-radius: 2px;
-            cursor: pointer; transition: 0.3s; display: block; margin: 20px auto; font-weight: bold;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            position: relative; z-index: 1000; pointer-events: auto; 
+        .btn-seal {
+            width: 100px; height: 100px;
+            background: radial-gradient(circle at 30% 30%, #b82e2e, #7a0b0b, #3a0000);
+            border-radius: 50%;
+            border: 4px solid #5a0808;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4), inset 0 0 20px rgba(0,0,0,0.5);
+            color: #dcbfa0;
+            font-family: 'Cinzel', serif; font-size: 0.8em; font-weight: bold;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            cursor: pointer; text-align: center; text-transform: uppercase;
+            transition: transform 0.2s;
+            outline: none; position: relative; z-index: 1000; pointer-events: auto;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
         }
-        .btn-magic:active { transform: scale(0.95); background: #4a0404; color: gold; }
+        .btn-seal:hover { transform: scale(1.05) rotate(2deg); }
+        .btn-seal:active { transform: scale(0.95); }
+        
+        /* Effet gravure dans la cire */
+        .btn-seal span {
+            display: block; width: 80%; border: 1px dashed rgba(255,255,255,0.3); 
+            border-radius: 50%; padding: 15px 5px; box-sizing: border-box;
+        }
+
+        /* Bouton Contact (Sceau + Ruban) */
+        .btn-contact-wrapper {
+            position: relative; display: inline-block; margin-top: 30px;
+        }
+        .ribbon {
+            background: #4a0404; color: var(--gold); padding: 10px 40px;
+            font-family: 'Cinzel'; border: 1px solid var(--gold-dim);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.5); position: relative;
+        }
+        .ribbon::before, .ribbon::after {
+            content: ""; position: absolute; top: 5px; width: 0; height: 0; border-style: solid;
+        }
+        .btn-contact {
+            text-decoration: none; color: var(--gold); font-weight: bold;
+            position: relative; z-index: 1000; pointer-events: auto;
+        }
+        .seal-small {
+            width: 40px; height: 40px; background: radial-gradient(circle, #8a0b0b, #3a0000);
+            border-radius: 50%; position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5); border: 2px solid #5a0808;
+        }
 
         .input-magic {
             background: transparent; border: none; border-bottom: 2px solid var(--blood-red);
@@ -226,24 +286,10 @@
             position: relative; z-index: 1000; pointer-events: auto;
         }
 
-        /* STYLE "SUR LA PAGE" (Sans boîte grise) */
         .generated-content {
-            min-height: 80px; 
-            border: none; /* Pas de bordure */
-            padding: 10px; margin-top: 20px;
-            background: transparent; /* Pas de fond gris */
-            white-space: pre-wrap; font-size: 1.25em; /* Texte un peu plus gros */
-            text-align: center;
-            color: #5d0000; /* Couleur encre sang séché */
-            font-family: 'MedievalSharp', cursive;
-            font-style: italic;
-        }
-
-        .btn-contact {
-            margin-top: 30px; background: #4a0404; color: var(--gold); padding: 12px 35px;
-            font-family: 'Cinzel', serif; font-size: 1.1em; text-decoration: none; border: 2px solid var(--gold);
-            display: inline-block; box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-            position: relative; z-index: 1000; pointer-events: auto;
+            min-height: 80px; border: none; padding: 10px; margin-top: 20px;
+            background: transparent; white-space: pre-wrap; font-size: 1.25em;
+            text-align: center; color: #5d0000; font-family: 'MedievalSharp', cursive; font-style: italic;
         }
 
         .loader {
@@ -252,12 +298,9 @@
         }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        .hint { color: #888; font-family: 'Cinzel'; margin-top: 20px; animation: pulse 2s infinite; font-size: 0.9em; letter-spacing: 2px; }
-        @keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
-
-        ul.flavor-list { padding-left: 20px; list-style: none; }
-        ul.flavor-list li { margin-bottom: 5px; font-size: 1.1em; }
-        .tag { color: #8a0b0b; font-family: 'Cinzel'; font-weight: bold; }
+        ul.flavor-list { padding-left: 15px; list-style: none; text-align: left; }
+        ul.flavor-list li { margin-bottom: 8px; font-size: 1.1em; padding-bottom: 8px; border-bottom: 1px dotted rgba(138, 11, 11, 0.2); }
+        .tag { color: #8a0b0b; font-family: 'Cinzel'; font-weight: bold; font-size: 0.9em; }
 
         /* --- FOOTER --- */
         footer {
@@ -280,7 +323,10 @@
         }
     </style>
 </head>
-<body class="fallback-mode"> <!-- Classe par défaut au cas où JS plante -->
+<body class="fallback-mode">
+
+    <!-- PARTICULES -->
+    <div class="firefly"></div><div class="firefly"></div><div class="firefly"></div><div class="firefly"></div>
 
     <!-- BOUGIES -->
     <div class="candle-container candle-left"><div class="candle-flame"></div><div class="candle-base"></div></div>
@@ -296,7 +342,7 @@
     <div class="book-wrapper">
         <div id="book">
             
-            <!-- COUVERTURE AVANT (FULL IMAGE JPG) -->
+            <!-- COUVERTURE AVANT -->
             <div class="page page--cover-front page-loaded">
                 <div class="page-content">
                     <p class="hint">~ Cliquez pour ouvrir ~</p>
@@ -315,9 +361,10 @@
                 <div class="page-content">
                     <img src="icone-loup.png" alt="Loup" class="deco-icon">
                     <h2>L'Alchimiste Sauvage</h2>
+                    <div class="divider">~ ❦ ~</div>
                     <p class="drop-cap">Autrefois enfant de la forêt, Neal grandit sous la canopée ancienne, guidé par les hurlements nocturnes et les lois silencieuses de la meute.</p>
                     <p>Appelé par une soif de savoir interdite, il quitta les sentiers moussus pour rejoindre <strong>La Citadelle de Fer</strong>.</p>
-                    <p>Aujourd’hui, porteur de ces deux héritages — la sagesse du Loup et la rigueur du Savant — il est retourné dans l’ombre pour <strong>façonner</strong> HydroNeal.</p>
+                    <p>Aujourd’hui, porteur de ces deux héritages — la sagesse du Loup et la rigueur du Savant — il est retourné dans l'ombre pour <strong>façonner</strong> HydroNeal.</p>
                 </div>
             </div>
 
@@ -326,6 +373,7 @@
                 <div class="page-content">
                     <img src="icone-alchimie.png" alt="Alchimie" class="deco-icon">
                     <h2>Le Rituel Interdit</h2>
+                    <div class="divider">~ ❧ ~</div>
                     <h4>I — L’Alliance Nocturne</h4>
                     <p>Le miel noir de sarrasin est uni à l’eau claire. Les levures sont éveillées avec précision.</p>
                     <h4>II — La Veille Souterraine</h4>
@@ -335,30 +383,27 @@
                 </div>
             </div>
 
-            <!-- PAGE 3 : SAVEURS -->
+            <!-- PAGE 3 : SAVEURS (IMAGES GÉANTES) -->
             <div class="page page-loaded">
                 <div class="page-content">
                     <h2>Grimoire des Saveurs</h2>
                     
-                    <!-- ETIQUETTES (JPG) -->
-                    <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 20px;">
-                        <img src="front-label.jpg" alt="Etiquette Face" style="height: 280px; border: 2px solid #8a0b0b; border-radius: 5px; box-shadow: 0 5px 15px rgba(0,0,0,0.4); object-fit: contain;">
-                        <img src="back-label.jpg" alt="Etiquette Dos" style="height: 280px; border: 2px solid #8a0b0b; border-radius: 5px; box-shadow: 0 5px 15px rgba(0,0,0,0.4); object-fit: contain;">
+                    <!-- ETIQUETTES GÉANTES (HAUTEUR AUGMENTÉE) -->
+                    <div style="display: flex; justify-content: center; gap: 8px; margin-bottom: 20px;">
+                        <img src="front-label.jpg" alt="Face" style="height: 350px; width:48%; border-radius: 4px; box-shadow: 3px 3px 10px rgba(0,0,0,0.5); object-fit: contain;">
+                        <img src="back-label.jpg" alt="Dos" style="height: 350px; width:48%; border-radius: 4px; box-shadow: 3px 3px 10px rgba(0,0,0,0.5); object-fit: contain;">
                     </div>
 
-                    <p style="text-align:center; font-style:italic; margin-bottom:10px;">~ Profil Sarrasin Noir (🌑) ~</p>
+                    <div class="divider">~ ❦ ~</div>
                     <ul class="flavor-list">
                         <li><span class="tag">Robe :</span> Brun profond, reflets cuivrés.</li>
                         <li><span class="tag">Nez :</span> Miel brut, malt et bois ancien.</li>
                         <li><span class="tag">Bouche :</span> Franche, texture ample, finale longue.</li>
                     </ul>
-                    <div style="border-top: 1px solid #8a0b0b; padding-top: 10px; margin-top: 10px; text-align: center;">
-                        <p style="margin:0; font-weight:bold; color:#4a0404; font-size:0.9em;">"Un hydromel de feu de camp et de serment tenu."</p>
-                    </div>
                 </div>
             </div>
 
-            <!-- PAGE 4 : RUMEURS (IA) -->
+            <!-- PAGE 4 : RUMEURS (SCEAU DE CIRE) -->
             <div class="page page-loaded">
                 <div class="page-content">
                     <img src="icone-taverne.png" alt="Taverne" class="deco-icon">
@@ -367,17 +412,19 @@
                         <p style="margin:0; font-size:0.95em;">"J’ai senti la forêt avant même d’y goûter." <br><span style="color:#b8860b; font-size:0.8em;">- Einar</span></p>
                     </div>
                     
-                    <!-- Zone SANS FOND GRIS -->
                     <div id="ai-rumor-zone" class="generated-content" style="display:none;"></div>
                     <div class="loader" id="rumor-loader"></div>
 
-                    <button class="btn-magic" onclick="generateRumor(event)" onpointerdown="event.stopPropagation()">
-                        ✨ Écouter les Esprits
-                    </button>
+                    <!-- BOUTON SCEAU -->
+                    <div class="wax-seal-container">
+                        <button class="btn-seal" onclick="generateRumor(event)" onpointerdown="event.stopPropagation()">
+                            <span>Écouter les Esprits</span>
+                        </button>
+                    </div>
                 </div>
             </div>
 
-            <!-- PAGE 5 : CREUSET (INPUT + OUTPUT) -->
+            <!-- PAGE 5 : CREUSET (SCEAU DE CIRE) -->
             <div class="page page-loaded">
                 <div class="page-content">
                     <h2>Le Creuset des Légendes</h2>
@@ -386,27 +433,46 @@
                     <input type="text" id="ingredient-input" class="input-magic" placeholder="Ex: Piment, Larmes..." 
                            onpointerdown="event.stopPropagation()" onclick="event.stopPropagation()">
                     
-                    <button class="btn-magic" onclick="generateLegend(event)" onpointerdown="event.stopPropagation()">
-                        ✨ Transmuter
-                    </button>
+                    <div class="wax-seal-container">
+                        <button class="btn-seal" onclick="generateLegend(event)" onpointerdown="event.stopPropagation()">
+                            <span>Transmuter</span>
+                        </button>
+                    </div>
 
                     <div class="loader" id="legend-loader"></div>
 
-                    <!-- Zone SANS FOND GRIS -->
                     <div id="legend-output" class="generated-content">
                         <p style="opacity: 0.5; font-style: italic; font-size:0.9em; margin:0;">L'encre est invisible...</p>
                     </div>
                 </div>
             </div>
 
-            <!-- PAGE 6 : ARCHIVES (EX-PAGE 7) -->
+            <!-- NOUVELLE PAGE 6 : LE CODE DE LA MEUTE -->
+            <div class="page page-loaded">
+                <div class="page-content">
+                    <h2>Le Code de la Meute</h2>
+                    <div class="divider">~ ❧ ~</div>
+                    <p style="text-align:center; font-weight:bold;">Règles de Dégustation</p>
+                    <ul style="list-style-type:circle; padding-left:20px;">
+                        <li>Ne jamais boire seul si la lune est pleine.</li>
+                        <li>Toujours porter un toast aux anciens avant la première gorgée.</li>
+                        <li>Si le flacon est vide, le plus jeune part en quête du suivant.</li>
+                    </ul>
+                    <div style="text-align:center; margin-top:40px;">
+                        <img src="icone-loup.png" style="width:60px; filter:sepia(1) opacity(0.7);">
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAGE 7 : ARCHIVES -->
             <div class="page page-loaded">
                 <div class="page-content">
                     <h2>Archives</h2>
                     <div style="text-align:center; margin-top:40px; color:#555;">
                         <h4 style="color:#666; font-size:1.2em;">Reliques Passées</h4>
-                        <p style="font-size:1em; text-align:center;">✦ Le Sang des Framboises ✦<br>✦ L’Or Bleu des Marais ✦</p>
-                        <p style="margin-top:30px; font-style:italic; font-size:0.9em;">"Chaque bouteille raconte une histoire oubliée."</p>
+                        <div class="divider">~ ❦ ~</div>
+                        <p style="font-size:1.1em; text-align:center;">✦ Le Sang des Framboises ✦<br>✦ L’Or Bleu des Marais ✦</p>
+                        <p style="margin-top:50px; font-style:italic; font-size:0.9em;">"Chaque bouteille raconte une histoire oubliée."</p>
                     </div>
                 </div>
             </div>
@@ -416,10 +482,10 @@
                 <div class="page-content"></div>
             </div>
 
-            <!-- DOS COUVERTURE (FULL IMAGE ARRIÈRE JPG) -->
+            <!-- DOS COUVERTURE -->
             <div class="page page--cover-back page-loaded">
                 <div class="page-content">
-                    <!-- Image pleine -->
+                    <!-- Image Pleine -->
                 </div>
             </div>
 
@@ -444,7 +510,7 @@
     </footer>
 
     <script>
-        // --- SCRIPT LIVRE ROBUSTE ---
+        // SCRIPT
         document.addEventListener('DOMContentLoaded', function() {
             try {
                 if (typeof St === 'undefined' || typeof St.PageFlip === 'undefined') {
@@ -452,10 +518,10 @@
                 }
 
                 const pageFlip = new St.PageFlip(document.getElementById('book'), {
-                    width: 420, height: 600,
+                    width: 450, height: 650,
                     size: 'stretch',
-                    minWidth: 315, maxWidth: 600,
-                    minHeight: 450, maxHeight: 900,
+                    minWidth: 315, maxWidth: 650,
+                    minHeight: 450, maxHeight: 950,
                     maxShadowOpacity: 0.5,
                     showCover: true,
                     mobileScrollSupport: false 
@@ -471,13 +537,12 @@
                 });
 
             } catch(e) {
-                console.log("Mode Fallback activé : " + e.message);
+                console.log("Mode Fallback activé");
             }
         });
 
-        // --- SCRIPT IA ---
+        // API
         const apiKey = "AIzaSyC7aWgfvSu5M_Fjs3uEcb9oQZkDbySYVpQ"; 
-        // RETOUR AU MODÈLE 2.5
         const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
 
         async function callGemini(prompt) {
@@ -504,7 +569,6 @@
             const wrapper = document.createElement('span');
             wrapper.style.color = '#5d0000';
             wrapper.style.fontWeight = 'bold';
-            // Pas de fond ou bordure ici, style géré par CSS
             target.appendChild(wrapper);
 
             function type() {
@@ -517,7 +581,6 @@
             type();
         }
 
-        // --- FONCTIONS BOUTONS ---
         async function generateRumor(e) {
             if(e) { e.stopPropagation(); e.preventDefault(); }
 
@@ -566,7 +629,7 @@
                     output.innerHTML = `
                         <h3 style="font-family:'Cinzel Decorative'; color:#8a0b0b; font-size:1.8em; margin-bottom:10px;">${data.nom}</h3>
                         <div style="width:50px; height:2px; background:var(--gold); margin:0 auto 20px auto;"></div>
-                        <p id="legend-desc" style="font-size:1.2em; font-style:italic; color:#5d0000;"></p>
+                        <p id="legend-desc" style="font-size:1.2em; font-style:italic;"></p>
                     `;
                     typeWriter(data.description, 'legend-desc', 30);
                 } catch (e) {
@@ -578,7 +641,4 @@
         }
     </script>
 </body>
-</html>
-</body>
-
 </html>
