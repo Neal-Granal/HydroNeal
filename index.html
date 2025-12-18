@@ -3,52 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HydroNeal - L'Encyclopédie Ancestrale</title>
+    <title>HydroNeal - L'Encyclopédie Interdite</title>
     
-    <!-- VERSION STABLE DE LA LIBRAIRIE -->
+    <!-- VERSION STABLE DE LA LIBRAIRIE PAGE-FLIP -->
     <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.min.js"></script>
     
     <style>
-        /* --- POLICES --- */
-        @import url('https://fonts.googleapis.com/css2?family=MedievalSharp&family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;700&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Uncial+Antiqua&display=swap');
+        /* =========================================
+           1. TYPOGRAPHIE & VARIABLES
+           ========================================= */
+        @import url('https://fonts.googleapis.com/css2?family=MedievalSharp&family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;700&family=Uncial+Antiqua&display=swap');
 
         :root {
-            /* Palette de Couleurs Étendue */
+            /* Palette Sang & Or */
             --blood-red: #8a0b0b;
             --blood-dark: #4a0000;
-            --wax-shadow: #3a0000;
+            --blood-bright: #ff1f1f;
             
             --gold: #d4af37;
             --gold-bright: #ffd700;
             --gold-dim: #8a7020;
             --gold-antique: #c5a059;
             
+            /* Palette Papier & Encre */
             --parchment-bg: #d4c5a3;
-            --parchment-light: #e6dcc3;
-            --parchment-dark: #b8aa8a;
-            
+            --parchment-texture: #e6dcc3;
             --ink-color: #2a1a0a;
             --ink-faded: #5a4a3a;
             
+            /* Palette Cuir & Ombres */
             --leather-dark: #1a0a0a;
             --leather-red: #3a0505;
-            
-            --magic-glow: rgba(255, 215, 0, 0.4);
+            --shadow-hard: rgba(0, 0, 0, 0.9);
             --shadow-soft: rgba(0, 0, 0, 0.5);
-            --shadow-hard: rgba(0, 0, 0, 0.8);
+            
+            /* Effets Magiques */
+            --magic-glow: rgba(255, 215, 0, 0.4);
         }
 
-        /* --- FOND ET AMBIANCE GÉNÉRALE --- */
+        /* =========================================
+           2. FOND D'ÉCRAN & AMBIANCE
+           ========================================= */
         body {
             margin: 0;
             padding: 0;
             background-color: var(--leather-red);
-            /* Superposition complexe pour un fond riche et profond */
+            /* Superposition complexe pour un effet de profondeur */
             background-image: 
-                radial-gradient(circle at 50% 50%, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.8) 100%),
+                radial-gradient(circle at 50% 50%, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.85) 100%),
                 url('https://www.transparenttextures.com/patterns/dark-leather.png'),
-                radial-gradient(circle at 50% 40%, #8a1a1a 0%, #1a0000 90%);
+                linear-gradient(to bottom, #2a0a0a 0%, #4a0505 50%, #1a0000 100%);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -56,10 +60,9 @@
             font-family: 'MedievalSharp', cursive;
             overflow-x: hidden;
             color: #dcbfa0;
-            transition: background-color 1s ease;
         }
 
-        /* --- SYSTÈME DE PARTICULES (POUSSIÈRE D'OR) --- */
+        /* Particules de Poussière Magique (Fireflies) */
         .firefly {
             position: fixed;
             left: 50%;
@@ -70,7 +73,7 @@
             border-radius: 50%;
             box-shadow: 0 0 10px 2px var(--magic-glow);
             animation: fly 25s linear infinite;
-            pointer-events: none;
+            pointer-events: none; /* Important : ne bloque pas les clics */
             z-index: 1;
             opacity: 0;
         }
@@ -79,7 +82,6 @@
         .firefly:nth-child(3) { animation-duration: 18s; animation-delay: 5s; }
         .firefly:nth-child(4) { animation-duration: 22s; animation-delay: 1s; }
         .firefly:nth-child(5) { animation-duration: 30s; animation-delay: 8s; }
-        .firefly:nth-child(6) { animation-duration: 15s; animation-delay: 12s; }
         
         @keyframes fly {
             0% { transform: translate(-50vw, 50vh) scale(0); opacity: 0; }
@@ -89,7 +91,9 @@
             100% { transform: translate(50vw, -50vh) scale(0); opacity: 0; }
         }
 
-        /* --- TITRE ANIMÉ ET GLORIEUX --- */
+        /* =========================================
+           3. EN-TÊTE & TITRE
+           ========================================= */
         .title-wrapper {
             margin-top: 30px;
             margin-bottom: 20px;
@@ -99,16 +103,16 @@
             position: relative;
         }
 
-        /* Effet de lueur derrière le titre */
+        /* Halo lumineux derrière le titre */
         .title-wrapper::after {
             content: '';
             position: absolute;
             top: 50%; left: 50%;
             width: 60%; height: 60%;
             transform: translate(-50%, -50%);
-            background: radial-gradient(ellipse, rgba(212, 175, 55, 0.2) 0%, transparent 70%);
+            background: radial-gradient(ellipse, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
             z-index: -1;
-            filter: blur(20px);
+            filter: blur(30px);
         }
 
         h1.main-title {
@@ -117,11 +121,11 @@
             color: var(--gold);
             text-transform: uppercase;
             margin: 0;
-            /* Effet Or Métallique Complexe */
-            background: linear-gradient(to bottom, #cfc09f 22%,#634f2c 24%, #cfc09f 26%, #cfc09f 27%,#ffecb3 40%,#3a2c0f 78%); 
+            /* Dégradé Or Métallique */
+            background: linear-gradient(to bottom, #cfc09f 22%,#c5a059 40%,#8a7020 80%); 
             -webkit-background-clip: text; 
             -webkit-text-fill-color: transparent; 
-            filter: drop-shadow(0 4px 0px rgba(0,0,0,0.5));
+            filter: drop-shadow(0 4px 0px rgba(0,0,0,0.6));
             animation: majesticFloat 6s ease-in-out infinite;
             line-height: 1;
             letter-spacing: 2px;
@@ -129,15 +133,15 @@
 
         @keyframes majesticFloat {
             0%, 100% { transform: translateY(0); filter: drop-shadow(0 5px 15px rgba(0,0,0,0.6)); }
-            50% { transform: translateY(-8px); filter: drop-shadow(0 15px 25px rgba(212, 175, 55, 0.2)); }
+            50% { transform: translateY(-8px); filter: drop-shadow(0 15px 25px rgba(212, 175, 55, 0.3)); }
         }
 
         h3.sub-title {
             font-family: 'Cinzel', serif;
             color: #e0c0a0;
-            letter-spacing: 6px;
-            margin-top: 10px;
-            font-size: 1.2em;
+            letter-spacing: 5px;
+            margin-top: 15px;
+            font-size: 1.1em;
             text-shadow: 0 2px 10px rgba(0,0,0,1);
             opacity: 0.9;
             text-transform: uppercase;
@@ -147,38 +151,35 @@
             display: inline-block;
         }
 
-        /* --- BOUGIES DYNAMIQUES (Ambiance) --- */
+        /* =========================================
+           4. BOUGIES ANIMÉES
+           ========================================= */
         .candle-container { position: fixed; top: 50%; z-index: 5; pointer-events: none; transition: all 1s; }
         .candle-left { left: 5%; }
         .candle-right { right: 5%; }
         
-        /* Cacher sur petits écrans pour ne pas gêner la lecture */
-        @media (max-width: 1400px) { .candle-container { opacity: 0.3; transform: scale(0.7); } }
+        /* Masquer sur petits écrans */
+        @media (max-width: 1400px) { .candle-container { opacity: 0.4; transform: scale(0.8); } }
         @media (max-width: 1000px) { .candle-container { display: none; } }
 
         .candle-flame {
             width: 25px; height: 50px;
-            background: radial-gradient(ellipse at bottom, #ffffa0 0%, var(--flame-color, #ffaa00) 50%, transparent 90%);
+            background: radial-gradient(ellipse at bottom, #ffffa0 0%, #ffaa00 50%, transparent 90%);
             border-radius: 50% 50% 35% 35%;
             animation: flameFlicker 0.1s infinite alternate, flameWaver 3s infinite ease-in-out;
-            box-shadow: 
-                0 -10px 20px 5px var(--flame-color, #ffaa00), 
-                0 -20px 40px 10px rgba(255, 100, 0, 0.3);
+            box-shadow: 0 -10px 20px 5px #ffaa00, 0 -20px 40px 10px rgba(255, 100, 0, 0.3);
             margin: 0 auto;
             transform-origin: bottom center;
-            transition: background 1s, box-shadow 1s;
         }
-        
         @keyframes flameFlicker { 
-            0% { transform: scale(1) rotate(-1deg); opacity: 0.9; } 
-            100% { transform: scale(1.02) rotate(1deg); opacity: 1; } 
+            0% { transform: scale(1); opacity: 0.9; } 
+            100% { transform: scale(1.02); opacity: 1; } 
         }
         @keyframes flameWaver {
             0%, 100% { transform: translateX(0) rotate(0deg); }
-            25% { transform: translateX(-1px) rotate(-2deg); }
-            75% { transform: translateX(1px) rotate(2deg); }
+            25% { transform: translateX(-1px) rotate(-1deg); }
+            75% { transform: translateX(1px) rotate(1deg); }
         }
-
         .candle-base {
             width: 50px; height: 150px; 
             background: linear-gradient(90deg, #3e2723, #5d4037, #281815);
@@ -187,16 +188,17 @@
             box-shadow: inset 0 -30px 40px rgba(0,0,0,0.9), 0 10px 20px rgba(0,0,0,0.5);
             position: relative;
         }
-        /* Coulures de cire */
-        .candle-base::before {
+        .candle-base::before { /* Coulure cire */
             content: ''; position: absolute; top: 0; left: 10px; width: 6px; height: 40px;
             background: rgba(255,255,255,0.1); border-radius: 3px;
         }
 
-        /* --- LE LIVRE (Moteur 3D) --- */
+        /* =========================================
+           5. CONTENEUR DU LIVRE (Moteur 3D)
+           ========================================= */
         .book-wrapper {
             margin: 30px 0 60px 0;
-            /* Ombre portée massive et réaliste pour ancrer le livre */
+            /* Ombre massive pour l'ancrage */
             filter: drop-shadow(0 60px 100px rgba(0,0,0,0.95)); 
             width: 95vw;
             display: flex;
@@ -205,7 +207,7 @@
             perspective: 2000px;
         }
 
-        /* Mode de secours CSS */
+        /* Mode de secours CSS (si JS plante) */
         .fallback-mode .book-wrapper { flex-direction: column; align-items: center; gap: 40px; }
         .fallback-mode .page {
             position: relative !important; width: 100% !important; max-width: 600px; height: auto !important;
@@ -213,49 +215,45 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important;
         }
 
-        /* --- PAGES (Structure) --- */
+        /* =========================================
+           6. PAGES & TEXTURES
+           ========================================= */
         .page {
             background-color: var(--parchment-bg);
-            width: 480px; height: 720px; /* Dimensions idéales */
-            display: none; /* JS l'active */
+            width: 480px; height: 720px;
+            display: none; /* Le JS l'activera */
         }
         .page-loaded { display: block; }
 
-        /* --- CONTENU DES PAGES (Design) --- */
         .page-content {
             width: 100%; height: 100%;
             padding: 40px 35px;
             box-sizing: border-box;
             background-color: var(--parchment-bg);
-            /* Texture Papier Haute Résolution */
+            /* Double Texture : Papier + Grain */
             background-image: 
                 url('https://www.transparenttextures.com/patterns/aged-paper.png'),
                 linear-gradient(to right, rgba(0,0,0,0.05), transparent 5%, transparent 95%, rgba(0,0,0,0.05));
-            /* Effet de vieillissement sur les bords */
-            box-shadow: 
-                inset 0 0 100px rgba(60, 40, 20, 0.25), 
-                inset 0 0 20px rgba(0,0,0,0.1);
+            box-shadow: inset 0 0 100px rgba(60, 40, 20, 0.25), inset 0 0 20px rgba(0,0,0,0.1);
             color: var(--ink-color);
             border: 1px solid rgba(139, 69, 19, 0.15);
             position: relative; overflow: hidden;
             display: flex; flex-direction: column;
         }
         
-        /* Filigrane subtil (Watermark) */
+        /* Filigrane 'H' en fond */
         .watermark {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            font-size: 200px; opacity: 0.03; color: var(--blood-red);
+            font-size: 250px; opacity: 0.03; color: var(--blood-red);
             font-family: 'Cinzel Decorative'; pointer-events: none; z-index: 0;
         }
 
-        /* COUVERTURE AVANT (FULL IMAGE) */
+        /* --- COUVERTURES (PLEINE PAGE) --- */
         .page--cover-front .page-content {
             padding: 0 !important; border: none !important; background-color: #050505;
-            background-image: url('couverturegrimoire.png');
+            background-image: url('couverturegrimoire.png'); /* PNG */
             background-size: cover; background-position: center;
-            box-shadow: 
-                inset 0 0 50px rgba(0,0,0,0.9),
-                inset 5px 0 10px rgba(255,255,255,0.1); /* Reflet tranche */
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.9);
         }
         .page--cover-front .hint {
             position: absolute; bottom: 30px; width: 100%; text-align: center;
@@ -264,22 +262,14 @@
             animation: pulse 2s infinite; font-family: 'Cinzel';
         }
 
-        /* COUVERTURE ARRIÈRE (FULL IMAGE) */
         .page--cover-back .page-content {
             padding: 0 !important; border: none !important; background-color: #050505;
-            background-image: url('couverturearriere.png'); 
+            background-image: url('couverturearriere.png'); /* PNG */
             background-size: cover; background-position: center;
             box-shadow: inset 0 0 50px rgba(0,0,0,0.9);
         }
 
-        .cover-emblem {
-            max-height: 40%; width: auto; 
-            border: 5px double var(--gold); border-radius: 4px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.8); 
-            filter: sepia(0.3) contrast(1.1); position: relative; z-index: 2;
-        }
-
-        /* PAGE DE GARDE (Intérieur cuir) */
+        /* --- GARDE (Intérieur) --- */
         .page--inside-cover .page-content {
             background-image: url('https://www.transparenttextures.com/patterns/dark-leather.png');
             background-color: #2a1a0a; 
@@ -294,7 +284,9 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.5);
         }
 
-        /* --- TYPOGRAPHIE & MISE EN PAGE --- */
+        /* =========================================
+           7. ÉLÉMENTS GRAPHIQUES & TEXTE
+           ========================================= */
         h2 {
             font-family: 'Cinzel Decorative', cursive; color: var(--blood-red); font-size: 2.2em;
             text-align: center; border-bottom: 3px double rgba(138, 11, 11, 0.3); 
@@ -321,7 +313,7 @@
         }
 
         .drop-cap::first-letter {
-            font-family: 'Uncial Antiqua', cursive; /* Lettrine style manuscrit */
+            font-family: 'Uncial Antiqua', cursive;
             font-size: 4em; float: left; margin-right: 12px; margin-top: -5px; 
             color: var(--blood-red); text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
         }
@@ -333,11 +325,23 @@
         }
         .deco-icon:hover { transform: scale(1.05); }
 
-        /* --- BOUTONS RUNIQUES (NOUVEAU STYLE) --- */
+        ul.flavor-list { padding-left: 10px; list-style: none; text-align: left; margin-top: 20px;}
+        ul.flavor-list li { 
+            margin-bottom: 15px; font-size: 1.15em; 
+            padding-bottom: 10px; border-bottom: 1px dashed rgba(138, 11, 11, 0.2); 
+            display: flex; align-items: baseline;
+        }
+        ul.flavor-list li::before { content: "✦"; color: var(--gold-dim); margin-right: 10px; font-size: 0.8em; }
+        .tag { color: #8a0b0b; font-family: 'Cinzel'; font-weight: bold; font-size: 0.95em; margin-right: 5px; text-transform: uppercase;}
+
+        /* =========================================
+           8. BOUTONS & INTERACTIVITÉ (CORRIGÉS)
+           ========================================= */
+        
+        /* Classe utilitaire pour forcer l'interaction */
         .interactive-zone { position: relative; z-index: 1000 !important; pointer-events: auto !important; }
 
-        .rune-container { display: flex; justify-content: center; margin: 30px 0; }
-
+        /* Style : BOUTON RUNIQUE (Remplacement des sceaux) */
         .btn-rune {
             background: #251610;
             color: var(--gold);
@@ -345,21 +349,14 @@
             font-family: 'Cinzel', serif; font-size: 1.1em; font-weight: bold;
             text-transform: uppercase; letter-spacing: 2px;
             border: 2px solid var(--gold-dim);
-            /* Double bordure style cadre */
             outline: 1px solid #251610; outline-offset: -5px;
             cursor: pointer; transition: all 0.3s ease;
             box-shadow: 0 5px 15px rgba(0,0,0,0.4);
-            display: block; position: relative; z-index: 1000; overflow: hidden;
+            display: block; margin: 30px auto;
+            position: relative; z-index: 1000; overflow: hidden;
         }
-
-        .btn-rune::before {
-            content: 'ᚠ'; /* Rune Fehu */
-            position: absolute; left: 10px; opacity: 0.3; font-size: 1.5em;
-        }
-        .btn-rune::after {
-            content: 'ᚢ'; /* Rune Uruz */
-            position: absolute; right: 10px; opacity: 0.3; font-size: 1.5em;
-        }
+        .btn-rune::before { content: 'ᚠ'; position: absolute; left: 10px; opacity: 0.3; font-size: 1.5em; }
+        .btn-rune::after { content: 'ᚢ'; position: absolute; right: 10px; opacity: 0.3; font-size: 1.5em; }
 
         .btn-rune:hover {
             border-color: var(--gold-bright); color: var(--gold-bright);
@@ -369,7 +366,7 @@
         }
         .btn-rune:active { transform: translateY(1px); }
 
-        /* Champs de saisie intégrés au papier */
+        /* Champs de saisie */
         .input-magic {
             background: transparent; border: none; 
             border-bottom: 3px solid var(--blood-red);
@@ -381,15 +378,16 @@
         .input-magic:focus { border-bottom-color: var(--gold); }
         .input-magic::placeholder { color: rgba(90, 74, 58, 0.5); font-style: italic; font-size: 0.8em;}
 
-        /* Zone de réponse IA - Style Encre */
+        /* Zone de réponse IA (Directement sur le papier) */
         .generated-content {
             min-height: 100px; border: none; padding: 10px; margin-top: 25px;
-            background: transparent; white-space: pre-wrap; font-size: 1.3em;
+            background: transparent; 
+            white-space: pre-wrap; font-size: 1.3em;
             text-align: center; color: #6a0000; font-family: 'MedievalSharp', cursive; 
             font-style: italic; line-height: 1.4;
         }
 
-        /* --- LOADER MYSTIQUE --- */
+        /* Loader Mystique */
         .loader {
             display: none; width: 40px; height: 40px; 
             border: 4px solid rgba(212, 175, 55, 0.3); border-radius: 50%;
@@ -402,17 +400,7 @@
         .hint { color: #888; font-family: 'Cinzel'; margin-top: 20px; animation: pulse 2s infinite; font-size: 0.9em; letter-spacing: 2px; }
         @keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
 
-        /* Listes stylisées */
-        ul.flavor-list { padding-left: 10px; list-style: none; text-align: left; margin-top: 20px;}
-        ul.flavor-list li { 
-            margin-bottom: 15px; font-size: 1.15em; 
-            padding-bottom: 10px; border-bottom: 1px dashed rgba(138, 11, 11, 0.2); 
-            display: flex; align-items: baseline;
-        }
-        ul.flavor-list li::before { content: "✦"; color: var(--gold-dim); margin-right: 10px; font-size: 0.8em; }
-        .tag { color: #8a0b0b; font-family: 'Cinzel'; font-weight: bold; font-size: 0.95em; margin-right: 5px; text-transform: uppercase;}
-
-        /* BOUTON CONTACT (Style final) */
+        /* Bouton Contact */
         .btn-contact {
             margin-top: 40px; background: #2a0a0a; color: var(--gold); padding: 15px 40px;
             font-family: 'Cinzel', serif; font-size: 1.2em; text-decoration: none; 
@@ -425,22 +413,9 @@
             box-shadow: 0 0 25px rgba(255, 0, 0, 0.3);
         }
 
-        /* --- CONTRÔLE AMBIANCE (Panel) --- */
-        .ambiance-panel {
-            position: fixed; bottom: 20px; left: 20px; z-index: 100;
-            background: rgba(0,0,0,0.6); padding: 10px; border-radius: 8px; border: 1px solid #444;
-            display: flex; gap: 10px; backdrop-filter: blur(5px);
-        }
-        .ambiance-btn {
-            width: 30px; height: 30px; border-radius: 50%; cursor: pointer; border: 2px solid transparent;
-            transition: transform 0.2s;
-        }
-        .ambiance-btn:hover { transform: scale(1.2); }
-        .amb-red { background: #ffaa00; } /* Standard */
-        .amb-blue { background: #00aaff; } /* Mystique */
-        .amb-green { background: #00ffaa; } /* Poison */
-
-        /* --- FOOTER --- */
+        /* =========================================
+           9. PIED DE PAGE & RESPONSIVE
+           ========================================= */
         footer {
             width: 100%; background-color: #0a0505; color: #b8aa8a; padding: 50px 20px;
             margin-top: auto; text-align: center; border-top: 4px solid var(--gold-dim);
@@ -454,12 +429,10 @@
         .footer-col a:hover { color: var(--gold-bright); text-shadow: 0 0 5px var(--gold); }
         .legal { margin-top: 40px; font-size: 0.85em; opacity: 0.5; font-style: italic; }
 
-        /* --- MOBILE --- */
         @media (max-width: 1000px) {
             h1.main-title { font-size: 3em; }
             .book-wrapper { width: 100%; padding: 0 5px; box-sizing: border-box; }
             .page-content { padding: 25px 20px; }
-            .ambiance-panel { display: none; } /* Trop petit pour contrôles */
         }
     </style>
 </head>
@@ -469,8 +442,8 @@
     <div class="firefly"></div><div class="firefly"></div><div class="firefly"></div><div class="firefly"></div><div class="firefly"></div><div class="firefly"></div>
 
     <!-- BOUGIES -->
-    <div class="candle-container candle-left"><div class="candle-flame" id="flame-left"></div><div class="candle-base"></div></div>
-    <div class="candle-container candle-right"><div class="candle-flame" id="flame-right"></div><div class="candle-base"></div></div>
+    <div class="candle-container candle-left"><div class="candle-flame"></div><div class="candle-base"></div></div>
+    <div class="candle-container candle-right"><div class="candle-flame"></div><div class="candle-base"></div></div>
 
     <!-- EN-TÊTE -->
     <div class="title-wrapper">
@@ -485,7 +458,6 @@
             <!-- COUVERTURE AVANT -->
             <div class="page page--cover-front page-loaded">
                 <div class="page-content">
-                    <!-- Image Pleine -->
                     <p class="hint">~ Ouvrir le Grimoire ~</p>
                 </div>
             </div>
@@ -524,7 +496,7 @@
                     <p>Tout commence quand la lune est haute. Le miel de sarrasin, noir comme l'encre, est versé lentement dans l'eau de source. Les levures, gardiennes du secret, sont éveillées par une incantation précise (et une température contrôlée au degré près).</p>
                     
                     <h4>II — Le Sanctuaire Caché</h4>
-                    <p>Le breuvage est ensuite scellé et transporté dans le <strong>Sanctuaire de Faïence</strong>. C'est une chambre aux murs blancs, où l'eau coule sur commande. Là, caché aux yeux des profanes, bercé par le chant des tuyaux anciens, l'hydromel fermente en paix.</p>
+                    <p>Le breuvage est ensuite scellé et transporté dans le <strong>Sanctuaire de Faïence</strong>. C'est une chambre aux murs blancs, où l'eau coule sur commande. Là, caché aux yeux des profanes, bercé par le chant discret de la plomberie, l'hydromel fermente en paix.</p>
                     
                     <h4>III — La Transmutation</h4>
                     <p>Patience est mère de vertu. Au fil des lunes, le sucre meurt pour renaître en esprit. Le liquide trouble s'éclaircit, révélant son âme dorée. Ce qui était simple nourriture devient légende.</p>
@@ -538,8 +510,8 @@
                     
                     <!-- IMAGES XXL -->
                     <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 25px;">
-                        <img src="front-label.png" alt="Face" style="height: 300px; width:48%; border-radius: 3px; box-shadow: 2px 2px 8px rgba(0,0,0,0.4); object-fit: contain; background:#fff;">
-                        <img src="back-label.png" alt="Dos" style="height: 300px; width:48%; border-radius: 3px; box-shadow: 2px 2px 8px rgba(0,0,0,0.4); object-fit: contain; background:#fff;">
+                        <img src="front-label.png" alt="Face" style="height: 350px; width:48%; border-radius: 3px; box-shadow: 2px 2px 8px rgba(0,0,0,0.4); object-fit: contain; background:#fff;">
+                        <img src="back-label.png" alt="Dos" style="height: 350px; width:48%; border-radius: 3px; box-shadow: 2px 2px 8px rgba(0,0,0,0.4); object-fit: contain; background:#fff;">
                     </div>
 
                     <div class="divider">~ ❧ ~</div>
@@ -569,11 +541,9 @@
                     <div class="loader" id="rumor-loader"></div>
 
                     <!-- BOUTON RUNIQUE -->
-                    <div class="rune-container">
-                        <button class="btn-rune" onclick="generateRumor(event)" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()">
-                            Consulter les Esprits
-                        </button>
-                    </div>
+                    <button class="btn-rune" onclick="generateRumor(event)" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()">
+                        Consulter les Esprits
+                    </button>
                 </div>
             </div>
 
@@ -587,11 +557,9 @@
                     <input type="text" id="ingredient-input" class="input-magic" placeholder="Ex: Larmes de Dragon, Piment..." 
                            onpointerdown="event.stopPropagation()" onclick="event.stopPropagation()">
                     
-                    <div class="rune-container">
-                        <button class="btn-rune" onclick="generateLegend(event)" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()">
-                            Transmuter
-                        </button>
-                    </div>
+                    <button class="btn-rune" onclick="generateLegend(event)" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()">
+                        Transmuter
+                    </button>
 
                     <div class="loader" id="legend-loader"></div>
 
@@ -601,7 +569,50 @@
                 </div>
             </div>
 
-            <!-- PAGE 6 : CODE DE LA MEUTE (NOUVEAU) -->
+            <!-- PAGE 6 : LE BESTIAIRE (NOUVEAU) -->
+            <div class="page page-loaded">
+                <div class="page-content">
+                    <img src="icone-loup.png" alt="Beast" class="deco-icon">
+                    <h2>Le Bestiaire des Ombres</h2>
+                    <p class="drop-cap">Dans les profondeurs où HydroNeal fermente, d'étranges créatures veillent. Voici celles que l'on a pu observer sans perdre la raison.</p>
+                    
+                    <div style="border: 1px solid var(--gold-dim); padding:15px; margin-top:20px; background:rgba(0,0,0,0.05);">
+                        <strong style="color:#8a0b0b; font-size:1.1em; text-transform:uppercase;">Le Loup de Fer</strong>
+                        <p style="font-size:0.95em; margin-top:5px;">Gardien spirituel de la cuvée. On dit que son hurlement fait vibrer les touries et accélère la fermentation.</p>
+                    </div>
+
+                    <div style="border: 1px solid var(--gold-dim); padding:15px; margin-top:15px; background:rgba(0,0,0,0.05);">
+                        <strong style="color:#8a0b0b; font-size:1.1em; text-transform:uppercase;">La Levure Vorace</strong>
+                        <p style="font-size:0.95em; margin-top:5px;">Microscopique mais redoutable. Elle dévore le sucre avec une frénésie guerrière pour offrir l'alcool en sacrifice.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAGE 7 : LA CARTE DU ROYAUME (NOUVEAU) -->
+            <div class="page page-loaded">
+                <div class="page-content">
+                    <h2>La Carte du Royaume</h2>
+                    <div class="divider">~ 🗺️ ~</div>
+                    
+                    <!-- Carte Stylisée CSS -->
+                    <div style="width:100%; height:300px; border:2px solid #5a4a3a; position:relative; background:#e6dcc3; overflow:hidden; border-radius:4px; box-shadow:inset 0 0 20px rgba(0,0,0,0.2);">
+                        <!-- Chemin -->
+                        <div style="position:absolute; top:50%; left:10%; width:80%; height:4px; background:#8a6a5a; transform:rotate(-5deg); border-radius:2px;"></div>
+                        <!-- Lieu 1 -->
+                        <div style="position:absolute; top:30%; left:20%; width:20px; height:20px; background:#8a0b0b; border-radius:50%; border:2px solid #2a1a0a;"></div>
+                        <div style="position:absolute; top:25%; left:15%; font-size:0.8em; font-weight:bold; font-family:'Cinzel';">La Forêt</div>
+                        <!-- Lieu 2 -->
+                        <div style="position:absolute; top:60%; left:70%; width:20px; height:20px; background:#2a1a0a; border-radius:50%; border:2px solid #gold;"></div>
+                        <div style="position:absolute; top:55%; left:65%; font-size:0.8em; font-weight:bold; font-family:'Cinzel';">La Citadelle</div>
+                        <!-- Rivière -->
+                        <div style="position:absolute; bottom:0; left:40%; width:10px; height:100%; background:#89cff0; opacity:0.5; transform:skewX(20deg);"></div>
+                    </div>
+
+                    <p style="font-size:0.9em; margin-top:20px; font-style:italic; text-align:center;">"Tous les chemins mènent au Sanctuaire de Faïence, là où la magie opère."</p>
+                </div>
+            </div>
+
+            <!-- PAGE 8 : CODE DE LA MEUTE -->
             <div class="page page-loaded">
                 <div class="page-content">
                     <img src="icone-grimoire.png" alt="Livre" class="deco-icon">
@@ -619,7 +630,24 @@
                 </div>
             </div>
 
-            <!-- PAGE 7 : ARCHIVES -->
+            <!-- PAGE 9 : LA FOIRE AUX QUÊTES (FAQ) -->
+            <div class="page page-loaded">
+                <div class="page-content">
+                    <h2>Foire Aux Quêtes</h2>
+                    <div class="divider">~ ? ~</div>
+                    
+                    <strong style="color:#8a0b0b;">Q: Est-ce vraiment fait dans un bain ?</strong>
+                    <p style="font-size:0.95em;">R: Disons que les conditions thermiques y sont... idéales. L'hygiène est celle d'un laboratoire d'alchimie royal.</p>
+                    
+                    <strong style="color:#8a0b0b;">Q: Puis-je en donner à mon dragon ?</strong>
+                    <p style="font-size:0.95em;">R: Déconseillé. Le souffle de feu après un verre d'HydroNeal pourrait faire fondre la pierre.</p>
+                    
+                    <strong style="color:#8a0b0b;">Q: Où trouver ce nectar ?</strong>
+                    <p style="font-size:0.95em;">R: Il ne se trouve pas, il se mérite. Contactez l'Alchimiste pour entrer dans le cercle.</p>
+                </div>
+            </div>
+
+            <!-- PAGE 10 : ARCHIVES -->
             <div class="page page-loaded">
                 <div class="page-content">
                     <h2>Les Archives Oubliées</h2>
@@ -643,31 +671,36 @@
                 </div>
             </div>
 
-            <!-- PAGE 8-9 : BESTIAIRE (Fausse double page pour l'épaisseur) -->
+            <!-- PAGE 11 : TRADUCTEUR RUNIQUE (OUTIL CACHÉ) -->
             <div class="page page-loaded">
                 <div class="page-content">
-                    <h2>Le Bestiaire</h2>
-                    <p style="text-align:center;"><em>(Pages arrachées par une bête féroce...)</em></p>
+                    <h2>Sceau Runique</h2>
+                    <p style="text-align:center; font-size:0.9em;">Inscrivez votre nom pour voir votre signature d'Alchimiste.</p>
+                    
+                    <input type="text" id="rune-input" class="input-magic" placeholder="Votre Nom..." oninput="translateRunes(this.value)" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()">
+                    
+                    <div id="rune-display" style="font-family:'Uncial Antiqua'; font-size:3em; text-align:center; margin-top:30px; color:#8a0b0b; min-height:60px;"></div>
+                    
+                    <script>
+                        function translateRunes(text) {
+                            // Simulation simple : on change juste la police pour l'effet visuel
+                            document.getElementById('rune-display').textContent = text;
+                        }
+                    </script>
                 </div>
             </div>
-            <div class="page page-loaded"><div class="page-content"></div></div>
 
             <!-- GARDE FIN -->
             <div class="page page--inside-cover page-loaded"><div class="page-content"></div></div>
 
             <!-- DOS COUVERTURE -->
             <div class="page page--cover-back page-loaded">
-                <div class="page-content"></div>
+                <div class="page-content">
+                    <!-- Image Pleine -->
+                </div>
             </div>
 
         </div>
-    </div>
-
-    <!-- CONTRÔLE AMBIANCE (Fun Feature) -->
-    <div class="ambiance-panel">
-        <div class="ambiance-btn amb-red" onclick="setAmbiance('#ffaa00')" title="Feu de Camp"></div>
-        <div class="ambiance-btn amb-blue" onclick="setAmbiance('#00aaff')" title="Magie Arcanique"></div>
-        <div class="ambiance-btn amb-green" onclick="setAmbiance('#00ffaa')" title="Poison Vile"></div>
     </div>
 
     <!-- FOOTER -->
@@ -711,25 +744,16 @@
                 pageFlip.loadFromHTML(document.querySelectorAll('.page'));
                 document.body.classList.remove('fallback-mode');
 
+                // Correction Globale des Clics
                 const inputs = document.querySelectorAll('input, button');
                 inputs.forEach(el => {
                     el.addEventListener('touchstart', (e) => e.stopPropagation());
                     el.addEventListener('mousedown', (e) => e.stopPropagation());
+                    el.addEventListener('pointerdown', (e) => e.stopPropagation());
                 });
 
             } catch(e) { console.log("Mode Fallback"); }
         });
-
-        // --- AMBIANCE ---
-        function setAmbiance(color) {
-            document.documentElement.style.setProperty('--flame-color', color);
-            document.getElementById('flame-left').style.background = `radial-gradient(ellipse at bottom, #ffffa0 0%, ${color} 50%, transparent 90%)`;
-            document.getElementById('flame-right').style.background = `radial-gradient(ellipse at bottom, #ffffa0 0%, ${color} 50%, transparent 90%)`;
-            
-            // Changer les particules
-            const flies = document.querySelectorAll('.firefly');
-            flies.forEach(f => f.style.backgroundColor = color);
-        }
 
         // --- IA GEMINI 1.5 ---
         const apiKey = "AIzaSyC7aWgfvSu5M_Fjs3uEcb9oQZkDbySYVpQ"; 
