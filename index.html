@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -139,19 +139,16 @@
             display: flex; flex-direction: column;
         }
 
-        /* COUVERTURE AVANT (FULL IMAGE) */
+        /* COUVERTURE AVANT (FULL IMAGE JPG) */
         .page--cover-front .page-content {
-            padding: 0;
-            border: none;
+            padding: 0 !important;
+            border: none !important;
             background-color: #000;
-            /* L'image remplira tout le conteneur - FICHIER PNG */
-            background-image: url('couverturegrimoire.png');
+            background-image: url('couverturegrimoire.jpg');
             background-size: cover;
             background-position: center;
-            /* Petite ombre interne pour donner du volume sur les bords */
             box-shadow: inset 0 0 30px rgba(0,0,0,0.8);
         }
-        /* Cache le texte d'aide sur mobile s'il gêne l'image */
         .page--cover-front .hint {
             position: absolute;
             bottom: 20px;
@@ -160,15 +157,15 @@
             color: rgba(255, 255, 255, 0.7);
             text-shadow: 0 2px 4px rgba(0,0,0,0.8);
             font-weight: bold;
+            z-index: 10;
         }
 
-        /* COUVERTURE ARRIÈRE (FULL IMAGE) */
+        /* COUVERTURE ARRIÈRE (FULL IMAGE JPG) */
         .page--cover-back .page-content {
-            padding: 0;
-            border: none;
+            padding: 0 !important;
+            border: none !important;
             background-color: #000;
-            /* FICHIER PNG */
-            background-image: url('couverturearriere.png'); 
+            background-image: url('couverturearriere.jpg'); 
             background-size: cover;
             background-position: center;
             box-shadow: inset 0 0 30px rgba(0,0,0,0.8);
@@ -229,13 +226,17 @@
             position: relative; z-index: 1000; pointer-events: auto;
         }
 
+        /* STYLE "SUR LA PAGE" (Sans boîte grise) */
         .generated-content {
             min-height: 80px; 
-            border: 2px dashed rgba(138, 11, 11, 0.3); 
-            padding: 15px; margin-top: 20px;
-            font-style: italic; background: rgba(255, 255, 255, 0.2); 
-            white-space: pre-wrap; font-size: 1.1em;
+            border: none; /* Pas de bordure */
+            padding: 10px; margin-top: 20px;
+            background: transparent; /* Pas de fond gris */
+            white-space: pre-wrap; font-size: 1.25em; /* Texte un peu plus gros */
             text-align: center;
+            color: #5d0000; /* Couleur encre sang séché */
+            font-family: 'MedievalSharp', cursive;
+            font-style: italic;
         }
 
         .btn-contact {
@@ -253,6 +254,10 @@
 
         .hint { color: #888; font-family: 'Cinzel'; margin-top: 20px; animation: pulse 2s infinite; font-size: 0.9em; letter-spacing: 2px; }
         @keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
+
+        ul.flavor-list { padding-left: 20px; list-style: none; }
+        ul.flavor-list li { margin-bottom: 5px; font-size: 1.1em; }
+        .tag { color: #8a0b0b; font-family: 'Cinzel'; font-weight: bold; }
 
         /* --- FOOTER --- */
         footer {
@@ -291,10 +296,9 @@
     <div class="book-wrapper">
         <div id="book">
             
-            <!-- COUVERTURE AVANT (FULL IMAGE) -->
+            <!-- COUVERTURE AVANT (FULL IMAGE JPG) -->
             <div class="page page--cover-front page-loaded">
                 <div class="page-content">
-                    <!-- Texte minimal pour indiquer qu'on peut ouvrir -->
                     <p class="hint">~ Cliquez pour ouvrir ~</p>
                 </div>
             </div>
@@ -336,20 +340,20 @@
                 <div class="page-content">
                     <h2>Grimoire des Saveurs</h2>
                     
-                    <!-- ETIQUETTES AGRANDIES -->
+                    <!-- ETIQUETTES (JPG) -->
                     <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 20px;">
-                        <img src="front-label.png" alt="Etiquette Face" style="height: 220px; border: 2px solid #8a0b0b; border-radius: 5px; box-shadow: 0 5px 15px rgba(0,0,0,0.4); object-fit: contain;">
-                        <img src="back-label.png" alt="Etiquette Dos" style="height: 220px; border: 2px solid #8a0b0b; border-radius: 5px; box-shadow: 0 5px 15px rgba(0,0,0,0.4); object-fit: contain;">
+                        <img src="front-label.jpg" alt="Etiquette Face" style="height: 280px; border: 2px solid #8a0b0b; border-radius: 5px; box-shadow: 0 5px 15px rgba(0,0,0,0.4); object-fit: contain;">
+                        <img src="back-label.jpg" alt="Etiquette Dos" style="height: 280px; border: 2px solid #8a0b0b; border-radius: 5px; box-shadow: 0 5px 15px rgba(0,0,0,0.4); object-fit: contain;">
                     </div>
 
-                    <p style="text-align:center; font-style:italic; margin-bottom:15px;">~ Profil Sarrasin Noir (🌑) ~</p>
+                    <p style="text-align:center; font-style:italic; margin-bottom:10px;">~ Profil Sarrasin Noir (🌑) ~</p>
                     <ul class="flavor-list">
-                        <li><span class="tag">Robe :</span> Brun profond aux reflets cuivrés.</li>
-                        <li><span class="tag">Nez :</span> Notes puissantes de miel brut, malt et bois ancien.</li>
-                        <li><span class="tag">Bouche :</span> Attaque franche, texture ample, finale longue.</li>
+                        <li><span class="tag">Robe :</span> Brun profond, reflets cuivrés.</li>
+                        <li><span class="tag">Nez :</span> Miel brut, malt et bois ancien.</li>
+                        <li><span class="tag">Bouche :</span> Franche, texture ample, finale longue.</li>
                     </ul>
-                    <div style="border: 2px solid #8a0b0b; padding: 10px; margin-top: 15px; text-align: center; background: rgba(138, 11, 11, 0.05);">
-                        <p style="margin:0; font-weight:bold; color:#4a0404; font-size:0.9em;">"Un hydromel de feu de camp, de pacte scellé et de serment tenu."</p>
+                    <div style="border-top: 1px solid #8a0b0b; padding-top: 10px; margin-top: 10px; text-align: center;">
+                        <p style="margin:0; font-weight:bold; color:#4a0404; font-size:0.9em;">"Un hydromel de feu de camp et de serment tenu."</p>
                     </div>
                 </div>
             </div>
@@ -363,17 +367,17 @@
                         <p style="margin:0; font-size:0.95em;">"J’ai senti la forêt avant même d’y goûter." <br><span style="color:#b8860b; font-size:0.8em;">- Einar</span></p>
                     </div>
                     
+                    <!-- Zone SANS FOND GRIS -->
                     <div id="ai-rumor-zone" class="generated-content" style="display:none;"></div>
                     <div class="loader" id="rumor-loader"></div>
 
-                    <!-- BOUTON AVEC STOP PROPAGATION -->
                     <button class="btn-magic" onclick="generateRumor(event)" onpointerdown="event.stopPropagation()">
                         ✨ Écouter les Esprits
                     </button>
                 </div>
             </div>
 
-            <!-- PAGE 5 : CREUSET (INPUT + OUTPUT FUSIONNÉS) -->
+            <!-- PAGE 5 : CREUSET (INPUT + OUTPUT) -->
             <div class="page page-loaded">
                 <div class="page-content">
                     <h2>Le Creuset des Légendes</h2>
@@ -388,7 +392,7 @@
 
                     <div class="loader" id="legend-loader"></div>
 
-                    <!-- ZONE RÉSULTAT SUR LA MÊME PAGE -->
+                    <!-- Zone SANS FOND GRIS -->
                     <div id="legend-output" class="generated-content">
                         <p style="opacity: 0.5; font-style: italic; font-size:0.9em; margin:0;">L'encre est invisible...</p>
                     </div>
@@ -412,10 +416,10 @@
                 <div class="page-content"></div>
             </div>
 
-            <!-- DOS COUVERTURE (FULL IMAGE ARRIÈRE) -->
+            <!-- DOS COUVERTURE (FULL IMAGE ARRIÈRE JPG) -->
             <div class="page page--cover-back page-loaded">
                 <div class="page-content">
-                    <!-- Image pleine, comme la couverture avant -->
+                    <!-- Image pleine -->
                 </div>
             </div>
 
@@ -473,6 +477,7 @@
 
         // --- SCRIPT IA ---
         const apiKey = "AIzaSyC7aWgfvSu5M_Fjs3uEcb9oQZkDbySYVpQ"; 
+        // RETOUR AU MODÈLE 2.5
         const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
 
         async function callGemini(prompt) {
@@ -499,6 +504,7 @@
             const wrapper = document.createElement('span');
             wrapper.style.color = '#5d0000';
             wrapper.style.fontWeight = 'bold';
+            // Pas de fond ou bordure ici, style géré par CSS
             target.appendChild(wrapper);
 
             function type() {
@@ -560,7 +566,7 @@
                     output.innerHTML = `
                         <h3 style="font-family:'Cinzel Decorative'; color:#8a0b0b; font-size:1.8em; margin-bottom:10px;">${data.nom}</h3>
                         <div style="width:50px; height:2px; background:var(--gold); margin:0 auto 20px auto;"></div>
-                        <p id="legend-desc" style="font-size:1.2em; font-style:italic;"></p>
+                        <p id="legend-desc" style="font-size:1.2em; font-style:italic; color:#5d0000;"></p>
                     `;
                     typeWriter(data.description, 'legend-desc', 30);
                 } catch (e) {
@@ -572,4 +578,7 @@
         }
     </script>
 </body>
+</html>
+</body>
+
 </html>
