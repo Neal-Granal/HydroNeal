@@ -278,16 +278,16 @@
             display: block; margin: 20px auto; 
         }
 
-        /* --- BESTIAIRE MISE EN PAGE CONDENSÉE --- */
+        /* --- BESTIAIRE MISE EN PAGE --- */
         .beast-card {
-            display: flex; align-items: center; gap: 10px;
-            border: 1px solid var(--gold-dim); padding: 8px; margin-top: 10px;
+            display: flex; align-items: center; gap: 15px;
+            border: 1px solid var(--gold-dim); padding: 10px; margin-top: 15px;
             background: rgba(0,0,0,0.05);
         }
         .beast-card.alt { flex-direction: row-reverse; text-align: right; }
         /* Images Bestiaire plus petites pour que ça rentre */
         .beast-img {
-            width: 150px; height: 150px; object-fit: cover; 
+            width: 140px; height: 140px; object-fit: cover; 
             border-radius: 50%; border: 3px solid var(--blood-red);
             flex-shrink: 0; mix-blend-mode: multiply; filter: sepia(0.2);
             background-color: transparent;
@@ -333,6 +333,7 @@
         }
         @keyframes spin { to { transform: rotate(360deg); } }
 
+        /* Audio Control */
         .audio-control {
             position: fixed; bottom: 20px; right: 20px; z-index: 100;
             background: rgba(0,0,0,0.6); color: var(--gold); width: 40px; height: 40px; border-radius: 50%;
@@ -340,6 +341,7 @@
         }
         .audio-control:hover { transform: scale(1.1); background: rgba(0,0,0,0.8); }
 
+        /* Footer */
         footer {
             width: 100%; background-color: #0a0505; color: #b8aa8a; padding: 50px 20px;
             margin-top: auto; text-align: center; border-top: 4px solid var(--gold-dim);
@@ -680,9 +682,15 @@
                     body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
                 });
                 const data = await response.json();
-                if (!response.ok) throw new Error();
+                if (!response.ok) {
+                    console.error("API Error:", data);
+                    throw new Error("Erreur API: " + (data.error?.message || "Inconnue"));
+                }
                 return data.candidates[0].content.parts[0].text;
-            } catch (error) { return "Les esprits sont brouillés... (Erreur API)"; }
+            } catch (error) { 
+                console.error("Fetch Error:", error);
+                return "Les esprits sont brouillés... (Vérifiez la console pour les détails de l'erreur)"; 
+            }
         }
 
         function typeWriter(text, elementId, speed = 30) {
@@ -713,14 +721,16 @@
             const prompt = `Alchimiste médiéval. Ingrédient: "${input}". Nom hydromel épique + desc courte. JSON: {"nom": "...", "description": "..."}`;
             const text = await callGemini(prompt);
             loader.style.display = 'none';
-            if (text) {
+            if (text && !text.includes("Erreur")) {
                 const jsonStr = text.replace(/```json/g, '').replace(/```/g, '').trim();
                 try {
                     const cleanJson = jsonStr.substring(jsonStr.indexOf('{'), jsonStr.lastIndexOf('}') + 1);
                     const data = JSON.parse(cleanJson);
                     output.innerHTML = `<h4 style="color:#8a0b0b; border:none; margin:0;">${data.nom}</h4><div style="width:30px; height:2px; background:var(--gold); margin:5px auto;"></div><p id="gen-desc" style="font-size:1em;"></p>`;
                     typeWriter(data.description, 'gen-desc', 30);
-                } catch (e) { output.innerHTML = "Magie instable."; }
+                } catch (e) { output.innerHTML = "Magie instable (Erreur JSON)."; }
+            } else {
+                 output.innerHTML = text; 
             }
         }
     </script>
