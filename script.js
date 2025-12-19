@@ -4,7 +4,7 @@
  */
 
 // --- CONFIGURATION ---
-const BACKEND_URL = "https://backend-hydroneal.onrender.com/generate"; // URL de ton backend
+const BACKEND_URL = "https://backend-hydroneal.onrender.com"; // URL de ton backend
 const TYPING_SPEED = 30;
 
 // --- FONCTION APPEL BACKEND ---
