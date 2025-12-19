@@ -1,7 +1,3 @@
-/**
- * Gère les interactions avec l'API Google Gemini
- * Inclut un système de secours (fallback) si le modèle principal échoue.
- */
 
 async function callGeminiAPI(prompt) {
     const baseUrl = "https://generativelanguage.googleapis.com/v1beta/models/";
