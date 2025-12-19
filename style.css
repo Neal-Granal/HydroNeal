@@ -1,4 +1,4 @@
-/* --- STYLE HYDRONEAL (Version Finale Mobile Ajustable) --- */
+/* --- STYLE HYDRONEAL (Version Finale Zoom & Runes) --- */
 @import url('https://fonts.googleapis.com/css2?family=MedievalSharp&family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;700&family=Uncial+Antiqua&family=Noto+Sans+Runic&display=swap');
 
 :root {
@@ -28,6 +28,30 @@ body {
     overflow-x: hidden; 
     color: #f0e6d2;
 }
+
+/* MODAL DE ZOOM */
+#zoom-modal {
+    display: none; /* Caché par défaut */
+    position: fixed; z-index: 99999; 
+    left: 0; top: 0; width: 100%; height: 100%; 
+    background-color: rgba(0,0,0,0.9); 
+    flex-direction: column; justify-content: center; align-items: center;
+    backdrop-filter: blur(5px);
+    cursor: zoom-out;
+}
+.modal-content {
+    margin: auto; display: block; 
+    max-width: 90%; max-height: 80%;
+    border: 5px solid var(--gold);
+    box-shadow: 0 0 50px rgba(255, 215, 0, 0.5);
+    animation: zoomAnim 0.3s;
+}
+#caption {
+    margin: auto; display: block; width: 80%; text-align: center; 
+    color: var(--gold); padding: 10px 0; height: 150px; 
+    font-family: 'Cinzel Decorative'; font-size: 1.5em;
+}
+@keyframes zoomAnim { from {transform:scale(0)} to {transform:scale(1)} }
 
 /* Titres */
 .title-wrapper { margin-top: 30px; margin-bottom: 20px; text-align: center; z-index: 10; padding: 0 20px; }
@@ -102,55 +126,31 @@ h3.sub-title {
     position: relative; overflow: hidden; display: flex; flex-direction: column;
 }
 
-/* --- LOGOS BAS DE PAGE (INVERSÉS ET GROS) --- */
+/* --- LOGOS BAS DE PAGE (COULEURS ET TAILLES FIXES) --- */
 .page-bottom-mark-left, .page-bottom-mark-right {
-    position: absolute !important; 
-    bottom: 15px !important;
-    z-index: 5;
-    opacity: 0.8;
+    position: absolute !important; bottom: 15px !important; z-index: 5; opacity: 0.9;
 }
+/* Inversion des côtés */
+.page-bottom-mark-left { right: 20px !important; left: auto !important; transform: rotate(5deg); }
+.page-bottom-mark-right { left: 20px !important; right: auto !important; transform: rotate(-5deg); }
 
-/* Inversion des positions : 
-   - Left class va à droite (Right)
-   - Right class va à gauche (Left) 
-*/
-.page-bottom-mark-left { 
-    left: auto !important; 
-    right: 20px !important; 
-    transform: rotate(5deg); 
-}
-
-.page-bottom-mark-right { 
-    right: auto !important; 
-    left: 20px !important; 
-    transform: rotate(-5deg); 
-}
-
-/* Taille XXL */
+/* Taille des logos de coin & COULEUR (Pas de sépia) */
 .page-bottom-mark-left img, .page-bottom-mark-right img {
-    width: 100px !important; 
-    max-width: 100px !important;
-    height: auto !important;
-    filter: sepia(1) opacity(0.9);
+    width: 80px !important; max-width: 80px !important; height: auto !important;
+    filter: none !important; /* COULEURS RÉTABLIES */
     display: block;
+    drop-shadow: 0 2px 5px rgba(0,0,0,0.3);
 }
 
-/* --- LOGOS CENTRAUX --- */
+/* --- LOGOS CENTRAUX GÉANTS --- */
 .page-bottom-mark-center {
-    position: absolute !important; 
-    bottom: 20px !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    z-index: 10 !important;
-    width: 100%;
-    text-align: center;
+    position: absolute !important; bottom: 20px !important; left: 50% !important;
+    transform: translateX(-50%) !important; z-index: 10 !important; width: 100%; text-align: center;
 }
-
 .page-bottom-mark-center img {
-    width: 180px !important;
-    max-width: 180px !important;
-    height: auto !important;
-    filter: none !important;
+    width: 220px !important; /* TRÈS GROS */
+    max-width: 220px !important; height: auto !important;
+    filter: none !important; /* COULEURS RÉTABLIES */
     display: inline-block;
     drop-shadow: 0 5px 15px rgba(0,0,0,0.4);
 }
@@ -160,11 +160,17 @@ h3.sub-title {
     border: none !important;
     mix-blend-mode: multiply !important; 
     filter: contrast(1.2) sepia(0.3) !important;
-    display: block;
-    margin: 20px auto !important;
-    width: 100%;
-    opacity: 1 !important;
+    display: block; margin: 20px auto !important; width: 100%; opacity: 1 !important;
 }
+
+/* --- ETIQUETTES (AGRANDIES DESKTOP & CLIQUABLES) --- */
+.label-img {
+    height: 280px; /* Plus grand sur PC */
+    width: auto; max-width: 45%; object-fit: contain; border: none; 
+    filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3)); transition: transform 0.3s;
+    cursor: zoom-in; /* Curseur loupe */
+}
+.label-img:hover { transform: scale(1.05) rotate(2deg); filter: drop-shadow(0 10px 15px rgba(0,0,0,0.4)); }
 
 /* Couvertures */
 .page--cover-front .page-content {
@@ -205,17 +211,11 @@ p { font-size: 1.1em; line-height: 1.5; text-align: justify; margin: 0 0 15px 0;
 .divider { text-align: center; color: var(--gold-dark); font-size: 1.5em; margin: 10px 0; }
 .deco-icon { width: 100px; display: block; margin: 0 auto 15px auto; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); }
 
-.label-img {
-    height: 180px; width: auto; max-width: 45%; object-fit: contain; border: none; 
-    filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3)); transition: transform 0.3s;
-}
-.label-img:hover { transform: scale(1.05) rotate(2deg); filter: drop-shadow(0 10px 15px rgba(0,0,0,0.4)); }
-
 /* Bestiaire */
 .beast-card { display: flex; align-items: center; gap: 15px; border: 1px solid var(--gold-dark); padding: 10px; margin-top: 15px; background: rgba(0,0,0,0.03); transition: background 0.3s; }
 .beast-card:hover { background: rgba(138, 11, 11, 0.08); }
 .beast-card.alt { flex-direction: row-reverse; text-align: right; }
-.beast-img { width: 90px; height: 90px; object-fit: cover; border-radius: 50%; border: 2px solid var(--blood-red); flex-shrink: 0; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
+.beast-img { width: 90px; height: 90px; object-fit: cover; border-radius: 50%; border: 2px solid var(--blood-red); flex-shrink: 0; box-shadow: 0 2px 5px rgba(0,0,0,0.3); cursor: zoom-in; }
 .beast-name { color: var(--blood-red); font-weight: bold; font-family: 'Cinzel'; display: block; }
 
 /* Interactions */
@@ -257,44 +257,32 @@ footer { width: 100%; background: #1a0a0a; color: #dcbfa0; padding: 40px 20px; t
     h1.main-title { font-size: 2.8em; } 
     .candle-container { display: none; } 
     
-    /* On garde le wrapper flex pour centrer le livre */
     .book-wrapper {
         margin: 20px 0;
-        width: 100%; /* Prend toute la largeur */
-        height: 85vh; /* Prend presque tout l'écran en hauteur pour voir la page entière */
+        width: 100%; 
+        height: 85vh; 
         display: flex;
         justify-content: center;
         align-items: center;
     }
     
-    /* Configuration de la page pour qu'elle soit responsive mais garde l'effet flip */
-    .page {
-        /* On ne force pas le width ici, c'est le JS du plugin qui gère la largeur des pages en mode portrait */
-        /* Mais on s'assure que le contenu s'adapte */
-    }
-    
-    /* Contenu de la page sur mobile : SCROLLABLE INTERNE */
     .page-content {
         padding: 25px 20px !important;
-        /* CRUCIAL : Permet au texte de dépasser sans casser le flip */
         overflow-y: auto !important; 
         display: block !important;
-        /* On s'assure que le contenu ne déborde pas sur les côtés */
         width: 100% !important;
         height: 100% !important;
     }
 
-    /* Ajustement des tailles de police pour mobile */
     .page h2 { font-size: 1.5em; margin-bottom: 10px; }
     .page p { font-size: 1.05em; line-height: 1.4; text-align: left; }
     
-    /* Logos plus petits sur mobile pour ne pas gêner le texte */
+    /* Logos ajustés sur mobile */
     .page-bottom-mark-left img, .page-bottom-mark-right img, .page-bottom-mark-center img {
         width: 60px !important; /* Taille raisonnable sur mobile */
         opacity: 0.5; /* Plus discret */
     }
     
-    /* Ajustement position logos mobile */
     .page-bottom-mark-center { bottom: 10px !important; }
     .page-bottom-mark-left, .page-bottom-mark-right { bottom: 10px !important; }
 }
