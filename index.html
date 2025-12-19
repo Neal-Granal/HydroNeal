@@ -20,6 +20,13 @@
         <p style="color:#888; font-size:0.8em; margin-top:10px;">(Cliquez pour activer l'ambiance sonore)</p>
     </div>
 
+    <!-- MODAL DE ZOOM -->
+    <div id="zoom-modal" onclick="closeZoom()">
+        <span class="close-zoom">&times;</span>
+        <img class="modal-content" id="img-in-modal">
+        <div id="caption"></div>
+    </div>
+
     <!-- Décors : Bougies Réalistes -->
     <div class="candle-container candle-left">
         <div class="candle-item">
@@ -59,6 +66,9 @@
                     <div class="ex-libris">Ex Libris<br>HydroNeal</div>
                     <p style="margin-top:20px; color:#5d4037;">Édition du Centenaire</p>
                     <p style="font-size:0.8em; margin-top:10px; opacity:0.7;">"Ce qui a été fermenté ne peut être désinventé."</p>
+                    
+                    <!-- Coin Extérieur Gauche (Classe 'right' pour coin externe gauche sur page gauche) -->
+                    <div class="page-bottom-mark-right"><img src="icone-loup.png" alt="Sceau Loup"></div>
                 </div>
             </div>
 
@@ -69,29 +79,29 @@
                     <h2>L'Alchimiste Sauvage</h2>
                     <div class="divider">~ ❦ ~</div>
                     <p class="drop-cap">Né sous les ombrages d'une forêt que les cartes ignorent, là où les hivers mordent plus fort qu'un loup affamé, Neal fut bercé par le chant de la meute.</p>
-                    <p>Mais l'appel du savoir fut plus fort. Il quitta sa tanière pour rejoindre la Citadelle des Sciences. Là-bas, il troqua sa peau de bête pour la blouse d'érudit.</p>
-                    <p>Aujourd'hui, il œuvre dans l'ombre, fusionnant l'instinct animal et la rigueur scientifique pour <strong>façonner</strong> un hydromel unique.</p>
+                    <p>Mais l'appel du savoir fut plus fort. Il quitta sa tanière pour rejoindre la Citadelle des Sciences. Là-bas, il troqua sa peau de bête pour la blouse d'érudit, apprenant le langage des molécules.</p>
+                    <p>Aujourd'hui, il œuvre dans l'ombre, fusionnant l'instinct animal et la rigueur scientifique pour <strong>façonner</strong> un hydromel unique. Il ne cherche pas à dompter la nature, mais à la mettre en bouteille.</p>
                     
-                    <!-- Logo COIN DROIT (Extérieur) -->
-                    <div class="page-bottom-mark-right"><img src="icone-loup.png" alt="Sceau Loup"></div>
+                    <!-- Coin Extérieur Droit (Classe 'left' pour coin externe droit sur page droite) -->
+                    <div class="page-bottom-mark-left"><img src="icone-loup.png" alt="Sceau Loup"></div>
                 </div>
             </div>
 
-            <!-- 3: RITUEL (Gauche) - LOGO CENTRÉ GRAND -->
+            <!-- 3: RITUEL (Gauche) - LOGO CENTRÉ -->
             <div class="page">
                 <div class="page-content">
                     <h2>Le Rituel Interdit</h2>
                     
                     <h4>I — L’Alliance Nocturne</h4>
-                    <p>Tout commence quand la lune est haute. Le miel de sarrasin, noir et dense comme une nuit sans étoiles, est versé lentement dans l'eau de source.</p>
+                    <p>Tout commence quand la lune est haute. Le miel de sarrasin, noir et dense comme une nuit sans étoiles, est versé lentement dans l'eau de source. Aucun métal ne doit toucher le nectar.</p>
                     
                     <h4>II — La Chambre Secrète</h4>
-                    <p>Le breuvage est scellé dans une pièce à température contrôlée. C'est là que la fermentation opère sa magie silencieuse.</p>
+                    <p>Le breuvage est scellé dans une pièce à température contrôlée, loin des regards profanes. C'est là que la fermentation opère sa magie silencieuse, transformant le sucre en chaleur et en esprit.</p>
                     
                     <h4>III — La Transmutation</h4>
-                    <p>Au fil des lunes, le sucre meurt pour renaître en esprit. Le liquide trouble s'éclaircit pour devenir or liquide.</p>
+                    <p>Au fil des lunes, le sucre meurt pour renaître. Le liquide trouble s'éclaircit pour devenir or liquide. Seuls les fûts jugés dignes par l'Alchimiste verront le jour.</p>
 
-                    <!-- LOGO CENTRÉ ET GRAND -->
+                    <!-- LOGO CENTRÉ GÉANT -->
                     <div class="page-bottom-mark-center"><img src="icone-alchimie.png" alt="Sceau Alchimie"></div>
                 </div>
             </div>
@@ -102,8 +112,8 @@
                     <h2>Grimoire des Saveurs</h2>
                     
                     <div style="display: flex; justify-content: center; gap: 15px; margin-bottom: 25px;">
-                        <img src="front-label.png" alt="Face" class="label-img">
-                        <img src="back-label.png" alt="Dos" class="label-img">
+                        <img src="front-label.png" alt="Face" class="label-img" onclick="zoomImage(this.src, 'Étiquette Face')">
+                        <img src="back-label.png" alt="Dos" class="label-img" onclick="zoomImage(this.src, 'Étiquette Dos')">
                     </div>
 
                     <div class="divider">~ ❧ ~</div>
@@ -112,19 +122,20 @@
                     <ul class="flavor-list">
                         <li><span class="tag">Robe :</span> Sombre comme l'ambre fossile.</li>
                         <li><span class="tag">Nez :</span> Puissant. Miel brut, cuir tanné.</li>
-                        <li><span class="tag">Bouche :</span> Attaque franche, caramel brûlé.</li>
+                        <li><span class="tag">Bouche :</span> Attaque franche, notes de caramel brûlé et de malt.</li>
                     </ul>
+                    <p style="font-size:0.9em; margin-top:10px; font-style:italic;">"Idéal pour accompagner un fromage fort ou une victoire difficile."</p>
                     
-                    <!-- Logo COIN DROIT -->
-                    <div class="page-bottom-mark-right"><img src="icone-loup.png" alt="Sceau"></div>
+                    <!-- Coin Extérieur Droit -->
+                    <div class="page-bottom-mark-left"><img src="icone-loup.png" alt="Sceau"></div>
                 </div>
             </div>
 
-            <!-- 5: RUMEURS (Gauche) - LOGO CENTRÉ GRAND -->
+            <!-- 5: RUMEURS (Gauche) - LOGO CENTRÉ -->
             <div class="page">
                 <div class="page-content">
                     <h2>Rumeurs de la Taverne</h2>
-                    <p style="text-align:center; opacity:0.8;">Ce que l'on murmure...</p>
+                    <p style="text-align:center; opacity:0.8;">Les murs ont des oreilles...</p>
                     
                     <div style="background:rgba(138,11,11,0.05); padding:15px; border-left:4px solid #8a0b0b; margin-bottom:15px;">
                         <p style="margin:0; font-size:1em; font-style:italic;">"On raconte qu'une seule goutte suffit à faire repousser la barbe d'un elfe."</p>
@@ -140,7 +151,7 @@
                         </button>
                     </div>
 
-                    <!-- LOGO CENTRÉ ET GRAND -->
+                    <!-- LOGO CENTRÉ GÉANT -->
                     <div class="page-bottom-mark-center"><img src="icone-taverne.png" alt="Sceau Taverne"></div>
                 </div>
             </div>
@@ -158,8 +169,8 @@
                     <div id="legend-output" class="generated-content"></div>
                     <p style="font-size:0.8em; text-align:center; margin-top:20px; opacity:0.6;">Attention : Les résultats peuvent être instables.</p>
                     
-                    <!-- Logo COIN DROIT -->
-                    <div class="page-bottom-mark-right"><img src="icone-alchimie.png" alt="Sceau"></div>
+                    <!-- Coin Extérieur Droit -->
+                    <div class="page-bottom-mark-left"><img src="icone-alchimie.png" alt="Sceau"></div>
                 </div>
             </div>
 
@@ -171,7 +182,7 @@
                     <p style="text-align:center; margin-bottom:20px; font-style:italic;">Gardiens des Cuves Souterraines</p>
                     
                     <div class="beast-card">
-                        <img src="loup-de-fer.png" class="beast-img" alt="Loup">
+                        <img src="loup-de-fer.png" class="beast-img" alt="Loup" onclick="zoomImage(this.src, 'Le Loup de Fer')">
                         <div class="beast-info">
                             <span class="beast-name">Le Loup de Fer</span>
                             <p class="beast-desc">Esprit protecteur invoqué lors de la pleine lune. On dit qu'il rôde autour des fûts, empêchant le vinaigre de corrompre le vin. Son souffle sent le sarrasin brûlé.</p>
@@ -183,11 +194,11 @@
                             <span class="beast-name">La Levure Vorace</span>
                             <p class="beast-desc">Une colonie d'entités microscopiques insatiables. Elles ne demandent aucun salaire, seulement du sucre, et paient leur dette en ivresse divine.</p>
                         </div>
-                        <img src="levure-vorace.png" class="beast-img" alt="Levure">
+                        <img src="levure-vorace.png" class="beast-img" alt="Levure" onclick="zoomImage(this.src, 'La Levure Vorace')">
                     </div>
 
-                    <!-- Logo COIN GAUCHE -->
-                    <div class="page-bottom-mark-left"><img src="icone-loup.png" alt="Sceau"></div>
+                    <!-- Coin Extérieur Gauche -->
+                    <div class="page-bottom-mark-right"><img src="icone-loup.png" alt="Sceau"></div>
                 </div>
             </div>
 
@@ -198,10 +209,10 @@
                     <p style="text-align:center; font-weight:bold; color:var(--blood-red);">~ Règles de Dégustation ~</p>
                     
                     <h4>I — Le Respect</h4>
-                    <p>On ne boit pas l'HydroNeal à la légère. Le premier verre se lève toujours vers le Nord.</p>
+                    <p>On ne boit pas l'HydroNeal à la légère. Le premier verre se lève toujours vers le Nord, en hommage aux anciens.</p>
 
                     <h4>II — Le Partage</h4>
-                    <p>Un flacon ouvert ne se referme pas avant d'avoir été partagé. L'hydromel est le lien sacré.</p>
+                    <p>Un flacon ouvert ne se referme pas avant d'avoir été partagé. L'hydromel est le lien sacré qui unit la tribu.</p>
 
                     <h4>III — La Température</h4>
                     <p>Ni glacé comme la mort, ni bouillant comme l'enfer. Frais comme une source de montagne.</p>
@@ -212,8 +223,8 @@
                     <h4>V — L'Honneur</h4>
                     <p>Si vous renversez une goutte, versez-en une seconde pour la terre. C'est le prix du sang versé.</p>
 
-                    <!-- Logo COIN DROIT -->
-                    <div class="page-bottom-mark-right"><img src="icone-grimoire.png" alt="Sceau"></div>
+                    <!-- Coin Extérieur Droit -->
+                    <div class="page-bottom-mark-left"><img src="icone-grimoire.png" alt="Sceau"></div>
                 </div>
             </div>
 
@@ -236,29 +247,42 @@
                     <p style="font-size:0.95em;">R: Une envie soudaine de chanter des chants paillards et une légère augmentation du charisme (+2).</p>
 
                     <strong style="color:#8a0b0b;">Q: Est-ce Vegan ?</strong>
-                    <p style="font-size:0.95em;">R: C'est du miel volé aux abeilles. Donc non.</p>
+                    <p style="font-size:0.95em;">R: C'est du miel volé aux abeilles par des ours, puis par nous. Donc non, c'est animal et sauvage.</p>
 
                     <strong style="color:#8a0b0b;">Q: Peut-on l'utiliser comme potion de soin ?</strong>
                     <p style="font-size:0.95em;">R: Cela soigne l'âme et le moral, mais ne referme pas les plaies d'épée.</p>
 
-                    <!-- Logo COIN GAUCHE -->
-                    <div class="page-bottom-mark-left"><img src="icone-loup.png" alt="Sceau"></div>
+                    <!-- Coin Extérieur Gauche -->
+                    <div class="page-bottom-mark-right"><img src="icone-loup.png" alt="Sceau"></div>
                 </div>
             </div>
 
-            <!-- 10: CARTE (Droite) -->
+            <!-- 10: RUNES (Droite) -->
+            <div class="page">
+                <div class="page-content">
+                    <h2>Sceau Runique</h2>
+                    <p style="text-align:center;">Inscrivez votre nom pour voir votre signature d'Alchimiste en Futhark.</p>
+                    <input type="text" id="rune-input" class="input-magic" placeholder="Votre Nom..." onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()">
+                    <div id="rune-display" style="font-family:'Noto Sans Runic', 'Uncial Antiqua', sans-serif; font-size:3em; text-align:center; margin-top:30px; color:#8a0b0b; min-height:60px;"></div>
+                    
+                    <!-- Coin Extérieur Droit -->
+                    <div class="page-bottom-mark-left"><img src="icone-grimoire.png" alt="Sceau"></div>
+                </div>
+            </div>
+
+            <!-- 11: CARTE (Gauche) -->
             <div class="page">
                 <div class="page-content">
                     <h2>La Carte du Royaume</h2>
                     <div class="divider">~ 🗺️ ~</div>
                     
-                    <!-- Carte avec style spécial (Multiply) -->
+                    <!-- Carte sans fond blanc grâce au CSS -->
                     <img src="carte-royaume.png" class="map-image" style="width:100%; height:auto; margin: 20px 0;">
                     
                     <p style="font-size:0.9em; margin-top:20px; font-style:italic; text-align:center;">"Tous les chemins mènent à la soif."</p>
                     <p>Au-delà des montagnes de Glace, là où le sarrasin pousse noir et dru, se trouve la source de notre pouvoir.</p>
                     
-                    <!-- Logo COIN DROIT -->
+                    <!-- Coin Extérieur Gauche -->
                     <div class="page-bottom-mark-right"><img src="icone-loup.png" alt="Sceau"></div>
                 </div>
             </div>
