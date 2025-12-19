@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="icone-loup.png" type="image/png">
+    <!-- Chemin image mis à jour -->
+    <link rel="icon" href="images/icone-loup.png" type="image/png">
     
     <title>HydroNeal – Hydromel artisanal & Grimoire Alchimique</title>
     <meta name="description" content="HydroNeal est un hydromel artisanal d’inspiration médiévale. Découvrez le Grand Grimoire.">
@@ -22,7 +23,7 @@
         <button class="start-btn">Entrer dans le Royaume</button>
     </div>
 
-    <!-- PARTICULES (Les lucioles sont gérées en CSS maintenant) -->
+    <!-- PARTICULES -->
     <div class="firefly"></div>
     <div class="firefly"></div>
     <div class="firefly"></div>
@@ -38,7 +39,6 @@
     </div>
 
     <!-- AUDIO -->
-    <!-- CORRECTION : Ajout de 'encrypted-media' pour corriger l'erreur de permission -->
     <iframe id="sc-player" 
             src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/michael-ghelfi/alchemy-laboratory&auto_play=false&show_artwork=false&visual=false" 
             width="1" height="1" scrolling="no" frameborder="0" 
@@ -73,7 +73,8 @@
             <!-- 2: HISTOIRE -->
             <div class="page page-loaded"><div class="page-content">
                 <div class="watermark">H</div>
-                <img src="icone-loup.png" alt="Loup" class="deco-icon">
+                <!-- Chemin image mis à jour -->
+                <img src="images/icone-loup.png" alt="Loup" class="deco-icon">
                 <h2>L'Alchimiste Sauvage</h2>
                 <div class="divider">~ ❦ ~</div>
                 <p class="drop-cap">Né sous les ombrages d'une forêt que les cartes ignorent, là où les hivers mordent plus fort qu'un loup affamé, Neal fut bercé par le chant de la meute. Les anciens racontent qu'il apprit à écouter la sève des arbres avant même de savoir parler.</p>
@@ -83,7 +84,8 @@
 
             <!-- 3: RITUEL -->
             <div class="page page-loaded"><div class="page-content">
-                <img src="icone-alchimie.png" alt="Alchimie" class="deco-icon">
+                <!-- Chemin image mis à jour -->
+                <img src="images/icone-alchimie.png" alt="Alchimie" class="deco-icon">
                 <h2>Le Rituel Interdit</h2>
                 <h4>I — L’Alliance Nocturne</h4>
                 <p>Le miel de sarrasin, noir et dense, est versé lentement dans l'eau de source purifiée. C'est ici que les levures ancestrales sont éveillées.</p>
@@ -97,8 +99,9 @@
             <div class="page page-loaded"><div class="page-content">
                 <h2>Grimoire des Saveurs</h2>
                 <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 20px;">
-                    <img src="front-label.png" alt="Face" style="height: 250px; object-fit: contain;">
-                    <img src="back-label.png" alt="Dos" style="height: 250px; object-fit: contain;">
+                    <!-- Chemins images mis à jour -->
+                    <img src="images/front-label.png" alt="Face" style="height: 250px; object-fit: contain;">
+                    <img src="images/back-label.png" alt="Dos" style="height: 250px; object-fit: contain;">
                 </div>
                 <div class="divider">~ ❧ ~</div>
                 <p style="text-align:center; font-weight:bold; color:#5d0000;">Cuvée Sarrasin Noir (🌑)</p>
@@ -111,7 +114,8 @@
 
             <!-- 5: RUMEURS (IA) -->
             <div class="page page-loaded"><div class="page-content">
-                <img src="icone-taverne.png" alt="Taverne" class="deco-icon">
+                <!-- Chemin image mis à jour -->
+                <img src="images/icone-taverne.png" alt="Taverne" class="deco-icon">
                 <h2>Rumeurs de la Taverne</h2>
                 <p style="text-align:center; opacity:0.8;">Ce que l'on murmure dans les auberges...</p>
                 <div style="background:rgba(138,11,11,0.05); padding:10px; border-left:4px solid #8a0b0b; margin-bottom:15px;">
@@ -123,7 +127,6 @@
                 <div class="loader" id="rumor-loader"></div>
                 
                 <div class="rune-container">
-                    <!-- Note: onclick appelle maintenant une fonction globale définie dans main.js -->
                     <button class="btn-rune" onclick="window.generateRumor(event)" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()">
                         Consulter les Esprits
                     </button>
@@ -147,12 +150,14 @@
 
             <!-- 7: LE BESTIAIRE -->
             <div class="page page-loaded"><div class="page-content">
-                <img src="icone-loup.png" alt="Beast" class="deco-icon">
+                <!-- Chemin image mis à jour -->
+                <img src="images/icone-loup.png" alt="Beast" class="deco-icon">
                 <h2>Le Bestiaire</h2>
                 <div class="divider">~ ⚔ ~</div>
                 
                 <div class="beast-card">
-                    <img src="loup-de-fer.png" class="beast-img" alt="Loup">
+                    <!-- Chemin image mis à jour -->
+                    <img src="images/loup-de-fer.png" class="beast-img" alt="Loup">
                     <div class="beast-info">
                         <span class="beast-name">Le Loup de Fer</span>
                         <p class="beast-desc">Gardien spirituel de la cuvée. Son hurlement fait vibrer les touries.</p>
@@ -164,7 +169,8 @@
                         <span class="beast-name">Levure Vorace</span>
                         <p class="beast-desc">Microscopique mais redoutable. Elle dévore le sucre pour offrir l'esprit.</p>
                     </div>
-                    <img src="levure-vorace.png" class="beast-img" alt="Levure">
+                    <!-- Chemin image mis à jour -->
+                    <img src="images/levure-vorace.png" class="beast-img" alt="Levure">
                 </div>
             </div></div>
 
@@ -172,14 +178,16 @@
             <div class="page page-loaded"><div class="page-content">
                 <h2>La Carte du Royaume</h2>
                 <div class="divider">~ 🗺️ ~</div>
-                <img src="carte-royaume.png" class="map-image" alt="Carte du royaume">
+                <!-- Chemin image mis à jour -->
+                <img src="images/carte-royaume.png" class="map-image" alt="Carte du royaume">
                 <p style="font-size:0.9em; margin-top:10px; font-style:italic; text-align:center;">"Tous les chemins mènent à la Chambre des Eaux."</p>
                 <p>Le royaume souterrain s'étend bien au-delà des murs visibles. C'est un réseau de connaissances qui relie chaque bouteille à son buveur.</p>
             </div></div>
 
             <!-- 9: CODE MEUTE -->
             <div class="page page-loaded"><div class="page-content">
-                <img src="icone-grimoire.png" alt="Livre" class="deco-icon">
+                <!-- Chemin image mis à jour -->
+                <img src="images/icone-grimoire.png" alt="Livre" class="deco-icon">
                 <h2>Le Code de la Meute</h2>
                 <p style="text-align:center; font-weight:bold; color:var(--blood-red);">~ Règles de Dégustation ~</p>
                 <h4>I — Le Respect</h4>
