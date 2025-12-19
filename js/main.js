@@ -1,13 +1,21 @@
+/**
+ * Logique principale de l'interface utilisateur
+ * Gère le livre (PageFlip), l'audio et les événements de clic.
+ */
+
 document.addEventListener('DOMContentLoaded', function() {
     initBook();
     initAudioListener();
-    initRunes();
+    
+    // Initialisation Runes (si besoin au chargement)
+    const runeInput = document.getElementById('rune-input');
+    if(runeInput && runeInput.value) window.translateRunes(runeInput.value);
 });
 
 // --- 1. GESTION DU LIVRE ---
 function initBook() {
     try {
-        if (typeof St === 'undefined' || typeof St.PageFlip === 'undefined') throw new Error("PageFlip manquant");
+        if (typeof St === 'undefined' || typeof St.PageFlip === 'undefined') throw new Error("Bibliothèque PageFlip manquante");
 
         const pageFlip = new St.PageFlip(document.getElementById('book'), {
             size: 'stretch',
@@ -20,14 +28,14 @@ function initBook() {
         pageFlip.loadFromHTML(document.querySelectorAll('.page'));
         document.body.classList.remove('fallback-mode');
 
-        // Patch pour rendre les inputs cliquables
+        // Patch Mobile : empêche de tourner la page quand on clique sur un input/bouton
         document.querySelectorAll('input, button').forEach(el => {
             el.addEventListener('touchstart', (e) => e.stopPropagation());
             el.addEventListener('mousedown', (e) => e.stopPropagation());
         });
 
     } catch(e) { 
-        console.log("Mode Fallback (Livre statique) activé:", e); 
+        console.log("Mode Fallback activé (Livre statique):", e); 
         document.body.classList.add('fallback-mode');
     }
 }
@@ -36,23 +44,34 @@ function initBook() {
 let scWidget;
 
 function initAudioListener() {
-    // Le bouton d'accueil lance le son
     const startScreen = document.getElementById('start-screen');
+    
     if(startScreen) {
         startScreen.addEventListener('click', () => {
+            // Animation de disparition
             startScreen.style.opacity = '0';
-            setTimeout(() => startScreen.remove(), 1000);
+            
+            setTimeout(() => {
+                // CORRECTION : Vérifie si l'élément existe encore avant de le supprimer
+                if (startScreen && startScreen.parentNode) {
+                    startScreen.parentNode.removeChild(startScreen);
+                }
+            }, 1000);
             
             // Démarrage Audio
-            const iframe = document.querySelector('#sc-player');
-            scWidget = SC.Widget(iframe);
-            scWidget.setVolume(30);
-            scWidget.play();
+            try {
+                const iframe = document.querySelector('#sc-player');
+                scWidget = SC.Widget(iframe);
+                scWidget.setVolume(30);
+                scWidget.play();
+            } catch(e) {
+                console.warn("Impossible de lancer l'audio auto :", e);
+            }
         });
     }
 }
 
-// Fonction globale pour le bouton Volume
+// Fonction globale accessible via onclick="" dans le HTML
 window.toggleAudio = function() {
     if (!scWidget) scWidget = SC.Widget(document.querySelector('#sc-player'));
     scWidget.toggle();
@@ -79,7 +98,7 @@ window.generateRumor = async function(e) {
     ui.output.style.display = 'block';
     
     if(text) typeWriter(text, 'ai-rumor-zone');
-    else ui.output.innerHTML = "Les esprits sont silencieux...";
+    else ui.output.innerHTML = "Les esprits sont silencieux... (Erreur API)";
 };
 
 // Générateur de Légendes (Objets)
@@ -104,11 +123,14 @@ window.generateLegend = async function(e) {
 
     if (rawText && rawText.includes("{")) {
         try {
+            // Extraction du JSON même si le modèle ajoute du texte autour
             const jsonStr = rawText.substring(rawText.indexOf('{'), rawText.lastIndexOf('}') + 1);
             const data = JSON.parse(jsonStr);
+            
             ui.output.innerHTML = `<h4 style="color:#8a0b0b; margin:0;">${data.nom}</h4><p id="gen-desc" style="font-size:1em;"></p>`;
             typeWriter(data.description, 'gen-desc');
         } catch (e) { 
+            console.error("Erreur parsing JSON", e);
             ui.output.innerHTML = rawText; // Fallback texte brut
         }
     } else { 
@@ -121,5 +143,6 @@ window.translateRunes = function(text) {
     const runesMap = {'a':'ᚨ', 'b':'ᛒ', 'c':'ᚲ', 'd':'ᛞ', 'e':'ᛖ', 'f':'ᚠ', 'g':'ᚷ', 'h':'ᚺ', 'i':'ᛁ', 'j':'ᛃ', 'k':'ᚲ', 'l':'ᛚ', 'm':'ᛗ', 'n':'ᚾ', 'o':'ᛟ', 'p':'ᛈ', 'q':'ᚲ', 'r':'ᚱ', 's':'ᛊ', 't':'ᛏ', 'u':'ᚢ', 'v':'ᚢ', 'w':'ᚹ', 'x':'ᚲᛊ', 'y':'ᛃ', 'z':'ᛉ', ' ':' '};
     let res = ""; 
     for (let c of text.toLowerCase()) { res += runesMap[c] || c; }
-    document.getElementById('rune-display').textContent = res;
+    const display = document.getElementById('rune-display');
+    if(display) display.textContent = res;
 };
