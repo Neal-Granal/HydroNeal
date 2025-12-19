@@ -165,12 +165,12 @@ h3.sub-title {
 
 /* --- ETIQUETTES (AGRANDIES DESKTOP & CLIQUABLES) --- */
 .label-img {
-    height: 240px; /* ENCORE PLUS GRAND */
+    height: 320px; /* ENCORE PLUS GRAND */
     width: auto; max-width: 45%; object-fit: contain; border: none; 
     filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3)); transition: transform 0.3s;
     cursor: zoom-in; /* Curseur loupe */
 }
-.label-img:hover { transform: scale(2) rotate(2deg); filter: drop-shadow(0 10px 15px rgba(0,0,0,0.4)); }
+.label-img:hover { transform: scale(1.05) rotate(2deg); filter: drop-shadow(0 10px 15px rgba(0,0,0,0.4)); }
 
 /* Couvertures */
 .page--cover-front .page-content {
@@ -197,7 +197,7 @@ h3.sub-title {
     transform: rotate(-3deg); text-shadow: 0 2px 10px rgba(0,0,0,0.8);
 }
 
-/* Contenu */
+/* --- CONTENU --- */
 h2 {
     font-family: 'Cinzel Decorative'; color: var(--blood-red); font-size: 2em;
     text-align: center; border-bottom: 2px solid rgba(138, 11, 11, 0.2);
@@ -208,6 +208,28 @@ h4 {
     text-transform: uppercase; font-weight: bold; border-bottom: 1px solid rgba(138,11,11,0.1); display: inline-block;
 }
 p { font-size: 1.1em; line-height: 1.5; text-align: justify; margin: 0 0 15px 0; }
+
+/* --- LETTRINE STYLE GRAVURE MÉDIÉVALE --- */
+.drop-cap::first-letter { 
+    float: left;
+    font-family: 'Cinzel Decorative', cursive; /* Police ornementale */
+    font-size: 3.5em; /* Grande taille */
+    line-height: 0.85;
+    margin-right: 15px;
+    margin-top: 6px;
+    padding: 10px 5px 5px 10px;
+    
+    /* Couleurs Or et Sang */
+    color: var(--gold);
+    background: linear-gradient(135deg, #2a1a0a 0%, #3e2723 100%);
+    
+    /* Effet Cadre/Gravure */
+    border: 2px double var(--gold-dark);
+    box-shadow: 3px 3px 0 rgba(0,0,0,0.3); /* Ombre portée dure pour effet relief */
+    border-radius: 4px;
+    text-shadow: 1px 1px 0 #000;
+}
+
 .divider { text-align: center; color: var(--gold-dark); font-size: 1.5em; margin: 10px 0; }
 .deco-icon { width: 100px; display: block; margin: 0 auto 15px auto; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); }
 
