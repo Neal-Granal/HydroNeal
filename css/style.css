@@ -41,7 +41,7 @@ body {
     overflow-x: hidden; color: #dcbfa0;
 }
 
-/* Particules (Poussière Magique) */
+/* Particules (Lucioles) */
 .firefly {
     position: fixed; left: 50%; top: 50%; width: 4px; height: 4px;
     background-color: var(--gold-bright); border-radius: 50%;
@@ -51,8 +51,6 @@ body {
 .firefly:nth-child(1) { animation-duration: 20s; animation-delay: 0s; }
 .firefly:nth-child(2) { animation-duration: 25s; animation-delay: 2s; }
 .firefly:nth-child(3) { animation-duration: 18s; animation-delay: 5s; }
-.firefly:nth-child(4) { animation-duration: 22s; animation-delay: 1s; }
-.firefly:nth-child(5) { animation-duration: 30s; animation-delay: 8s; }
 
 @keyframes fly {
     0% { transform: translate(-50vw, 50vh) scale(0); opacity: 0; }
@@ -62,16 +60,28 @@ body {
     100% { transform: translate(50vw, -50vh) scale(0); opacity: 0; }
 }
 
-/* --- TITRE OR & SOUS-TITRE --- */
+/* --- ÉCRAN D'ACCUEIL --- */
+#start-screen {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: #0a0505; z-index: 9999;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    transition: opacity 1s ease;
+    background-image: url('https://www.transparenttextures.com/patterns/dark-leather.png');
+}
+.start-btn {
+    padding: 20px 40px; font-size: 2em; color: var(--gold);
+    background: rgba(0,0,0,0.5); border: 3px solid var(--gold);
+    font-family: 'Cinzel Decorative'; cursor: pointer;
+    text-transform: uppercase; letter-spacing: 3px;
+    animation: pulseBtn 2s infinite; box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+}
+.start-btn:hover { background: rgba(255, 215, 0, 0.1); transform: scale(1.05); transition: 0.3s; }
+@keyframes pulseBtn { 0%, 100% { box-shadow: 0 0 10px rgba(255, 215, 0, 0.3); } 50% { box-shadow: 0 0 25px rgba(255, 215, 0, 0.6); } }
+
+/* --- TITRE OR --- */
 .title-wrapper {
     margin-top: 30px; margin-bottom: 20px; text-align: center;
     z-index: 10; padding: 0 20px; position: relative;
-}
-.title-wrapper::after {
-    content: ''; position: absolute; top: 50%; left: 50%;
-    width: 60%; height: 60%; transform: translate(-50%, -50%);
-    background: radial-gradient(ellipse, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
-    z-index: -1; filter: blur(30px);
 }
 
 h1.main-title {
@@ -97,7 +107,7 @@ h3.sub-title {
     padding: 5px 20px; display: inline-block;
 }
 
-/* --- BOUGIES RÉALISTES (Système Multi-Bougies) --- */
+/* --- BOUGIES --- */
 .candle-container { position: fixed; top: 45%; z-index: 5; pointer-events: none; display: flex; gap: 20px; align-items: flex-end; }
 .candle-left { left: 5%; }
 .candle-right { right: 5%; }
@@ -114,15 +124,8 @@ h3.sub-title {
     margin: 0 auto; transform-origin: bottom center;
     position: absolute; top: -35px; left: 50%; transform: translateX(-50%);
 }
-@keyframes flicker { 
-    0% { transform: translateX(-50%) scale(1) rotate(-1deg); opacity: 0.9; } 
-    100% { transform: translateX(-50%) scale(1.05) rotate(1deg); opacity: 1; } 
-}
-@keyframes flameWaver {
-    0%, 100% { transform: translateX(-50%) rotate(0deg); }
-    25% { transform: translateX(-52%) rotate(-2deg); }
-    75% { transform: translateX(-48%) rotate(2deg); }
-}
+@keyframes flicker { 0% { transform: translateX(-50%) scale(1) rotate(-1deg); opacity: 0.9; } 100% { transform: translateX(-50%) scale(1.05) rotate(1deg); opacity: 1; } }
+@keyframes flameWaver { 0%, 100% { transform: translateX(-50%) rotate(0deg); } 25% { transform: translateX(-52%) rotate(-2deg); } 75% { transform: translateX(-48%) rotate(2deg); } }
 
 .candle-base {
     width: 45px; height: 140px; 
@@ -134,18 +137,16 @@ h3.sub-title {
 .candle-base::before { content: ''; position: absolute; top: 0; left: 10px; width: 6px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 3px; }
 .candle-wick { width: 2px; height: 10px; background: #111; position: absolute; top: -10px; left: 50%; transform: translateX(-50%); }
 
-/* Masquage sur mobile */
 @media (max-width: 1400px) { .candle-container { opacity: 0.4; transform: scale(0.8); } }
 @media (max-width: 1000px) { .candle-container { display: none; } }
 
-/* --- LE LIVRE (CONTAINER) --- */
+/* --- LE LIVRE --- */
 .book-wrapper {
     margin: 30px 0 60px 0;
     filter: drop-shadow(0 60px 100px rgba(0,0,0,0.95)); 
     width: 95vw; display: flex; justify-content: center;
     z-index: 10; perspective: 2000px;
 }
-/* Mode secours CSS */
 .fallback-mode .book-wrapper { flex-direction: column; align-items: center; gap: 40px; }
 .fallback-mode .page {
     position: relative !important; width: 100% !important; max-width: 600px; height: auto !important;
@@ -153,25 +154,18 @@ h3.sub-title {
     box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important;
 }
 
-/* --- PAGES --- */
-.page {
-    background-color: var(--parchment-bg);
-    width: 480px; height: 720px;
-    display: none; 
-}
+.page { background-color: var(--parchment-bg); width: 480px; height: 720px; display: none; }
 .page-loaded { display: block; }
 
 .page-content {
     width: 100%; height: 100%; padding: 40px 35px; box-sizing: border-box;
     background-color: var(--parchment-bg);
-    /* Texture Papier */
     background-image: url('https://www.transparenttextures.com/patterns/aged-paper.png'), linear-gradient(to right, rgba(0,0,0,0.05), transparent 5%, transparent 95%, rgba(0,0,0,0.05));
     box-shadow: inset 0 0 100px rgba(60, 40, 20, 0.25), inset 0 0 20px rgba(0,0,0,0.1);
     color: var(--ink-color); border: 1px solid rgba(139, 69, 19, 0.15);
     position: relative; overflow: hidden; display: flex; flex-direction: column;
 }
 
-/* --- STYLES SPÉCIFIQUES --- */
 .watermark {
     position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
     font-size: 250px; opacity: 0.03; color: var(--blood-red); font-family: 'Cinzel Decorative'; pointer-events: none; z-index: 0;
@@ -180,7 +174,7 @@ h3.sub-title {
 /* Couvertures */
 .page--cover-front .page-content {
     padding: 0 !important; border: none !important; background-color: #050505;
-    background-image: url('couverturegrimoire.png'); background-size: cover; background-position: center;
+    background-image: url('../couverturegrimoire.png'); background-size: cover; background-position: center;
     box-shadow: inset 0 0 50px rgba(0,0,0,0.9);
 }
 .page--cover-front .hint {
@@ -193,11 +187,10 @@ h3.sub-title {
 
 .page--cover-back .page-content {
     padding: 0 !important; border: none !important; background-color: #050505;
-    background-image: url('couverturearriere.png'); background-size: cover; background-position: center;
+    background-image: url('../couverturearriere.png'); background-size: cover; background-position: center;
     box-shadow: inset 0 0 50px rgba(0,0,0,0.9);
 }
 
-/* Garde */
 .page--inside-cover .page-content {
     background-image: url('https://www.transparenttextures.com/patterns/dark-leather.png');
     background-color: #2a1a0a; box-shadow: inset 0 0 150px rgba(0,0,0,0.95);
@@ -210,7 +203,7 @@ h3.sub-title {
     transform: rotate(-2deg); box-shadow: 0 5px 15px rgba(0,0,0,0.5);
 }
 
-/* --- TYPOGRAPHIE --- */
+/* --- TYPOGRAPHIE CONTENU --- */
 h2 {
     font-family: 'Cinzel Decorative', cursive; color: var(--blood-red); font-size: 2.2em;
     text-align: center; border-bottom: 3px double rgba(138, 11, 11, 0.3); padding-bottom: 12px; margin-bottom: 25px;
@@ -235,7 +228,7 @@ p { font-size: 1.15em; line-height: 1.6; text-align: justify; margin: 0 0 18px 0
 }
 .deco-icon { width: 130px; display: block; margin: 0 auto 20px auto; filter: sepia(1) hue-rotate(-30deg) saturate(1.2) drop-shadow(0 5px 8px rgba(0,0,0,0.2)); opacity: 0.95; }
 
-/* --- MISE EN PAGE SPÉCIALE (Bestiaire & Carte) --- */
+/* --- BESTIAIRE & CARTE --- */
 .map-image { 
     width: 100%; height: auto; 
     border: none; filter: sepia(0.3); mix-blend-mode: multiply; 
@@ -268,7 +261,7 @@ ul.flavor-list li {
 ul.flavor-list li::before { content: "✦"; color: var(--gold-dim); margin-right: 10px; font-size: 0.8em; }
 .tag { color: #8a0b0b; font-family: 'Cinzel'; font-weight: bold; font-size: 0.95em; margin-right: 5px; text-transform: uppercase;}
 
-/* --- ÉLÉMENTS INTERACTIFS --- */
+/* --- INTERACTIF --- */
 .btn-rune {
     background: #251610; color: var(--gold); padding: 15px 35px;
     font-family: 'Cinzel'; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;
@@ -297,7 +290,6 @@ ul.flavor-list li::before { content: "✦"; color: var(--gold-dim); margin-right
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* Audio Control */
 .audio-control {
     position: fixed; bottom: 20px; right: 20px; z-index: 100;
     background: rgba(0,0,0,0.7); color: var(--gold); width: 50px; height: 50px; border-radius: 50%;
@@ -305,7 +297,7 @@ ul.flavor-list li::before { content: "✦"; color: var(--gold-dim); margin-right
     font-size: 1.5em;
 }
 
-/* --- FOOTER & SEO --- */
+/* --- FOOTER --- */
 .seo-content {
     max-width: 800px; margin: 40px auto; text-align: center; color: #b8aa8a;
     font-family: 'MedievalSharp', cursive; padding: 20px;
