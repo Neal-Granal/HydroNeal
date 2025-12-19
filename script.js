@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
         pageFlip.loadFromHTML(document.querySelectorAll('.page'));
         document.body.classList.remove('fallback-mode');
 
+        // Correction pour que les boutons soient cliquables sur mobile sans tourner la page
         const inputs = document.querySelectorAll('input, button');
         inputs.forEach(el => {
             el.addEventListener('touchstart', (e) => e.stopPropagation());
@@ -20,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
     } catch(e) { console.log("Mode Fallback"); }
 });
 
-// WIDGET SOUNDCLOUD
+// WIDGET SOUNDCLOUD (AUDIO)
 var widget;
 function startAudioOnFirstClick() {
     var iframe = document.querySelector('#sc-player');
@@ -34,30 +35,47 @@ function toggleAudio() {
     widget.toggle();
 }
 
-// TRADUCTEUR
+// TRADUCTEUR RUNIQUE
 const runesMap = {'a':'ᚨ', 'b':'ᛒ', 'c':'ᚲ', 'd':'ᛞ', 'e':'ᛖ', 'f':'ᚠ', 'g':'ᚷ', 'h':'ᚺ', 'i':'ᛁ', 'j':'ᛃ', 'k':'ᚲ', 'l':'ᛚ', 'm':'ᛗ', 'n':'ᚾ', 'o':'ᛟ', 'p':'ᛈ', 'q':'ᚲ', 'r':'ᚱ', 's':'ᛊ', 't':'ᛏ', 'u':'ᚢ', 'v':'ᚢ', 'w':'ᚹ', 'x':'ᚲᛊ', 'y':'ᛃ', 'z':'ᛉ', ' ':' '};
 function translateRunes(text) {
     let res = ""; for (let c of text.toLowerCase()) { res += runesMap[c] || c; }
     document.getElementById('rune-display').textContent = res;
 }
 
-// API GEMINI 1.5 - CLÉ UNIQUE
+// API GEMINI (CORRIGÉE & ROBUSTE)
+// Clé API : AIzaSyCMfqbhNp1vVVP6gNjNchr_veh7PjyFePI
 const apiKey = "AIzaSyCMfqbhNp1vVVP6gNjNchr_veh7PjyFePI"; 
-const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
 
 async function callGemini(prompt) {
+    // Essai 1 : Modèle standard
+    let url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+    
     try {
-        const response = await fetch(apiUrl, {
+        let response = await fetch(url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
         });
+        
+        // Essai 2 : Fallback si erreur 404 (Modèle non trouvé)
+        if (response.status === 404) {
+            console.log("Tentative avec modèle de secours...");
+            url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`;
+            response = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+            });
+        }
+
         const data = await response.json();
-        if (!response.ok) throw new Error("Erreur: " + JSON.stringify(data));
+        if (!response.ok) {
+            throw new Error(data.error?.message || "Erreur inconnue");
+        }
         return data.candidates[0].content.parts[0].text;
     } catch (error) { 
-        console.error(error); 
-        return "Les esprits sont brouillés... (Vérifiez la console)"; 
+        console.error("Erreur API:", error);
+        return "Les esprits sont brouillés... (Erreur API)"; 
     }
 }
 
@@ -86,15 +104,16 @@ async function generateLegend(e) {
     const loader = document.getElementById('legend-loader');
     const output = document.getElementById('legend-output');
     loader.style.display = 'block'; output.innerHTML = '';
-    const prompt = `Alchimiste. Ingrédient: "${input}". Nom hydromel épique + desc courte. JSON: {"nom": "...", "description": "..."}`;
+    const prompt = `Alchimiste médiéval. Ingrédient: "${input}". Nom hydromel épique + desc courte. JSON: {"nom": "...", "description": "..."}`;
     const text = await callGemini(prompt);
     loader.style.display = 'none';
     if (text && text.includes("{")) {
         try {
+            // Nettoyage JSON agressif pour éviter les erreurs de format
             const jsonStr = text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1);
             const data = JSON.parse(jsonStr);
-            output.innerHTML = `<h4 style="color:#8a0b0b; margin:0;">${data.nom}</h4><div style="width:30px; height:2px; background:var(--gold); margin:5px auto;"></div><p id="gen-desc" style="font-size:1em;"></p>`;
+            output.innerHTML = `<h4 style="color:#8a0b0b; border:none; margin:0;">${data.nom}</h4><div style="width:30px; height:2px; background:var(--gold); margin:5px auto;"></div><p id="gen-desc" style="font-size:1em;"></p>`;
             typeWriter(data.description, 'gen-desc', 30);
-        } catch (e) { output.innerHTML = text; }
+        } catch (e) { output.innerHTML = text; } // Si JSON rate, on affiche le texte brut
     } else { output.innerHTML = text || "Échec."; }
 }
