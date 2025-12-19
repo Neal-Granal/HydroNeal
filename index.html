@@ -14,27 +14,21 @@
 </head>
 <body>
 
-    <!-- Écran d'accueil pour lancer le son -->
+    <!-- Écran d'accueil -->
     <div id="start-screen">
         <button class="start-btn" onclick="enterSite()">Entrer dans le Royaume</button>
         <p style="color:#888; font-size:0.8em; margin-top:10px;">(Cliquez pour activer l'ambiance sonore)</p>
     </div>
 
-    <!-- Décors : Bougies Réalistes -->
+    <!-- Décors -->
     <div class="candle-container candle-left">
-        <div class="candle-glow"></div>
-        <div class="candle-flame"></div>
-        <div class="candle-wick"></div>
-        <div class="candle-base"></div>
+        <div class="candle-glow"></div><div class="candle-flame"></div><div class="candle-wick"></div><div class="candle-base"></div>
     </div>
     <div class="candle-container candle-right">
-        <div class="candle-glow"></div>
-        <div class="candle-flame"></div>
-        <div class="candle-wick"></div>
-        <div class="candle-base"></div>
+        <div class="candle-glow"></div><div class="candle-flame"></div><div class="candle-wick"></div><div class="candle-base"></div>
     </div>
 
-    <!-- Audio (SoundCloud) -->
+    <!-- Audio -->
     <iframe id="sc-player" src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/michael-ghelfi/alchemy-laboratory&auto_play=false&show_artwork=false&visual=false" width="1" height="1" scrolling="no" frameborder="0" allow="autoplay" style="position:fixed; top:-100px;"></iframe>
     <div class="audio-control" onclick="toggleAudio()">🔊</div>
 
@@ -48,7 +42,7 @@
     <div class="book-wrapper">
         <div id="book">
             
-            <!-- COUVERTURE AVANT (Rigide) -->
+            <!-- COUVERTURE AVANT -->
             <div class="page page--cover-front" data-density="hard">
                 <div class="page-content">
                     <p class="hint">~ Ouvrir le Grimoire ~</p>
@@ -60,10 +54,11 @@
                 <div class="page-content">
                     <div class="ex-libris">Ex Libris<br>HydroNeal</div>
                     <p style="margin-top:20px; color:#5d4037;">Édition du Centenaire</p>
+                    <p style="font-size:0.8em; margin-top:10px; opacity:0.7;">"Ce qui a été fermenté ne peut être désinventé."</p>
                 </div>
             </div>
 
-            <!-- PAGE 1 : HISTOIRE -->
+            <!-- PAGE 1 : HISTOIRE (Enrichie) -->
             <div class="page">
                 <div class="page-content">
                     <div class="watermark">H</div>
@@ -71,59 +66,61 @@
                     <h2>L'Alchimiste Sauvage</h2>
                     <div class="divider">~ ❦ ~</div>
                     <p class="drop-cap">Né sous les ombrages d'une forêt que les cartes ignorent, là où les hivers mordent plus fort qu'un loup affamé, Neal fut bercé par le chant de la meute.</p>
-                    <p>Mais l'appel du savoir fut plus fort. Il quitta sa tanière pour rejoindre la Citadelle des Sciences. Là-bas, il troqua sa peau de bête pour la blouse d'érudit.</p>
-                    <p>Aujourd'hui, il œuvre dans l'ombre, fusionnant l'instinct animal et la rigueur scientifique pour <strong>façonner</strong> un hydromel unique.</p>
+                    <p>Mais l'appel du savoir fut plus fort. Il quitta sa tanière pour rejoindre la Citadelle des Sciences. Là-bas, il troqua sa peau de bête pour la blouse d'érudit, apprenant le langage des molécules.</p>
+                    <p>Aujourd'hui, il œuvre dans l'ombre, fusionnant l'instinct animal et la rigueur scientifique pour <strong>façonner</strong> un hydromel unique. Il ne cherche pas à dompter la nature, mais à la mettre en bouteille.</p>
                 </div>
             </div>
 
-            <!-- PAGE 2 : RITUEL (Modifié) -->
+            <!-- PAGE 2 : RITUEL (Enrichi) -->
             <div class="page">
                 <div class="page-content">
                     <img src="icone-alchimie.png" alt="Alchimie" class="deco-icon">
                     <h2>Le Rituel Interdit</h2>
                     
                     <h4>I — L’Alliance Nocturne</h4>
-                    <p>Tout commence quand la lune est haute. Le miel de sarrasin, noir et dense comme une nuit sans étoiles, est versé lentement dans l'eau de source.</p>
+                    <p>Tout commence quand la lune est haute. Le miel de sarrasin, noir et dense comme une nuit sans étoiles, est versé lentement dans l'eau de source. Aucun métal ne doit toucher le nectar.</p>
                     
                     <h4>II — La Chambre Secrète</h4>
-                    <p>Le breuvage est scellé dans une pièce à température contrôlée, loin des regards profanes. C'est là que la fermentation opère sa magie silencieuse.</p>
+                    <p>Le breuvage est scellé dans une pièce à température contrôlée, loin des regards profanes. C'est là que la fermentation opère sa magie silencieuse, transformant le sucre en chaleur.</p>
                     
                     <h4>III — La Transmutation</h4>
-                    <p>Patience est mère de vertu. Au fil des lunes, le sucre meurt pour renaître en esprit. Le liquide trouble s'éclaircit pour devenir or liquide.</p>
+                    <p>Patience est mère de vertu. Au fil des lunes, le liquide trouble s'éclaircit pour devenir or liquide. Seuls les fûts jugés dignes par l'Alchimiste verront le jour.</p>
                 </div>
             </div>
 
-            <!-- PAGE 3 : SAVEURS (Étiquettes agrandies, sans bordure) -->
+            <!-- PAGE 3 : SAVEURS (Étiquettes réduites + Texte) -->
             <div class="page">
                 <div class="page-content">
                     <h2>Grimoire des Saveurs</h2>
                     
-                    <div style="display: flex; justify-content: center; gap: 15px; margin-bottom: 25px;">
+                    <!-- Images plus petites via CSS -->
+                    <div style="display: flex; justify-content: center; gap: 15px; margin-bottom: 15px;">
                         <img src="front-label.png" alt="Face" class="label-img">
                         <img src="back-label.png" alt="Dos" class="label-img">
                     </div>
 
                     <div class="divider">~ ❧ ~</div>
-                    <p style="text-align:center; font-style:italic; font-weight:bold; margin-bottom:15px; color:#5d0000;">Cuvée Sarrasin Noir (🌑)</p>
+                    <p style="text-align:center; font-style:italic; font-weight:bold; margin-bottom:10px; color:#5d0000;">Cuvée Sarrasin Noir (🌑)</p>
                     
                     <ul class="flavor-list">
                         <li><span class="tag">Robe :</span> Sombre comme l'ambre fossile.</li>
                         <li><span class="tag">Nez :</span> Puissant. Miel brut, cuir tanné.</li>
                         <li><span class="tag">Bouche :</span> Attaque franche, caramel brûlé.</li>
                     </ul>
+                    <p style="font-size:0.9em; margin-top:10px; font-style:italic;">"Idéal pour accompagner un fromage fort ou une victoire difficile."</p>
                 </div>
             </div>
 
-            <!-- PAGE 4 : RUMEURS -->
+            <!-- PAGE 4 : RUMEURS (Enrichie) -->
             <div class="page">
                 <div class="page-content">
                     <img src="icone-taverne.png" alt="Taverne" class="deco-icon">
                     <h2>Rumeurs de la Taverne</h2>
-                    <p style="text-align:center; opacity:0.8;">Ce que l'on murmure...</p>
+                    <p style="text-align:center; opacity:0.8;">Les murs ont des oreilles, et les tonneaux ont des bouches...</p>
                     
                     <div style="background:rgba(138,11,11,0.05); padding:15px; border-left:4px solid #8a0b0b; margin-bottom:15px;">
-                        <p style="margin:0; font-size:1em; font-style:italic;">"Même un dragon s'arrêterait de cracher du feu pour en boire une goutte."</p>
-                        <span style="display:block; text-align:right; font-family:'Cinzel'; color:#b8860b; font-size:0.85em; margin-top:5px;">- Un voyageur encapuchonné</span>
+                        <p style="margin:0; font-size:1em; font-style:italic;">"On raconte qu'une seule goutte suffit à faire repousser la barbe d'un elfe."</p>
+                        <span style="display:block; text-align:right; font-family:'Cinzel'; color:#b8860b; font-size:0.85em; margin-top:5px;">- Un nain anonyme</span>
                     </div>
                     
                     <div id="ai-rumor-zone" class="generated-content" style="display:none;"></div>
@@ -137,32 +134,48 @@
                 </div>
             </div>
 
-            <!-- PAGE 5 : LE BESTIAIRE -->
+                        <!-- PAGE 9 : CREUSET (Enrichi) -->
+            <div class="page">
+                <div class="page-content">
+                    <h2>Le Creuset des Légendes</h2>
+                    <p style="text-align:center;">L'Alchimiste s'ennuie. Proposez-lui un ingrédient rare pour le défier.</p>
+                    <input type="text" id="ingredient-input" class="input-magic" placeholder="Ex: Piment, Sang de Dragon..." onpointerdown="event.stopPropagation()" onclick="event.stopPropagation()">
+                    <div class="rune-container">
+                        <button class="btn-rune" onclick="generateLegend(event)">Transmuter</button>
+                    </div>
+                    <div class="loader" id="legend-loader"></div>
+                    <div id="legend-output" class="generated-content"></div>
+                    <p style="font-size:0.8em; text-align:center; margin-top:20px; opacity:0.6;">Attention : Les résultats peuvent être instables.</p>
+                </div>
+            </div>
+
+            <!-- PAGE 5 : LE BESTIAIRE (Enrichi) -->
             <div class="page">
                 <div class="page-content">
                     <img src="icone-loup.png" alt="Beast" class="deco-icon">
                     <h2>Le Bestiaire</h2>
                     <div class="divider">~ ⚔ ~</div>
+                    <p style="text-align:center; margin-bottom:20px;">Ils veillent sur les barriques comme des dragons sur leur or.</p>
                     
                     <div class="beast-card">
                         <img src="loup-de-fer.png" class="beast-img" alt="Loup">
                         <div class="beast-info">
                             <span class="beast-name">Le Loup de Fer</span>
-                            <p class="beast-desc">Gardien spirituel de la cuvée.</p>
+                            <p class="beast-desc">Son hurlement fait vibrer le verre et réveille les arômes endormis.</p>
                         </div>
                     </div>
                     
                     <div class="beast-card alt">
                         <div class="beast-info">
                             <span class="beast-name">La Levure Vorace</span>
-                            <p class="beast-desc">Dévore le sucre pour offrir l'esprit.</p>
+                            <p class="beast-desc">Invisibles soldats de l'Alchimiste, ils meurent pour donner vie à l'alcool.</p>
                         </div>
                         <img src="levure-vorace.png" class="beast-img" alt="Levure">
                     </div>
                 </div>
             </div>
 
-            <!-- PAGE 6 : CODE MEUTE (Ajouts) -->
+            <!-- PAGE 6 : CODE MEUTE (Enrichi) -->
             <div class="page">
                 <div class="page-content">
                     <img src="icone-grimoire.png" alt="Livre" class="deco-icon">
@@ -170,65 +183,53 @@
                     <p style="text-align:center; font-weight:bold; color:var(--blood-red);">~ Règles de Dégustation ~</p>
                     
                     <h4>I — Le Respect</h4>
-                    <p>On ne boit pas l'HydroNeal à la légère. Le premier verre se lève toujours vers le Nord.</p>
+                    <p>On ne boit pas l'HydroNeal à la légère. Le premier verre se lève toujours vers le Nord, en hommage aux anciens.</p>
 
                     <h4>II — Le Partage</h4>
-                    <p>Un flacon ouvert ne se referme pas avant d'avoir été partagé. L'hydromel est le lien sacré.</p>
+                    <p>Un flacon ouvert ne se referme pas avant d'avoir été partagé. L'hydromel est le lien sacré qui unit la tribu.</p>
 
                     <h4>III — Le Récipient</h4>
-                    <p>Corne, bois ou verre uniquement. Le métal altère l'âme du miel.</p>
+                    <p>Corne, bois ou verre uniquement. Le métal altère l'âme du miel et offense les abeilles.</p>
 
                     <h4>IV — La Température</h4>
-                    <p>Ni glacé comme la mort, ni bouillant comme l'enfer. Frais comme une source de montagne.</p>
+                    <p>Ni glacé comme la mort, ni bouillant comme l'enfer. Frais comme une source de montagne au printemps.</p>
                 </div>
             </div>
 
-            <!-- PAGE 7 : FAQ (Ajouts) -->
+            <!-- PAGE 7 : FAQ (Enrichie) -->
             <div class="page">
                 <div class="page-content">
                     <h2>Foire Aux Quêtes</h2>
                     <div class="divider">~ ? ~</div>
                     
                     <strong style="color:#8a0b0b;">Q: Quel est ce lieu secret ?</strong>
-                    <p style="font-size:0.95em;">R: Une chambre mystique vouée à la purification et au calme.</p>
+                    <p style="font-size:0.95em;">R: Une chambre mystique vouée à la purification, où le temps s'écoule plus lentement.</p>
                     
                     <strong style="color:#8a0b0b;">Q: Puis-je en donner à mon dragon ?</strong>
-                    <p style="font-size:0.95em;">R: Déconseillé. Le souffle de feu pourrait faire fondre la bouteille.</p>
+                    <p style="font-size:0.95em;">R: Déconseillé. Le souffle de feu résultant pourrait faire fondre la bouteille (et la table).</p>
                     
                     <strong style="color:#8a0b0b;">Q: Combien de temps se garde-t-il ?</strong>
-                    <p style="font-size:0.95em;">R: Tant que la cire scelle le bouchon, il peut attendre le retour du Roi.</p>
+                    <p style="font-size:0.95em;">R: Tant que la cire scelle le bouchon, il peut attendre le retour du Roi. Une fois ouvert, finissez-le.</p>
 
                     <strong style="color:#8a0b0b;">Q: Est-ce Vegan ?</strong>
                     <p style="font-size:0.95em;">R: C'est du miel volé aux abeilles par des ours, puis par nous. Donc non, c'est animal et sauvage.</p>
                 </div>
             </div>
 
-            <!-- PAGE 8 : CARTE -->
+            <!-- PAGE 8 : CARTE (Enrichie) -->
             <div class="page">
                 <div class="page-content">
                     <h2>La Carte du Royaume</h2>
                     <div class="divider">~ 🗺️ ~</div>
-                    <!-- Carte sans bordure -->
                     <img src="carte-royaume.png" class="map-image" style="width:100%; height:auto; mix-blend-mode: multiply; margin: 20px 0;">
                     <p style="font-size:0.9em; margin-top:20px; font-style:italic; text-align:center;">"Tous les chemins mènent à la soif."</p>
+                    <p>Au-delà des montagnes de Glace, là où le sarrasin pousse noir et dru, se trouve la source de notre pouvoir.</p>
                 </div>
             </div>
 
-            <!-- PAGE 9 : CREUSET -->
-            <div class="page">
-                <div class="page-content">
-                    <h2>Le Creuset des Légendes</h2>
-                    <p style="text-align:center;">Proposez un ingrédient rare...</p>
-                    <input type="text" id="ingredient-input" class="input-magic" placeholder="Ex: Piment, Sang de Dragon..." onpointerdown="event.stopPropagation()" onclick="event.stopPropagation()">
-                    <div class="rune-container">
-                        <button class="btn-rune" onclick="generateLegend(event)">Transmuter</button>
-                    </div>
-                    <div class="loader" id="legend-loader"></div>
-                    <div id="legend-output" class="generated-content"></div>
-                </div>
-            </div>
 
-            <!-- DOS : 4ème de Couverture Rigide -->
+
+            <!-- DOS -->
             <div class="page page--cover-back" data-density="hard">
                 <div class="page-content">
                     <!-- Contenu Optionnel pour le dos -->
@@ -238,6 +239,7 @@
         </div>
     </div>
 
+    <!-- Footer -->
     <footer>
         <div class="footer-content">
             <div class="footer-col">
