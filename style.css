@@ -1,86 +1,112 @@
-/* STYLE HYDRONEAL */
-@import url('https://fonts.googleapis.com/css2?family=MedievalSharp&family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;700&family=Uncial+Antiqua&family=Noto+Sans+Runic&display=swap');
+/* --- POLICES --- */
+@import url('https://fonts.googleapis.com/css2?family=MedievalSharp&family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;700&display=swap');
 
 :root {
-    --blood-red: #8a0b0b; --gold: #FFD700; --parchment-bg: #d4c5a3; --ink-color: #2a1a0a;
+    --blood-red: #660000;
+    --gold: #d4af37;
+    --gold-bright: #ffd700;
+    --gold-dim: #8a7020;
+    --parchment-bg: #d4c5a3; 
+    --ink-color: #2a1a0a;
+    --leather-dark: #1a0a0a;
 }
 
+/* --- FOND --- */
 body {
     margin: 0; padding: 0;
-    background-color: #1a0a0a;
-    background-image: radial-gradient(circle at 50% 50%, rgba(0,0,0,0.2), rgba(0,0,0,0.95)), url('https://www.transparenttextures.com/patterns/wood-pattern.png');
+    background-color: #4a0505; 
+    background-image: 
+        url('https://www.transparenttextures.com/patterns/dark-leather.png'),
+        radial-gradient(circle at 50% 40%, #8a1a1a 0%, #2a0000 90%);
     min-height: 100vh;
     display: flex; flex-direction: column; align-items: center;
     font-family: 'MedievalSharp', cursive; overflow-x: hidden; color: #dcbfa0;
 }
 
-/* Particules */
-.firefly {
-    position: fixed; width: 4px; height: 4px; background: #FFF8C6; border-radius: 50%;
-    box-shadow: 0 0 10px 2px rgba(255, 215, 0, 0.4); animation: fly 20s linear infinite; pointer-events: none;
-}
-.firefly:nth-child(1) { left: 20%; top: 80%; animation-duration: 15s; }
-.firefly:nth-child(2) { left: 80%; top: 20%; animation-duration: 25s; }
-.firefly:nth-child(3) { left: 50%; top: 50%; animation-duration: 20s; }
-@keyframes fly { 0% { opacity:0; transform:translate(0,0); } 50% { opacity:1; transform:translate(50px, -50px); } 100% { opacity:0; transform:translate(-50px, -100px); } }
-
-/* Titres */
+/* --- TITRE ANIMÉ --- */
+.title-wrapper { margin-top: 25px; text-align: center; z-index: 10; padding: 0 15px; }
 h1.main-title {
-    font-family: 'Cinzel Decorative'; font-size: 4em; text-align: center; margin-top: 30px;
-    background: linear-gradient(to bottom, #FFD700, #FFF8C6, #D4AF37);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3));
-    animation: glow 3s infinite alternate;
+    font-family: 'Cinzel Decorative', cursive; font-size: 4em; color: var(--gold);
+    text-transform: uppercase; margin: 0;
+    background: linear-gradient(to bottom, #cfc09f 20%,#c5a059 40%,#8a7020 80%); 
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
+    filter: drop-shadow(0 2px 0px rgba(0,0,0,0.5));
+    animation: float 5s ease-in-out infinite; line-height: 1.2;
 }
-@keyframes glow { from { filter: drop-shadow(0 0 5px rgba(255,215,0,0.3)); } to { filter: drop-shadow(0 0 20px rgba(255,215,0,0.8)); } }
-h3.sub-title { font-family: 'Cinzel'; color: #dcbfa0; text-align: center; letter-spacing: 2px; }
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+h3.sub-title { font-family: 'Cinzel', serif; color: #e0c0a0; letter-spacing: 3px; margin-top: 5px; font-size: 1.1em; opacity: 0.9; }
 
-/* Bougies */
-.candle-container { position: fixed; top: 45%; z-index: 5; display: flex; gap: 10px; align-items: flex-end; }
-.candle-left { left: 5%; } .candle-right { right: 5%; }
-.candle-item { position: relative; }
+/* --- BOUGIES --- */
+.candle-container { position: fixed; top: 50%; z-index: 5; pointer-events: none; }
+.candle-left { left: 2%; } .candle-right { right: 2%; }
+@media (max-width: 1300px) { .candle-container { display: none; } }
 .candle-flame {
-    width: 15px; height: 35px; background: radial-gradient(ellipse at bottom, #ffffa0, #ffaa00, transparent);
+    width: 20px; height: 40px; background: radial-gradient(ellipse at bottom, #ffffa0 0%, #ffaa00 50%, transparent 90%);
     border-radius: 50% 50% 35% 35%; animation: flicker 0.1s infinite alternate;
-    margin: 0 auto; transform-origin: bottom center; position: absolute; top: -30px; left: 50%; transform: translateX(-50%);
+    box-shadow: 0 -10px 20px 5px #ffaa00, 0 -20px 40px 10px rgba(255, 100, 0, 0.5); margin: 0 auto;
 }
-@keyframes flicker { 0% { transform:translateX(-50%) scale(1); opacity:0.9; } 100% { transform:translateX(-50%) scale(1.1); opacity:1; } }
-.candle-base { width: 30px; height: 100px; background: linear-gradient(90deg, #3e2723, #5d4037, #281815); margin: 0 auto; border-radius: 3px; }
+@keyframes flicker { 0% { transform: scale(1); opacity: 0.9; } 100% { transform: scale(1.05); opacity: 1; } }
+.candle-base { width: 40px; height: 120px; background: linear-gradient(90deg, #3e2723, #5d4037, #281815); margin: -5px auto 0; border-radius: 4px; }
 
-/* Livre */
-.book-wrapper { margin: 30px 0; width: 95vw; display: flex; justify-content: center; z-index: 10;}
-.page { background: var(--parchment-bg); width: 480px; height: 720px; display: none; }
+/* --- LIVRE --- */
+.book-wrapper { margin: 20px 0 50px 0; width: 95vw; display: flex; justify-content: center; min-height: 600px; }
+.page { background-color: var(--parchment-bg); width: 400px; height: 600px; display: none; }
 .page-loaded { display: block; }
 .page-content {
-    width: 100%; height: 100%; padding: 40px; box-sizing: border-box;
-    background: url('https://www.transparenttextures.com/patterns/aged-paper.png');
-    box-shadow: inset 0 0 80px rgba(60,40,20,0.2);
-    border: 1px solid rgba(139,69,19,0.2); position: relative;
-    color: var(--ink-color);
+    width: 100%; height: 100%; padding: 30px; box-sizing: border-box;
+    background-color: var(--parchment-bg);
+    background-image: url('https://www.transparenttextures.com/patterns/aged-paper.png');
+    box-shadow: inset 0 0 60px rgba(60,40,20,0.4);
+    color: var(--ink-color); border: 1px solid rgba(139,69,19,0.2);
+    position: relative; overflow: hidden; display: flex; flex-direction: column;
 }
 
-/* Images & Couvertures */
-.page--cover-front .page-content { padding:0 !important; background:#050505; border:none; background-image:url('couverturegrimoire.png'); background-size:cover; }
-.page--cover-back .page-content { padding:0 !important; background:#050505; border:none; background-image:url('couverturearriere.png'); background-size:cover; }
-.page--inside-cover .page-content { background:#2a1a0a; color:#C5A059; text-align:center; display:flex; flex-direction:column; justify-content:center; }
+/* --- IMAGES (Chemins directs sans dossier) --- */
+.page--cover-front .page-content { padding: 0; background: #000 url('couverturegrimoire.png') center/cover; }
+.page--cover-back .page-content { padding: 0; background: #000 url('couverturearriere.png') center/cover; }
+.page--inside-cover .page-content { background: #2a1a0a url('https://www.transparenttextures.com/patterns/dark-leather.png'); justify-content: center; align-items: center; }
+.page--cover-front .hint { position: absolute; bottom: 20px; width: 100%; text-align: center; color: rgba(255,255,255,0.7); font-weight: bold; animation: pulse 2s infinite; }
+@keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
 
-.deco-icon { width: 80px; display: block; margin: 0 auto 15px; } /* Filtre enlevé */
-.map-image { width: 100%; margin: 15px 0; } /* Filtre enlevé */
-.beast-card { display: flex; gap: 10px; border: 1px solid #C5A059; padding: 10px; margin-top: 15px; background: rgba(0,0,0,0.05); }
-.beast-img { width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--blood-red); object-fit: cover; }
-.btn-rune { background: #251610; color: var(--gold); padding: 10px 20px; border: 1px solid #C5A059; cursor: pointer; display: block; margin: 20px auto; font-family: 'Cinzel'; }
-.input-magic { background: transparent; border: none; border-bottom: 2px solid var(--blood-red); font-family: 'MedievalSharp'; font-size: 1.2em; width: 80%; margin: 10px auto; display: block; text-align: center; }
-.loader { width: 30px; height: 30px; border: 3px solid var(--gold); border-top-color: transparent; border-radius: 50%; animation: spin 1s linear infinite; margin: 10px auto; }
+/* --- CONTENU --- */
+h2 { font-family: 'Cinzel Decorative'; color: var(--blood-red); font-size: 2em; text-align: center; border-bottom: 3px double rgba(138,11,11,0.4); padding-bottom: 10px; margin-bottom: 20px; }
+h4 { font-family: 'Cinzel'; color: #4a0404; font-size: 1.2em; margin: 20px 0 5px; font-weight: bold; text-transform: uppercase; }
+p { font-size: 1.15em; line-height: 1.4; text-align: justify; margin: 0 0 15px; }
+
+/* IMAGES SANS FILTRES COULEUR (MODIFIÉ) */
+.deco-icon { width: 100px; display: block; margin: 0 auto 15px; }
+.beast-img { width: 140px; height: 140px; object-fit: cover; border-radius: 50%; border: 3px solid var(--blood-red); }
+.map-image { width: 100%; margin: 20px 0; }
+.beast-card { display: flex; gap: 15px; border: 1px solid #b8860b; padding: 10px; margin-top: 15px; background: rgba(0,0,0,0.05); }
+.beast-card.alt { flex-direction: row-reverse; text-align: left; }
+
+/* --- UI --- */
+.btn-magic {
+    background: linear-gradient(135deg, rgba(74, 4, 4, 0.1), rgba(74, 4, 4, 0.2));
+    color: #4a0404; padding: 12px 25px; font-family: 'Cinzel', serif; border: 2px solid #4a0404; 
+    cursor: pointer; display: block; margin: 20px auto; font-weight: bold;
+}
+.input-magic {
+    background: transparent; border: none; border-bottom: 2px solid var(--blood-red);
+    font-family: 'MedievalSharp'; font-size: 1.4em; width: 90%; margin: 15px auto; display: block; text-align: center;
+}
+.generated-content { min-height: 80px; border: 2px dashed rgba(138,11,11,0.3); padding: 15px; margin-top: 20px; font-style: italic; background: rgba(255,255,255,0.2); text-align: center; }
+.loader { display: none; width: 30px; height: 30px; border: 3px solid var(--gold); border-top-color: transparent; border-radius: 50%; animation: spin 1s linear infinite; margin: 10px auto; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* UI */
-#start-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; display: flex; justify-content: center; align-items: center; }
+/* --- FOOTER --- */
+footer { width: 100%; background: #1a0a0a; color: #dcbfa0; padding: 40px 20px; margin-top: auto; text-align: center; border-top: 4px solid var(--gold-dim); }
+.legal { margin-top: 30px; font-size: 0.8em; opacity: 0.5; }
+
+/* START SCREEN */
 .start-btn { padding: 20px 40px; font-size: 1.5em; background: transparent; color: var(--gold); border: 2px solid var(--gold); cursor: pointer; font-family: 'Cinzel Decorative'; text-transform: uppercase; }
 .audio-control { position: fixed; bottom: 20px; right: 20px; z-index: 100; font-size: 2em; cursor: pointer; }
 
+/* --- MOBILE --- */
 @media (max-width: 1000px) {
-    h1.main-title { font-size: 2.5em; }
-    .candle-container { display: none; }
-    .book-wrapper { flex-direction: column; width: 100%; }
-    .page { width: 100% !important; height: auto !important; margin-bottom: 20px; display: block !important; }
+    h1.main-title { font-size: 3em; }
+    .book-wrapper { width: 100%; padding: 0 10px; box-sizing: border-box; }
+    .page-content { padding: 25px 20px; }
 }
+.fallback-mode .book-wrapper { flex-direction: column; align-items: center; gap: 20px; }
+.fallback-mode .page { position: relative !important; width: 100% !important; max-width: 600px; height: auto !important; display: block !important; margin-bottom: 20px; }
