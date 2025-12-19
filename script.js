@@ -5,7 +5,7 @@
 
 // --- CONFIGURATION ---
 // IMPORTANT : Remplace cette URL par celle de ton backend une fois déployé (ex: https://mon-projet.onrender.com/generate)
-const BACKEND_URL = "https://VOTRE-URL-BACKEND-ICI.onrender.com/generate"; 
+const BACKEND_URL = "https://backend-hydroneal.onrender.com"; 
 const TYPING_SPEED = 30;
 
 // Note: On n'importe plus GoogleGenerativeAI ici car c'est le backend qui gère ça.
