@@ -165,12 +165,12 @@ h3.sub-title {
 
 /* --- ETIQUETTES (AGRANDIES DESKTOP & CLIQUABLES) --- */
 .label-img {
-    height: 280px; /* Plus grand sur PC */
+    height: 240px; /* ENCORE PLUS GRAND */
     width: auto; max-width: 45%; object-fit: contain; border: none; 
     filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3)); transition: transform 0.3s;
     cursor: zoom-in; /* Curseur loupe */
 }
-.label-img:hover { transform: scale(1.05) rotate(2deg); filter: drop-shadow(0 10px 15px rgba(0,0,0,0.4)); }
+.label-img:hover { transform: scale(2) rotate(2deg); filter: drop-shadow(0 10px 15px rgba(0,0,0,0.4)); }
 
 /* Couvertures */
 .page--cover-front .page-content {
