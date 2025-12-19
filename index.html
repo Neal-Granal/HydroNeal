@@ -36,7 +36,7 @@
     <iframe id="sc-player" src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/michael-ghelfi/alchemy-laboratory&auto_play=false&show_artwork=false&visual=false" width="1" height="1" scrolling="no" frameborder="0" allow="autoplay" style="position:fixed; top:-100px;"></iframe>
     <div class="audio-control" onclick="toggleAudio()">🔊</div>
 
-    <!-- En-tête Magique -->
+    <!-- En-tête -->
     <div class="title-wrapper">
         <h1 class="main-title">HydroNeal</h1>
         <h3 class="sub-title">Brassé dans l'ombre, partagé dans la lumière</h3>
@@ -66,28 +66,33 @@
             <div class="page">
                 <div class="page-content">
                     <div class="watermark">H</div>
-                    <img src="icone-loup.png" alt="Loup" class="deco-icon">
                     <h2>L'Alchimiste Sauvage</h2>
                     <div class="divider">~ ❦ ~</div>
                     <p class="drop-cap">Né sous les ombrages d'une forêt que les cartes ignorent, là où les hivers mordent plus fort qu'un loup affamé, Neal fut bercé par le chant de la meute.</p>
                     <p>Mais l'appel du savoir fut plus fort. Il quitta sa tanière pour rejoindre la Citadelle des Sciences. Là-bas, il troqua sa peau de bête pour la blouse d'érudit.</p>
                     <p>Aujourd'hui, il œuvre dans l'ombre, fusionnant l'instinct animal et la rigueur scientifique pour <strong>façonner</strong> un hydromel unique.</p>
-                    <div class="page-bottom-mark"><img src="icone-loup.png"></div>
+                    
+                    <!-- LOGO EN BAS -->
+                    <div class="page-bottom-mark"><img src="icone-loup.png" alt="Sceau Loup"></div>
                 </div>
             </div>
 
             <!-- PAGE 2 : RITUEL -->
             <div class="page">
                 <div class="page-content">
-                    <img src="icone-alchimie.png" alt="Alchimie" class="deco-icon">
                     <h2>Le Rituel Interdit</h2>
+                    
                     <h4>I — L’Alliance Nocturne</h4>
                     <p>Tout commence quand la lune est haute. Le miel de sarrasin, noir et dense comme une nuit sans étoiles, est versé lentement dans l'eau de source.</p>
+                    
                     <h4>II — La Chambre Secrète</h4>
                     <p>Le breuvage est scellé dans une pièce à température contrôlée. C'est là que la fermentation opère sa magie silencieuse.</p>
+                    
                     <h4>III — La Transmutation</h4>
                     <p>Au fil des lunes, le sucre meurt pour renaître en esprit. Le liquide trouble s'éclaircit pour devenir or liquide.</p>
-                    <div class="page-bottom-mark"><img src="icone-loup.png"></div>
+
+                    <!-- LOGO EN BAS -->
+                    <div class="page-bottom-mark"><img src="icone-alchimie.png" alt="Sceau Alchimie"></div>
                 </div>
             </div>
 
@@ -95,41 +100,52 @@
             <div class="page">
                 <div class="page-content">
                     <h2>Grimoire des Saveurs</h2>
-                    <div style="display: flex; justify-content: center; gap: 15px; margin-bottom: 15px;">
+                    
+                    <div style="display: flex; justify-content: center; gap: 15px; margin-bottom: 25px;">
                         <img src="front-label.png" alt="Face" class="label-img">
                         <img src="back-label.png" alt="Dos" class="label-img">
                     </div>
+
                     <div class="divider">~ ❧ ~</div>
                     <p style="text-align:center; font-style:italic; font-weight:bold; margin-bottom:10px; color:#5d0000;">Cuvée Sarrasin Noir (🌑)</p>
+                    
                     <ul class="flavor-list">
                         <li><span class="tag">Robe :</span> Sombre comme l'ambre fossile.</li>
                         <li><span class="tag">Nez :</span> Puissant. Miel brut, cuir tanné.</li>
                         <li><span class="tag">Bouche :</span> Attaque franche, caramel brûlé.</li>
                     </ul>
-                    <div class="page-bottom-mark"><img src="icone-loup.png"></div>
+                    
+                    <!-- LOGO EN BAS -->
+                    <div class="page-bottom-mark"><img src="icone-loup.png" alt="Sceau"></div>
                 </div>
             </div>
 
             <!-- PAGE 4 : RUMEURS -->
             <div class="page">
                 <div class="page-content">
-                    <img src="icone-taverne.png" alt="Taverne" class="deco-icon">
                     <h2>Rumeurs de la Taverne</h2>
                     <p style="text-align:center; opacity:0.8;">Ce que l'on murmure...</p>
+                    
                     <div style="background:rgba(138,11,11,0.05); padding:15px; border-left:4px solid #8a0b0b; margin-bottom:15px;">
                         <p style="margin:0; font-size:1em; font-style:italic;">"On raconte qu'une seule goutte suffit à faire repousser la barbe d'un elfe."</p>
                         <span style="display:block; text-align:right; font-family:'Cinzel'; color:#b8860b; font-size:0.85em; margin-top:5px;">- Un nain anonyme</span>
                     </div>
+                    
                     <div id="ai-rumor-zone" class="generated-content" style="display:none;"></div>
                     <div class="loader" id="rumor-loader"></div>
+
                     <div class="rune-container">
-                        <button class="btn-rune" onclick="generateRumor(event)">Consulter les Esprits</button>
+                        <button class="btn-rune" onclick="generateRumor(event)">
+                            Consulter les Esprits
+                        </button>
                     </div>
-                    <div class="page-bottom-mark"><img src="icone-loup.png"></div>
+
+                    <!-- LOGO EN BAS -->
+                    <div class="page-bottom-mark"><img src="icone-taverne.png" alt="Sceau Taverne"></div>
                 </div>
             </div>
 
-            <!-- PAGE 5 : CREUSET (DÉPLACÉ ICI) -->
+            <!-- PAGE 5 : CREUSET -->
             <div class="page">
                 <div class="page-content">
                     <h2>Le Creuset des Légendes</h2>
@@ -141,88 +157,114 @@
                     <div class="loader" id="legend-loader"></div>
                     <div id="legend-output" class="generated-content"></div>
                     <p style="font-size:0.8em; text-align:center; margin-top:20px; opacity:0.6;">Attention : Les résultats peuvent être instables.</p>
-                    <div class="page-bottom-mark"><img src="icone-loup.png"></div>
+                    
+                    <!-- LOGO EN BAS -->
+                    <div class="page-bottom-mark"><img src="icone-alchimie.png" alt="Sceau"></div>
                 </div>
             </div>
 
-            <!-- PAGE 6 : LE BESTIAIRE -->
+            <!-- PAGE 6 : LE BESTIAIRE (Enrichi) -->
             <div class="page">
                 <div class="page-content">
-                    <img src="icone-loup.png" alt="Beast" class="deco-icon">
                     <h2>Le Bestiaire</h2>
                     <div class="divider">~ ⚔ ~</div>
-                    <p style="text-align:center; margin-bottom:20px;">Ils veillent sur les barriques comme des dragons.</p>
+                    <p style="text-align:center; margin-bottom:20px; font-style:italic;">Gardiens des Cuves Souterraines</p>
+                    
                     <div class="beast-card">
                         <img src="loup-de-fer.png" class="beast-img" alt="Loup">
-                        <div class="beast-info"><span class="beast-name">Le Loup de Fer</span><p class="beast-desc">Son hurlement fait vibrer le verre.</p></div>
+                        <div class="beast-info">
+                            <span class="beast-name">Le Loup de Fer</span>
+                            <p class="beast-desc">Esprit protecteur invoqué lors de la pleine lune. On dit qu'il rôde autour des fûts, empêchant le vinaigre de corrompre le vin. Son souffle sent le sarrasin brûlé.</p>
+                        </div>
                     </div>
+                    
                     <div class="beast-card alt">
-                        <div class="beast-info"><span class="beast-name">La Levure Vorace</span><p class="beast-desc">Invisibles soldats de l'Alchimiste.</p></div>
+                        <div class="beast-info">
+                            <span class="beast-name">La Levure Vorace</span>
+                            <p class="beast-desc">Une colonie d'entités microscopiques insatiables. Elles ne demandent aucun salaire, seulement du sucre, et paient leur dette en ivresse divine.</p>
+                        </div>
                         <img src="levure-vorace.png" class="beast-img" alt="Levure">
                     </div>
-                    <div class="page-bottom-mark"><img src="icone-loup.png"></div>
+
+                    <!-- LOGO EN BAS -->
+                    <div class="page-bottom-mark"><img src="icone-loup.png" alt="Sceau"></div>
                 </div>
             </div>
 
             <!-- PAGE 7 : CODE MEUTE -->
             <div class="page">
                 <div class="page-content">
-                    <img src="icone-grimoire.png" alt="Livre" class="deco-icon">
                     <h2>Le Code de la Meute</h2>
                     <p style="text-align:center; font-weight:bold; color:var(--blood-red);">~ Règles de Dégustation ~</p>
+                    
                     <h4>I — Le Respect</h4>
                     <p>On ne boit pas l'HydroNeal à la légère. Le premier verre se lève toujours vers le Nord.</p>
+
                     <h4>II — Le Partage</h4>
-                    <p>Un flacon ouvert ne se referme pas avant d'avoir été partagé.</p>
+                    <p>Un flacon ouvert ne se referme pas avant d'avoir été partagé. L'hydromel est le lien sacré.</p>
+
                     <h4>III — La Température</h4>
                     <p>Ni glacé comme la mort, ni bouillant comme l'enfer. Frais comme une source de montagne.</p>
-                    <div class="page-bottom-mark"><img src="icone-loup.png"></div>
+
+                    <!-- LOGO EN BAS -->
+                    <div class="page-bottom-mark"><img src="icone-grimoire.png" alt="Sceau"></div>
                 </div>
             </div>
 
-            <!-- PAGE 8 : FAQ (ENRICHIE) -->
+            <!-- PAGE 8 : FAQ (Enrichie +3 questions) -->
             <div class="page">
                 <div class="page-content">
                     <h2>Foire Aux Quêtes</h2>
                     <div class="divider">~ ? ~</div>
                     
                     <strong style="color:#8a0b0b;">Q: Quel est ce lieu secret ?</strong>
-                    <p style="font-size:0.95em;">R: Une chambre mystique vouée à la purification, où le temps s'écoule plus lentement.</p>
+                    <p style="font-size:0.95em;">R: Une chambre mystique vouée à la purification.</p>
                     
                     <strong style="color:#8a0b0b;">Q: Livrez-vous aux Donjons ?</strong>
                     <p style="font-size:0.95em;">R: Uniquement si la herse est levée. Nos coursiers craignent les gobelins.</p>
                     
-                    <strong style="color:#8a0b0b;">Q: Combien de temps se garde-t-il ?</strong>
-                    <p style="font-size:0.95em;">R: Tant que la cire scelle le bouchon, il peut attendre le retour du Roi.</p>
+                    <strong style="color:#8a0b0b;">Q: Acceptez-vous les pièces d'or ?</strong>
+                    <p style="font-size:0.95em;">R: Nous préférons les virements interbancaires, les coffres sont trop lourds à porter.</p>
+
+                    <strong style="color:#8a0b0b;">Q: Effets secondaires notables ?</strong>
+                    <p style="font-size:0.95em;">R: Une envie soudaine de chanter des chants paillards et une légère augmentation du charisme (+2).</p>
 
                     <strong style="color:#8a0b0b;">Q: Est-ce Vegan ?</strong>
-                    <p style="font-size:0.95em;">R: C'est du miel volé aux abeilles par des ours, puis par nous. Donc non.</p>
-                    <div class="page-bottom-mark"><img src="icone-loup.png"></div>
+                    <p style="font-size:0.95em;">R: C'est du miel volé aux abeilles. Donc non.</p>
+
+                    <!-- LOGO EN BAS -->
+                    <div class="page-bottom-mark"><img src="icone-loup.png" alt="Sceau"></div>
                 </div>
             </div>
 
-            <!-- PAGE 9 : CARTE (RETOUCHE BLANC) -->
+            <!-- PAGE 9 : CARTE (SANS FOND BLANC) -->
             <div class="page">
                 <div class="page-content">
                     <h2>La Carte du Royaume</h2>
                     <div class="divider">~ 🗺️ ~</div>
-                    <!-- Class pour enlever le blanc -->
+                    
+                    <!-- Carte sans fond blanc grâce au CSS -->
                     <img src="carte-royaume.png" class="map-image" style="width:100%; height:auto; margin: 20px 0;">
+                    
                     <p style="font-size:0.9em; margin-top:20px; font-style:italic; text-align:center;">"Tous les chemins mènent à la soif."</p>
                     <p>Au-delà des montagnes de Glace, là où le sarrasin pousse noir et dru, se trouve la source de notre pouvoir.</p>
-                    <div class="page-bottom-mark"><img src="icone-loup.png"></div>
+                    
+                    <!-- LOGO EN BAS -->
+                    <div class="page-bottom-mark"><img src="icone-loup.png" alt="Sceau"></div>
                 </div>
             </div>
 
             <!-- DOS -->
             <div class="page page--cover-back" data-density="hard">
-                <div class="page-content"></div>
+                <div class="page-content">
+                    <!-- Contenu Optionnel pour le dos -->
+                </div>
             </div>
 
         </div>
     </div>
 
-    <!-- Footer Amélioré -->
+    <!-- Footer -->
     <footer>
         <div class="footer-content">
             <div class="footer-col">
@@ -245,7 +287,7 @@
             </div>
         </div>
         <div class="legal">
-            <p>© 2025 HydroNeal. L'abus d'alcool est dangereux pour la santé (même celle des Orques).</p>
+            <p>© 2025 HydroNeal. L'abus d'alcool est dangereux pour la santé.</p>
         </div>
     </footer>
 
