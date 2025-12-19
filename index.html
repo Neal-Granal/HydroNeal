@@ -1,13 +1,249 @@
+<!DOCTYPE html>
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HydroNeal – Hydromel & Grimoire</title>
+    <link rel="icon" href="icone-loup.png" type="image/png">
     
-    <link rel="stylesheet" href="css/style.css"> 
+    <title>HydroNeal – Hydromel artisanal & Grimoire Alchimique</title>
+    <meta name="description" content="HydroNeal est un hydromel artisanal d’inspiration médiévale. Découvrez le Grand Grimoire.">
     
+    <!-- CSS GLOBAL -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- LIBRAIRIES EXTERNES -->
     <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.min.js"></script>
     <script src="https://w.soundcloud.com/player/api.js"></script>
 </head>
 <body class="fallback-mode">
 
-    <script src="js/config.js"></script>  <script src="js/gemini.js"></script>  <script src="js/main.js"></script>    </body>
+    <!-- ECRAN D'ACCUEIL POUR LE SON -->
+    <div id="start-screen">
+        <button class="start-btn">Entrer dans le Royaume</button>
+    </div>
+
+    <!-- PARTICULES (Les lucioles sont gérées en CSS maintenant) -->
+    <div class="firefly"></div>
+    <div class="firefly"></div>
+    <div class="firefly"></div>
+
+    <!-- BOUGIES -->
+    <div class="candle-container candle-left">
+        <div class="candle-item"><div class="candle-flame"></div><div class="candle-wick"></div><div class="candle-base"></div></div>
+        <div class="candle-item candle-small"><div class="candle-flame"></div><div class="candle-wick"></div><div class="candle-base"></div></div>
+    </div>
+    <div class="candle-container candle-right">
+        <div class="candle-item"><div class="candle-flame"></div><div class="candle-wick"></div><div class="candle-base"></div></div>
+        <div class="candle-item candle-small"><div class="candle-flame"></div><div class="candle-wick"></div><div class="candle-base"></div></div>
+    </div>
+
+    <!-- AUDIO -->
+    <!-- CORRECTION : Ajout de 'encrypted-media' pour corriger l'erreur de permission -->
+    <iframe id="sc-player" 
+            src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/michael-ghelfi/alchemy-laboratory&auto_play=false&show_artwork=false&visual=false" 
+            width="1" height="1" scrolling="no" frameborder="0" 
+            allow="autoplay; encrypted-media" 
+            style="position:fixed; top:-100px;">
+    </iframe>
+    <div class="audio-control" onclick="window.toggleAudio()">🔊</div>
+
+    <div class="title-wrapper">
+        <h1 class="main-title">HydroNeal</h1>
+        <h3 class="sub-title">Brassé dans l'ombre, partagé dans la lumière</h3>
+    </div>
+
+    <div class="book-wrapper">
+        <div id="book">
+            
+            <!-- 0: COUVERTURE AVANT -->
+            <div class="page page--cover-front page-loaded">
+                <div class="page-content">
+                    <p class="hint">~ Ouvrir le Grimoire ~</p>
+                </div>
+            </div>
+
+            <!-- 1: GARDE -->
+            <div class="page page--inside-cover page-loaded">
+                <div class="page-content">
+                    <div class="ex-libris">Ex Libris<br>HydroNeal</div>
+                    <p style="margin-top:20px; color:#888; font-size:0.9em;">Édition du Centenaire</p>
+                </div>
+            </div>
+
+            <!-- 2: HISTOIRE -->
+            <div class="page page-loaded"><div class="page-content">
+                <div class="watermark">H</div>
+                <img src="icone-loup.png" alt="Loup" class="deco-icon">
+                <h2>L'Alchimiste Sauvage</h2>
+                <div class="divider">~ ❦ ~</div>
+                <p class="drop-cap">Né sous les ombrages d'une forêt que les cartes ignorent, là où les hivers mordent plus fort qu'un loup affamé, Neal fut bercé par le chant de la meute. Les anciens racontent qu'il apprit à écouter la sève des arbres avant même de savoir parler.</p>
+                <p>Mais l'appel du savoir fut plus fort que celui des bois. Il quitta sa tanière pour la <strong>Cité aux 1000 Clochers</strong>. Dans ce labyrinthe de pierre, il troqua sa peau de bête pour la blouse d'érudit.</p>
+                <p>Aujourd'hui, il œuvre dans l'ombre, fusionnant l'instinct animal et la rigueur scientifique pour <strong>façonner</strong> un hydromel unique.</p>
+            </div></div>
+
+            <!-- 3: RITUEL -->
+            <div class="page page-loaded"><div class="page-content">
+                <img src="icone-alchimie.png" alt="Alchimie" class="deco-icon">
+                <h2>Le Rituel Interdit</h2>
+                <h4>I — L’Alliance Nocturne</h4>
+                <p>Le miel de sarrasin, noir et dense, est versé lentement dans l'eau de source purifiée. C'est ici que les levures ancestrales sont éveillées.</p>
+                <h4>II — La Chambre des Eaux</h4>
+                <p>Le breuvage sacré est scellé et transporté dans le <strong>Sanctuaire de Faïence</strong>. C'est une chambre aux murs blancs où l'eau pure coule sur commande. Caché aux yeux des profanes, l'hydromel fermente en paix.</p>
+                <h4>III — La Transmutation</h4>
+                <p>Au fil des lunes, le sucre meurt pour renaître en esprit. Le liquide trouble s'éclaircit, révélant son âme dorée.</p>
+            </div></div>
+
+            <!-- 4: SAVEURS -->
+            <div class="page page-loaded"><div class="page-content">
+                <h2>Grimoire des Saveurs</h2>
+                <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 20px;">
+                    <img src="front-label.png" alt="Face" style="height: 250px; object-fit: contain;">
+                    <img src="back-label.png" alt="Dos" style="height: 250px; object-fit: contain;">
+                </div>
+                <div class="divider">~ ❧ ~</div>
+                <p style="text-align:center; font-weight:bold; color:#5d0000;">Cuvée Sarrasin Noir (🌑)</p>
+                <ul class="flavor-list">
+                    <li><span class="tag">Robe :</span> Sombre comme l'ambre fossile.</li>
+                    <li><span class="tag">Nez :</span> Puissant. Miel brut, cuir tanné.</li>
+                    <li><span class="tag">Bouche :</span> Attaque franche, corps robuste.</li>
+                </ul>
+            </div></div>
+
+            <!-- 5: RUMEURS (IA) -->
+            <div class="page page-loaded"><div class="page-content">
+                <img src="icone-taverne.png" alt="Taverne" class="deco-icon">
+                <h2>Rumeurs de la Taverne</h2>
+                <p style="text-align:center; opacity:0.8;">Ce que l'on murmure dans les auberges...</p>
+                <div style="background:rgba(138,11,11,0.05); padding:10px; border-left:4px solid #8a0b0b; margin-bottom:15px;">
+                    <p style="margin:0; font-style:italic;">"On raconte que celui qui le brasse parle aux loups les nuits de pleine lune... et que les loups lui répondent."</p>
+                    <span style="display:block; text-align:right; font-family:'Cinzel'; color:#b8860b; font-size:0.85em;">- Vieux voyageur</span>
+                </div>
+                
+                <div id="ai-rumor-zone" class="generated-content" style="display:none;"></div>
+                <div class="loader" id="rumor-loader"></div>
+                
+                <div class="rune-container">
+                    <!-- Note: onclick appelle maintenant une fonction globale définie dans main.js -->
+                    <button class="btn-rune" onclick="window.generateRumor(event)" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()">
+                        Consulter les Esprits
+                    </button>
+                </div>
+            </div></div>
+
+            <!-- 6: CREUSET (IA) -->
+            <div class="page page-loaded"><div class="page-content">
+                <h2>Le Creuset des Légendes</h2>
+                <p style="text-align:center;">Proposez un ingrédient rare...</p>
+                <input type="text" id="ingredient-input" class="input-magic" placeholder="Ex: Larmes de Dragon..." 
+                       onpointerdown="event.stopPropagation()" onclick="event.stopPropagation()">
+                <div class="rune-container">
+                    <button class="btn-rune" onclick="window.generateLegend(event)" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()">
+                        Transmuter
+                    </button>
+                </div>
+                <div class="loader" id="legend-loader"></div>
+                <div id="legend-output" class="generated-content"></div>
+            </div></div>
+
+            <!-- 7: LE BESTIAIRE -->
+            <div class="page page-loaded"><div class="page-content">
+                <img src="icone-loup.png" alt="Beast" class="deco-icon">
+                <h2>Le Bestiaire</h2>
+                <div class="divider">~ ⚔ ~</div>
+                
+                <div class="beast-card">
+                    <img src="loup-de-fer.png" class="beast-img" alt="Loup">
+                    <div class="beast-info">
+                        <span class="beast-name">Le Loup de Fer</span>
+                        <p class="beast-desc">Gardien spirituel de la cuvée. Son hurlement fait vibrer les touries.</p>
+                    </div>
+                </div>
+
+                <div class="beast-card alt">
+                    <div class="beast-info">
+                        <span class="beast-name">Levure Vorace</span>
+                        <p class="beast-desc">Microscopique mais redoutable. Elle dévore le sucre pour offrir l'esprit.</p>
+                    </div>
+                    <img src="levure-vorace.png" class="beast-img" alt="Levure">
+                </div>
+            </div></div>
+
+            <!-- 8: CARTE -->
+            <div class="page page-loaded"><div class="page-content">
+                <h2>La Carte du Royaume</h2>
+                <div class="divider">~ 🗺️ ~</div>
+                <img src="carte-royaume.png" class="map-image" alt="Carte du royaume">
+                <p style="font-size:0.9em; margin-top:10px; font-style:italic; text-align:center;">"Tous les chemins mènent à la Chambre des Eaux."</p>
+                <p>Le royaume souterrain s'étend bien au-delà des murs visibles. C'est un réseau de connaissances qui relie chaque bouteille à son buveur.</p>
+            </div></div>
+
+            <!-- 9: CODE MEUTE -->
+            <div class="page page-loaded"><div class="page-content">
+                <img src="icone-grimoire.png" alt="Livre" class="deco-icon">
+                <h2>Le Code de la Meute</h2>
+                <p style="text-align:center; font-weight:bold; color:var(--blood-red);">~ Règles de Dégustation ~</p>
+                <h4>I — Le Respect</h4>
+                <p>On ne boit pas l'HydroNeal à la légère. Le premier verre se lève toujours vers le Nord.</p>
+                <h4>II — Le Partage</h4>
+                <p>Un flacon ouvert ne se referme pas avant d'avoir été partagé.</p>
+                <h4>III — La Modération</h4>
+                <p>La bête qui sommeille en chacun doit être nourrie, pas réveillée violemment.</p>
+            </div></div>
+
+            <!-- 10: FAQ -->
+            <div class="page page-loaded"><div class="page-content">
+                <h2>Foire Aux Quêtes</h2>
+                <div class="divider">~ ? ~</div>
+                <strong style="color:#8a0b0b;">Q: Quel est ce lieu secret ?</strong>
+                <p style="font-size:0.95em;">R: Une chambre mystique aux murs lisses et blancs.</p>
+                <strong style="color:#8a0b0b;">Q: Comment le conserver ?</strong>
+                <p style="font-size:0.95em;">R: À l'abri de la lumière, au frais, debout.</p>
+                <strong style="color:#8a0b0b;">Q: Avec quoi le boire ?</strong>
+                <p style="font-size:0.95em;">R: Viandes fumées, fromages forts.</p>
+                <strong style="color:#8a0b0b;">Q: Où trouver ce nectar ?</strong>
+                <p style="font-size:0.95em;">R: Il ne se trouve pas, il se mérite. Contactez l'Alchimiste.</p>
+            </div></div>
+
+            <!-- 11: ARCHIVES -->
+            <div class="page page-loaded"><div class="page-content">
+                <h2>Les Archives Oubliées</h2>
+                <div class="divider">~ ⚔ ~</div>
+                <div style="text-align:center; margin-top:30px; color:#555;">
+                    <p><strong>✦ Le Sang des Framboises ✦</strong><br>Une cuvée vive et acidulée.</p>
+                    <p><strong>✦ L’Or Bleu des Marais ✦</strong><br>Fermenté avec des bleuets sauvages.</p>
+                </div>
+            </div></div>
+
+            <!-- 12: RUNES -->
+            <div class="page page-loaded"><div class="page-content">
+                <h2>Sceau Runique</h2>
+                <p style="text-align:center; font-size:0.9em;">Inscrivez votre nom pour voir votre signature.</p>
+                <input type="text" id="rune-input" class="input-magic" placeholder="Votre Nom..." oninput="window.translateRunes(this.value)" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()">
+                <div id="rune-display" style="font-family:'Uncial Antiqua'; font-size:3em; text-align:center; margin-top:30px; color:#8a0b0b; min-height:60px;"></div>
+            </div></div>
+
+            <!-- DOS -->
+            <div class="page page--cover-back page-loaded"><div class="page-content"></div></div>
+        </div>
+    </div>
+
+    <!-- SEO & FOOTER -->
+    <section class="seo-content">
+        <h1>HydroNeal – Hydromel artisanal d’inspiration médiévale</h1>
+        <p>HydroNeal est un projet d’hydromel artisanal inspiré des traditions médiévales, de l’alchimie et de la fermentation naturelle du miel.</p>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col"><h4>HydroNeal</h4><a href="#">Accueil</a></div>
+            <div class="footer-col"><h4>Alliance</h4><a href="mailto:contact@hydroneal.com">Me Contacter</a></div>
+        </div>
+        <div class="legal">© 2025 HydroNeal. L'abus d'alcool est dangereux pour la santé.</div>
+    </footer>
+
+    <!-- SCRIPTS MODULAIRES -->
+    <script src="js/config.js"></script>
+    <script src="js/gemini.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
