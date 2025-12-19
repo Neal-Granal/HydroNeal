@@ -60,8 +60,8 @@ h3.sub-title { font-family: 'Cinzel'; color: #dcbfa0; text-align: center; letter
 }
 
 /* Images & Couvertures */
-.page--cover-front .page-content { padding:0 !important; background:#050505; border:none; background-image:url('couverturegrimoire.jpg'); background-size:cover; }
-.page--cover-back .page-content { padding:0 !important; background:#050505; border:none; background-image:url('couverturearriere.jpg'); background-size:cover; }
+.page--cover-front .page-content { padding:0 !important; background:#050505; border:none; background-image:url('couverturegrimoire.png'); background-size:cover; }
+.page--cover-back .page-content { padding:0 !important; background:#050505; border:none; background-image:url('couverturearriere.png'); background-size:cover; }
 .page--inside-cover .page-content { background:#2a1a0a; color:#C5A059; text-align:center; display:flex; flex-direction:column; justify-content:center; }
 
 .deco-icon { width: 100px; display: block; margin: 0 auto 15px; } /* Pas de filtre */
