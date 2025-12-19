@@ -4,124 +4,145 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HydroNeal - Le Grimoire Ancestral</title>
-    <!-- Assure-toi que cette image est à la racine de ton GitHub -->
-    <link rel="icon" href="icone-loup.png" type="image/png">
+    <link rel="icon" href="icone-loup.jpg" type="image/jpeg">
     
-    <!-- LIEN VERS LE CSS EXTERNE -->
+    <!-- CSS -->
     <link rel="stylesheet" href="style.css">
     
-    <!-- VERSION STABLE DE LA LIBRAIRIE PAGE-FLIP -->
+    <!-- Librairies -->
     <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.min.js"></script>
     <script src="https://w.soundcloud.com/player/api.js"></script>
 </head>
 <body class="fallback-mode">
 
-    <!-- DECOR -->
-    <div class="candle-container candle-left"><div class="candle-flame"></div><div class="candle-base"></div></div>
-    <div class="candle-container candle-right"><div class="candle-flame"></div><div class="candle-base"></div></div>
+    <!-- Ecran Accueil -->
+    <div id="start-screen">
+        <button class="start-btn" onclick="enterSite()">Entrer dans le Royaume</button>
+    </div>
+
+    <!-- Décors -->
+    <div class="firefly"></div><div class="firefly"></div><div class="firefly"></div>
+    <div class="candle-container candle-left">
+        <div class="candle-item"><div class="candle-flame"></div><div class="candle-wick"></div><div class="candle-base"></div></div>
+    </div>
+    <div class="candle-container candle-right">
+        <div class="candle-item"><div class="candle-flame"></div><div class="candle-wick"></div><div class="candle-base"></div></div>
+    </div>
+
+    <!-- Audio -->
+    <iframe id="sc-player" src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/michael-ghelfi/alchemy-laboratory&auto_play=false&show_artwork=false&visual=false" width="1" height="1" allow="autoplay" style="position:fixed; top:-100px;"></iframe>
+    <div class="audio-control" onclick="toggleAudio()">🔊</div>
 
     <div class="title-wrapper">
         <h1 class="main-title">HydroNeal</h1>
         <h3 class="sub-title">Brassé dans l'ombre, partagé dans la lumière</h3>
     </div>
 
-    <!-- Audio Player (SoundCloud) -->
-    <iframe id="sc-player" src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/michael-ghelfi/alchemy-laboratory&auto_play=false&show_artwork=false&visual=false" width="1" height="1" allow="autoplay" style="position:fixed; top:-100px;"></iframe>
-    <div class="audio-control" onclick="toggleAudio()">🔊</div>
-
     <div class="book-wrapper">
         <div id="book">
-            
-            <!-- 0. COUVERTURE -->
+            <!-- 0: Couverture -->
             <div class="page page--cover-front page-loaded">
-                <div class="page-content">
-                    <p class="hint">~ Cliquez pour ouvrir ~</p>
-                </div>
+                <div class="page-content"><p class="hint">~ Ouvrir le Grimoire ~</p></div>
             </div>
 
-            <!-- 1. GARDE -->
+            <!-- 1: Garde -->
             <div class="page page--inside-cover page-loaded">
                 <div class="page-content">
-                    <p style="color: #8a6a5a; font-family: 'Cinzel'; font-size: 1.8em; text-align: center; margin-top: 50%;">Ex Libris HydroNeal</p>
+                    <div class="ex-libris">Ex Libris<br>HydroNeal</div>
+                    <p style="margin-top:20px; color:#888;">Édition du Centenaire</p>
                 </div>
             </div>
 
-            <!-- 2. HISTOIRE -->
+            <!-- 2: Histoire -->
             <div class="page page-loaded"><div class="page-content">
-                <img src="icone-loup.png" alt="Loup" class="deco-icon">
+                <div class="watermark">H</div>
+                <img src="icone-loup.jpg" alt="Loup" class="deco-icon">
                 <h2>L'Alchimiste Sauvage</h2>
-                <p>Autrefois enfant de la forêt, Neal grandit sous la canopée ancienne, guidé par les hurlements nocturnes.</p>
+                <div class="divider">~ ❦ ~</div>
+                <p class="drop-cap">Né sous les ombrages d'une forêt que les cartes ignorent...</p>
+                <p>Aujourd'hui, il œuvre dans l'ombre...</p>
             </div></div>
 
-            <!-- 3. RITUEL -->
+            <!-- 3: Rituel -->
             <div class="page page-loaded"><div class="page-content">
-                <img src="icone-alchimie.png" alt="Alchimie" class="deco-icon">
+                <img src="icone-alchimie.jpg" alt="Alchimie" class="deco-icon">
                 <h2>Le Rituel Interdit</h2>
-                <p>Le miel noir de sarrasin est uni à l’eau claire. Les levures sont éveillées avec précision.</p>
+                <h4>I — L’Alliance Nocturne</h4>
+                <p>Le miel de sarrasin, noir et dense...</p>
             </div></div>
 
-            <!-- 4. SAVEURS -->
+            <!-- 4: Saveurs -->
             <div class="page page-loaded"><div class="page-content">
                 <h2>Grimoire des Saveurs</h2>
                 <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 20px;">
-                    <img src="front-label.png" style="height: 200px;">
-                    <img src="back-label.png" style="height: 200px;">
+                    <img src="front-label.jpg" alt="Face" style="height: 250px; object-fit: contain;">
+                    <img src="back-label.jpg" alt="Dos" style="height: 250px; object-fit: contain;">
                 </div>
-                <p style="text-align:center;">~ Cuvée Sarrasin Noir ~</p>
+                <div class="divider">~ ❧ ~</div>
+                <p style="text-align:center; font-weight:bold; color:#5d0000;">Cuvée Sarrasin Noir (🌑)</p>
             </div></div>
 
-            <!-- 5. RUMEURS (IA) -->
+            <!-- 5: IA Rumeurs -->
             <div class="page page-loaded"><div class="page-content">
-                <img src="icone-taverne.png" class="deco-icon">
-                <h2>Rumeurs</h2>
+                <img src="icone-taverne.jpg" alt="Taverne" class="deco-icon">
+                <h2>Rumeurs de la Taverne</h2>
+                <p style="text-align:center; opacity:0.8;">Ce que l'on murmure...</p>
                 <div id="ai-rumor-zone" class="generated-content" style="display:none;"></div>
                 <div class="loader" id="rumor-loader"></div>
-                <button class="btn-magic" onclick="generateRumor(event)" onmousedown="event.stopPropagation()">✨ Écouter les Esprits</button>
+                <div class="rune-container">
+                    <button class="btn-magic" onclick="generateRumor(event)">Consulter les Esprits</button>
+                </div>
             </div></div>
 
-            <!-- 6. CREUSET (IA) -->
+            <!-- 6: IA Légendes -->
             <div class="page page-loaded"><div class="page-content">
-                <h2>Le Creuset</h2>
-                <input type="text" id="ingredient-input" class="input-magic" placeholder="Ingrédient..." onmousedown="event.stopPropagation()">
-                <button class="btn-magic" onclick="generateLegend(event)" onmousedown="event.stopPropagation()">✨ Transmuter</button>
-                <div class="loader" id="legend-loader"></div>
+                <h2>Le Creuset des Légendes</h2>
+                <input type="text" id="ingredient-input" class="input-magic" placeholder="Ex: Larmes de Dragon..." onclick="event.stopPropagation()">
+                <div class="rune-container">
+                    <button class="btn-magic" onclick="generateLegend(event)">Transmuter</button>
+                </div>
+                <div class="loader" id="legend-loader" style="display:none;"></div>
                 <div id="legend-output" class="generated-content"></div>
             </div></div>
 
-            <!-- 7. BESTIAIRE -->
+            <!-- 7: Bestiaire -->
             <div class="page page-loaded"><div class="page-content">
-                <img src="icone-loup.png" class="deco-icon">
+                <img src="icone-loup.jpg" alt="Beast" class="deco-icon">
                 <h2>Le Bestiaire</h2>
+                <div class="divider">~ ⚔ ~</div>
                 <div class="beast-card">
-                    <img src="loup-de-fer.png" class="beast-img">
-                    <div><strong>Le Loup de Fer</strong><br>Gardien spirituel.</div>
+                    <img src="loup-de-fer.jpg" class="beast-img" alt="Loup">
+                    <div class="beast-info"><span class="beast-name">Le Loup de Fer</span><p class="beast-desc">Gardien spirituel.</p></div>
                 </div>
                 <div class="beast-card alt">
-                    <div><strong>Levure Vorace</strong><br>L'esprit du miel.</div>
-                    <img src="levure-vorace.png" class="beast-img">
+                    <div class="beast-info"><span class="beast-name">Levure Vorace</span><p class="beast-desc">Microscopique.</p></div>
+                    <img src="levure-vorace.jpg" class="beast-img" alt="Levure">
                 </div>
             </div></div>
 
-            <!-- 8. CARTE -->
+            <!-- 8: Carte -->
             <div class="page page-loaded"><div class="page-content">
-                <h2>La Carte</h2>
-                <img src="carte-royaume.png" class="map-image">
+                <h2>La Carte du Royaume</h2>
+                <div class="divider">~ 🗺️ ~</div>
+                <img src="carte-royaume.jpg" class="map-image" alt="Carte">
+                <p style="text-align:center; font-style:italic;">"Tous les chemins..."</p>
             </div></div>
 
-            <!-- DOS -->
-            <div class="page page--cover-back page-loaded"><div class="page-content"></div></div>
+            <!-- 9: Runes -->
+            <div class="page page-loaded"><div class="page-content">
+                <h2>Sceau Runique</h2>
+                <input type="text" id="rune-input" class="input-magic" placeholder="Votre Nom..." onclick="event.stopPropagation()">
+                <div id="rune-display" style="font-family:'Uncial Antiqua'; font-size:3em; text-align:center; margin-top:30px; color:#8a0b0b;"></div>
+            </div></div>
 
+            <!-- Dos -->
+            <div class="page page--cover-back page-loaded"><div class="page-content"></div></div>
         </div>
     </div>
 
-    <!-- START SCREEN (Audio Trigger) -->
-    <div id="start-screen" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#000; z-index:9999; display:flex; justify-content:center; align-items:center;">
-        <button onclick="enterSite()" class="start-btn">ENTRER DANS LE ROYAUME</button>
-    </div>
+    <footer><div class="legal">© 2025 HydroNeal.</div></footer>
 
-    <!-- SCRIPT EXTERNE -->
+    <!-- SCRIPT QUI APPELLE LE BACKEND -->
     <script src="script.js"></script>
 </body>
 </html>
-
-
