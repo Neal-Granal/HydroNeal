@@ -7,14 +7,15 @@
     
     <title>HydroNeal – Hydromel artisanal & Grimoire Alchimique</title>
     
-    <!-- CSS À LA RACINE (Plus simple pour les images) -->
+    <!-- LIEN CSS : Doit être à côté de index.html -->
     <link rel="stylesheet" href="style.css">
     
     <!-- LIBRAIRIES -->
     <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.min.js"></script>
     <script src="https://w.soundcloud.com/player/api.js"></script>
 </head>
-<body>
+<!-- AJOUT : Style de secours inline (fond noir) pour éviter l'écran blanc si le CSS plante -->
+<body class="fallback-mode" style="background-color: #1a0a0a; color: #dcbfa0; font-family: serif;">
 
     <!-- ECRAN D'ACCUEIL -->
     <div id="start-screen">
