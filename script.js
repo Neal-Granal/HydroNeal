@@ -207,7 +207,7 @@ function enterSite() {
     // Lancement du son après interaction utilisateur
     try { 
         widget = SC.Widget(document.querySelector('#sc-player')); 
-        widget.setVolume(50); 
+        widget.setVolume(25); 
         widget.play(); 
     } catch(e){
         console.log("Erreur lecture audio:", e);
