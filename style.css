@@ -307,4 +307,14 @@ footer { width: 100%; background: #1a0a0a; color: #dcbfa0; padding: 40px 20px; t
     
     .page-bottom-mark-center { bottom: 10px !important; }
     .page-bottom-mark-left, .page-bottom-mark-right { bottom: 10px !important; }
+
+    /* Modale sur mobile */
+    .modal-content {
+        max-width: 95%;
+        max-height: 70%;
+    }
+    #caption {
+        font-size: 1.2em;
+        width: 90%;
+    }
 }
