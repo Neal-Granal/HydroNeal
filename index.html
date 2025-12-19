@@ -3,18 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Favicon -->
     <link rel="icon" href="images/icone-loup.png" type="image/png">
     
     <title>HydroNeal – Hydromel artisanal & Grimoire Alchimique</title>
     
-    <!-- CSS à la racine -->
+    <!-- CSS -->
     <link rel="stylesheet" href="style.css">
     
-    <!-- LIBRAIRIES -->
+    <!-- LIBRAIRIES EXTERNES -->
     <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.min.js"></script>
     <script src="https://w.soundcloud.com/player/api.js"></script>
 
-    <!-- Import Map pour l'API Google -->
+    <!-- IMPORT MAP pour Gemini -->
     <script type="importmap">
       {
         "imports": {
@@ -23,17 +24,16 @@
       }
     </script>
 </head>
-<body class="fallback-mode" style="background-color: #1a0a0a;">
+<body class="fallback-mode">
 
     <!-- ECRAN D'ACCUEIL -->
-    <div id="start-screen" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#000; z-index:9999; display:flex; justify-content:center; align-items:center;">
-        <button class="start-btn" style="padding:20px; font-size:1.5em; cursor:pointer;">Entrer dans le Royaume</button>
+    <div id="start-screen">
+        <button class="start-btn">Entrer dans le Royaume</button>
     </div>
 
-    <!-- PARTICULES -->
+    <!-- PARTICULES & DÉCOR -->
     <div class="firefly"></div><div class="firefly"></div><div class="firefly"></div>
-
-    <!-- BOUGIES -->
+    
     <div class="candle-container candle-left">
         <div class="candle-item"><div class="candle-flame"></div><div class="candle-wick"></div><div class="candle-base"></div></div>
     </div>
@@ -43,13 +43,15 @@
 
     <!-- AUDIO -->
     <iframe id="sc-player" src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/michael-ghelfi/alchemy-laboratory&auto_play=false&show_artwork=false&visual=false" width="1" height="1" allow="autoplay" style="position:fixed; top:-100px;"></iframe>
-    <div class="audio-control" onclick="window.toggleAudio()" style="position:fixed; bottom:20px; right:20px; z-index:100; font-size:2em; cursor:pointer;">🔊</div>
+    <div class="audio-control" onclick="window.toggleAudio()">🔊</div>
 
+    <!-- TITRE -->
     <div class="title-wrapper">
         <h1 class="main-title">HydroNeal</h1>
         <h3 class="sub-title">Brassé dans l'ombre, partagé dans la lumière</h3>
     </div>
 
+    <!-- LIVRE -->
     <div class="book-wrapper">
         <div id="book">
             <!-- 0: COUVERTURE AVANT -->
@@ -61,7 +63,7 @@
             <div class="page page--inside-cover page-loaded">
                 <div class="page-content">
                     <div class="ex-libris">Ex Libris<br>HydroNeal</div>
-                    <p style="margin-top:20px; color:#888; font-size:0.9em;">Édition du Centenaire</p>
+                    <p style="margin-top:20px; color:#888;">Édition du Centenaire</p>
                 </div>
             </div>
 
@@ -98,29 +100,25 @@
                 <img src="images/icone-taverne.png" alt="Taverne" class="deco-icon">
                 <h2>Rumeurs de la Taverne</h2>
                 <p style="text-align:center; opacity:0.8;">Ce que l'on murmure dans les auberges...</p>
-                
                 <div id="ai-rumor-zone" class="generated-content" style="display:none;"></div>
-                <div class="loader" id="rumor-loader" style="display:none;">... Invocation ...</div>
-                
+                <div class="loader" id="rumor-loader" style="display:none;"></div>
                 <div class="rune-container">
-                    <!-- Note: onclick fonctionne car gemini.js attache la fonction à window -->
-                    <button class="btn-rune" onclick="if(window.generateRumor) window.generateRumor(event); else alert('Le grimoire charge encore...');">Consulter les Esprits</button>
+                    <button class="btn-rune" onclick="if(window.generateRumor) window.generateRumor(event)">Consulter les Esprits</button>
                 </div>
             </div></div>
 
             <!-- 6: CREUSET (IA) -->
             <div class="page page-loaded"><div class="page-content">
                 <h2>Le Creuset des Légendes</h2>
-                <p style="text-align:center;">Proposez un ingrédient rare...</p>
                 <input type="text" id="ingredient-input" class="input-magic" placeholder="Ex: Larmes de Dragon..." onclick="event.stopPropagation()">
                 <div class="rune-container">
-                    <button class="btn-rune" onclick="if(window.generateLegend) window.generateLegend(event); else alert('Le grimoire charge encore...');">Transmuter</button>
+                    <button class="btn-rune" onclick="if(window.generateLegend) window.generateLegend(event)">Transmuter</button>
                 </div>
-                <div class="loader" id="legend-loader" style="display:none;">... Transmutation ...</div>
+                <div class="loader" id="legend-loader" style="display:none;"></div>
                 <div id="legend-output" class="generated-content"></div>
             </div></div>
 
-            <!-- 7: LE BESTIAIRE -->
+            <!-- 7: BESTIAIRE -->
             <div class="page page-loaded"><div class="page-content">
                 <img src="images/icone-loup.png" alt="Beast" class="deco-icon">
                 <h2>Le Bestiaire</h2>
@@ -143,17 +141,10 @@
                 <p style="text-align:center; font-style:italic;">"Tous les chemins mènent à la Chambre des Eaux."</p>
             </div></div>
 
-            <!-- 9: FAQ -->
-            <div class="page page-loaded"><div class="page-content">
-                <h2>Foire Aux Quêtes</h2>
-                <strong style="color:#8a0b0b;">Q: Où trouver ce nectar ?</strong>
-                <p>R: Il ne se trouve pas, il se mérite.</p>
-            </div></div>
-
-            <!-- 10: RUNES -->
+            <!-- 9: RUNES -->
             <div class="page page-loaded"><div class="page-content">
                 <h2>Sceau Runique</h2>
-                <input type="text" id="rune-input" class="input-magic" placeholder="Votre Nom..." oninput="window.translateRunes && window.translateRunes(this.value)" onclick="event.stopPropagation()">
+                <input type="text" id="rune-input" class="input-magic" placeholder="Votre Nom..." onclick="event.stopPropagation()">
                 <div id="rune-display" style="font-family:'Uncial Antiqua'; font-size:3em; text-align:center; margin-top:30px; color:#8a0b0b;"></div>
             </div></div>
 
@@ -166,14 +157,7 @@
         <div class="legal">© 2025 HydroNeal.</div>
     </footer>
 
-    <!-- SCRIPTS -->
-    <!-- 1. Config (API Key) -->
-    <script src="js/config.js"></script>
-    
-    <!-- 2. Fonctions IA (Module) -->
-    <script type="module" src="js/gemini.js"></script>
-    
-    <!-- 3. Logique du site (Livre, Audio) -->
-    <script src="js/main.js"></script>
+    <!-- SCRIPT UNIQUE : On charge script.js comme un module -->
+    <script type="module" src="script.js"></script>
 </body>
 </html>
