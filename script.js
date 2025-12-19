@@ -1,54 +1,101 @@
 /**
- * script.js - Logique Principale
+ * script.js - Logique consolidée
+ * Utilise maintenant un backend sécurisé pour l'IA.
  */
 
-// CONFIGURATION
-const apiKey = "AIzaSyCMfqbhNp1vVVP6gNjNchr_veh7PjyFePI"; 
+// --- CONFIGURATION ---
+// IMPORTANT : Remplace cette URL par celle de ton backend une fois déployé (ex: https://mon-projet.onrender.com/generate)
+const BACKEND_URL = "https://VOTRE-URL-BACKEND-ICI.onrender.com/generate"; 
 const TYPING_SPEED = 30;
 
-// --- API GEMINI (Version FETCH Standard) ---
-// Cette version n'utilise pas "import" pour éviter les erreurs de module sur certains navigateurs/serveurs simples.
-async function callGemini(prompt) {
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+// Note: On n'importe plus GoogleGenerativeAI ici car c'est le backend qui gère ça.
+
+// --- 1. INITIALISATION ---
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("Site HydroNeal initialisé.");
+    initBook();
+    initAudioListener();
     
+    // Runes
+    const runeInput = document.getElementById('rune-input');
+    if(runeInput) {
+        runeInput.addEventListener('input', (e) => translateRunes(e.target.value));
+    }
+});
+
+// --- 2. FONCTION APPEL BACKEND ---
+async function callBackend(promptData) {
+    // Si l'URL n'est pas encore configurée
+    if (BACKEND_URL.includes("VOTRE-URL-BACKEND-ICI")) {
+        console.error("URL Backend non configurée dans script.js");
+        return "Le grimoire n'est pas encore relié aux esprits (Backend non configuré).";
+    }
+
     try {
-        const response = await fetch(url, {
+        const response = await fetch(BACKEND_URL, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                contents: [{
-                    parts: [{ text: prompt }]
-                }]
-            })
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt: promptData })
         });
 
-        if (!response.ok) {
-            const errorData = await response.json();
-            console.error("Erreur API:", errorData);
-            throw new Error(`Erreur ${response.status}: ${errorData.error?.message || 'Inconnue'}`);
-        }
-
+        if (!response.ok) throw new Error(`Erreur serveur: ${response.status}`);
+        
         const data = await response.json();
-        return data.candidates[0].content.parts[0].text;
+        // Le backend doit renvoyer un objet JSON avec une propriété "text" ou "reply"
+        return data.text || data.reply || "Réponse vide des esprits.";
 
     } catch (error) {
-        console.error("Erreur Appel Gemini:", error);
-        return "Les esprits sont silencieux... (Erreur de connexion)";
+        console.error("Erreur Backend:", error);
+        return "Les esprits sont silencieux... (Erreur connexion serveur)";
     }
 }
 
-// --- EFFET MACHINE À ÉCRIRE ---
+// --- 3. FONCTIONS UTILISATEURS (Rumeurs & Légendes) ---
+window.generateRumor = async function(e) {
+    if(e) { e.stopPropagation(); e.preventDefault(); }
+    
+    const ui = { out: document.getElementById('ai-rumor-zone'), loader: document.getElementById('rumor-loader') };
+    ui.out.style.display = 'none'; ui.loader.style.display = 'block';
+    
+    // On envoie juste l'instruction au backend
+    const text = await callBackend("Personnage fantasy ivre taverne. Rumeur courte drôle sur hydromel HydroNeal. En français.");
+    
+    ui.loader.style.display = 'none'; ui.out.style.display = 'block';
+    typeWriter(text, 'ai-rumor-zone');
+};
+
+window.generateLegend = async function(e) {
+    if(e) { e.stopPropagation(); e.preventDefault(); }
+    const input = document.getElementById('ingredient-input').value;
+    if(!input) return;
+    
+    const ui = { out: document.getElementById('legend-output'), loader: document.getElementById('legend-loader') };
+    ui.loader.style.display = 'block'; ui.out.innerHTML = '';
+    
+    // Le prompt complet est envoyé au backend
+    const prompt = `Alchimiste médiéval. Ingrédient: "${input}". Nom hydromel épique + desc courte. Format JSON: {"nom": "...", "description": "..."}`;
+    const text = await callBackend(prompt);
+    
+    ui.loader.style.display = 'none';
+
+    // Parsing du résultat (le backend renvoie du texte, parfois du JSON brut)
+    if (text.includes("{")) {
+        try {
+            const jsonStr = text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1);
+            const data = JSON.parse(jsonStr);
+            ui.out.innerHTML = `<h4 style="color:#8a0b0b; margin:0;">${data.nom}</h4><p id="gen-desc" style="font-size:1em;"></p>`;
+            typeWriter(data.description, 'gen-desc');
+        } catch(e) { ui.out.innerHTML = text; }
+    } else { ui.out.innerHTML = text; }
+};
+
+// --- 4. UTILITAIRES (Machine à écrire, Audio, Livre...) ---
 function typeWriter(text, elementId) {
     const target = document.getElementById(elementId);
     if (!target) return;
-    
     target.innerHTML = ""; 
     let i = 0;
-    // Nettoyage des caractères Markdown (*) et guillemets
     const cleanText = text.replace(/^"|"$/g, '').replace(/\*/g, '');
-    
     function type() { 
         if (i < cleanText.length) { 
             target.innerHTML += cleanText.charAt(i); 
@@ -59,122 +106,50 @@ function typeWriter(text, elementId) {
     type();
 }
 
-// --- FONCTIONS BOUTONS ---
-// Rumeurs
-async function generateRumor(e) {
-    if(e) { e.stopPropagation(); e.preventDefault(); }
-    
-    const output = document.getElementById('ai-rumor-zone');
-    const loader = document.getElementById('rumor-loader');
-    
-    output.style.display = 'none'; 
-    loader.style.display = 'block';
-    loader.innerText = "... Invocation ...";
-
-    const prompt = "Personnage fantasy ivre taverne. Rumeur courte drôle sur hydromel HydroNeal. Français.";
-    const text = await callGemini(prompt);
-    
-    loader.style.display = 'none'; 
-    output.style.display = 'block';
-    
-    typeWriter(text, 'ai-rumor-zone');
-}
-
-// Légendes (JSON)
-async function generateLegend(e) {
-    if(e) { e.stopPropagation(); e.preventDefault(); }
-    
-    const input = document.getElementById('ingredient-input').value;
-    if (!input) return;
-    
-    const loader = document.getElementById('legend-loader');
-    const output = document.getElementById('legend-output');
-    
-    loader.style.display = 'block'; 
-    loader.innerText = "... Transmutation ...";
-    output.innerHTML = '';
-    
-    const prompt = `Alchimiste médiéval. Ingrédient: "${input}". Nom hydromel épique + desc courte. JSON: {"nom": "...", "description": "..."}`;
-    const text = await callGemini(prompt);
-    
-    loader.style.display = 'none';
-
-    if (text.includes("{")) {
-        try {
-            const jsonStr = text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1);
-            const data = JSON.parse(jsonStr);
-            output.innerHTML = `<h4 style="color:#8a0b0b; margin:0;">${data.nom}</h4><p id="gen-desc" style="font-size:1em;"></p>`;
-            typeWriter(data.description, 'gen-desc');
-        } catch (e) { 
-            output.innerHTML = text; 
-        }
-    } else { 
-        output.innerHTML = "Échec de la transmutation."; 
-    }
-}
-
-// --- INITIALISATION DU SITE ---
-document.addEventListener('DOMContentLoaded', function() {
-    console.log("HydroNeal v3.0 - Chargé");
-    
-    // 1. LIVRE (PageFlip)
+// Gestion Livre (PageFlip)
+function initBook() {
     try {
         if (typeof St === 'undefined' || typeof St.PageFlip === 'undefined') {
-            console.warn("PageFlip non chargé.");
-            document.body.classList.add('fallback-mode');
-        } else {
-            const pageFlip = new St.PageFlip(document.getElementById('book'), {
-                width: 480, height: 720,
-                size: 'stretch',
-                minWidth: 315, maxWidth: 650, minHeight: 450, maxHeight: 950,
-                maxShadowOpacity: 0.5, showCover: true, mobileScrollSupport: false 
-            });
-            pageFlip.loadFromHTML(document.querySelectorAll('.page'));
-            document.body.classList.remove('fallback-mode');
-            
-            // Patch Mobile
-            document.querySelectorAll('input, button').forEach(el => {
-                el.addEventListener('touchstart', (e) => e.stopPropagation());
-                el.addEventListener('mousedown', (e) => e.stopPropagation());
-            });
+            document.body.classList.add('fallback-mode'); return;
         }
-    } catch(e) { console.error(e); }
+        const pageFlip = new St.PageFlip(document.getElementById('book'), {
+            width: 480, height: 720, size: 'stretch', minWidth: 315, maxWidth: 650, minHeight: 450, maxHeight: 950,
+            maxShadowOpacity: 0.5, showCover: true, mobileScrollSupport: false 
+        });
+        pageFlip.loadFromHTML(document.querySelectorAll('.page'));
+        document.body.classList.remove('fallback-mode');
+        document.querySelectorAll('input, button').forEach(el => {
+            el.addEventListener('touchstart', (e) => e.stopPropagation());
+            el.addEventListener('mousedown', (e) => e.stopPropagation());
+        });
+    } catch(e) { document.body.classList.add('fallback-mode'); }
+}
 
-    // 2. RUNES
-    const runeInput = document.getElementById('rune-input');
-    if(runeInput) {
-        const runesMap = {'a':'ᚨ', 'b':'ᛒ', 'c':'ᚲ', 'd':'ᛞ', 'e':'ᛖ', 'f':'ᚠ', 'g':'ᚷ', 'h':'ᚺ', 'i':'ᛁ', 'j':'ᛃ', 'k':'ᚲ', 'l':'ᛚ', 'm':'ᛗ', 'n':'ᚾ', 'o':'ᛟ', 'p':'ᛈ', 'q':'ᚲ', 'r':'ᚱ', 's':'ᛊ', 't':'ᛏ', 'u':'ᚢ', 'v':'ᚢ', 'w':'ᚹ', 'x':'ᚲᛊ', 'y':'ᛃ', 'z':'ᛉ', ' ':' '};
-        runeInput.addEventListener('input', function(e) {
-            let res = ""; 
-            for (let c of e.target.value.toLowerCase()) { res += runesMap[c] || c; }
-            document.getElementById('rune-display').textContent = res;
+// Audio
+let scWidget;
+function initAudioListener() {
+    const startScreen = document.getElementById('start-screen');
+    if(startScreen) {
+        const btn = startScreen.querySelector('button');
+        if(btn) btn.addEventListener('click', () => {
+            startScreen.style.opacity = '0';
+            setTimeout(() => { if(startScreen.parentNode) startScreen.parentNode.removeChild(startScreen); }, 1000);
+            try {
+                const iframe = document.querySelector('#sc-player');
+                if(iframe && typeof SC !== 'undefined') { scWidget = SC.Widget(iframe); scWidget.setVolume(30); scWidget.play(); }
+            } catch(e) {}
         });
     }
-});
-
-// --- AUDIO ---
-var widget;
-function enterSite() {
-    const s = document.getElementById('start-screen');
-    s.style.opacity = '0';
-    setTimeout(() => s.remove(), 1000);
-    
-    // Tentative lecture audio
-    try {
-        const iframe = document.querySelector('#sc-player');
-        widget = SC.Widget(iframe);
-        widget.setVolume(30);
-        widget.play();
-    } catch(e) { console.log("Audio auto-play bloqué"); }
 }
+window.toggleAudio = function() {
+    if (!scWidget && typeof SC !== 'undefined') scWidget = SC.Widget(document.querySelector('#sc-player'));
+    if(scWidget) scWidget.toggle();
+};
+window.enterSite = function() { document.getElementById('start-screen').querySelector('button').click(); };
 
-function toggleAudio() {
-    if (!widget) widget = SC.Widget(document.querySelector('#sc-player'));
-    widget.toggle();
+// Runes
+function translateRunes(text) {
+    const map = {'a':'ᚨ', 'b':'ᛒ', 'c':'ᚲ', 'd':'ᛞ', 'e':'ᛖ', 'f':'ᚠ', 'g':'ᚷ', 'h':'ᚺ', 'i':'ᛁ', 'j':'ᛃ', 'k':'ᚲ', 'l':'ᛚ', 'm':'ᛗ', 'n':'ᚾ', 'o':'ᛟ', 'p':'ᛈ', 'q':'ᚲ', 'r':'ᚱ', 's':'ᛊ', 't':'ᛏ', 'u':'ᚢ', 'v':'ᚢ', 'w':'ᚹ', 'x':'ᚲᛊ', 'y':'ᛃ', 'z':'ᛉ', ' ':' '};
+    let res = ""; for (let c of text.toLowerCase()) { res += map[c] || c; }
+    document.getElementById('rune-display').textContent = res;
 }
-
-// Exposer les fonctions au HTML
-window.generateRumor = generateRumor;
-window.generateLegend = generateLegend;
-window.enterSite = enterSite;
-window.toggleAudio = toggleAudio;
