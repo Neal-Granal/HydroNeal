@@ -7,12 +7,14 @@
     
     <title>HydroNeal – Hydromel artisanal & Grimoire Alchimique</title>
     
+    <!-- CSS à la racine -->
     <link rel="stylesheet" href="style.css">
     
+    <!-- LIBRAIRIES -->
     <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.min.js"></script>
     <script src="https://w.soundcloud.com/player/api.js"></script>
 
-    <!-- NOUVEAU : Import Map pour l'API Google -->
+    <!-- Import Map pour l'API Google -->
     <script type="importmap">
       {
         "imports": {
@@ -21,11 +23,11 @@
       }
     </script>
 </head>
-<body class="fallback-mode" style="background-color: #1a0a0a; color: #dcbfa0; font-family: serif;">
+<body class="fallback-mode" style="background-color: #1a0a0a;">
 
     <!-- ECRAN D'ACCUEIL -->
-    <div id="start-screen">
-        <button class="start-btn">Entrer dans le Royaume</button>
+    <div id="start-screen" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#000; z-index:9999; display:flex; justify-content:center; align-items:center;">
+        <button class="start-btn" style="padding:20px; font-size:1.5em; cursor:pointer;">Entrer dans le Royaume</button>
     </div>
 
     <!-- PARTICULES -->
@@ -34,21 +36,14 @@
     <!-- BOUGIES -->
     <div class="candle-container candle-left">
         <div class="candle-item"><div class="candle-flame"></div><div class="candle-wick"></div><div class="candle-base"></div></div>
-        <div class="candle-item candle-small"><div class="candle-flame"></div><div class="candle-wick"></div><div class="candle-base"></div></div>
     </div>
     <div class="candle-container candle-right">
         <div class="candle-item"><div class="candle-flame"></div><div class="candle-wick"></div><div class="candle-base"></div></div>
-        <div class="candle-item candle-small"><div class="candle-flame"></div><div class="candle-wick"></div><div class="candle-base"></div></div>
     </div>
 
     <!-- AUDIO -->
-    <iframe id="sc-player" 
-            src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/michael-ghelfi/alchemy-laboratory&auto_play=false&show_artwork=false&visual=false" 
-            width="1" height="1" scrolling="no" frameborder="0" 
-            allow="autoplay; encrypted-media" 
-            style="position:fixed; top:-100px;">
-    </iframe>
-    <div class="audio-control" onclick="window.toggleAudio()">🔊</div>
+    <iframe id="sc-player" src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/michael-ghelfi/alchemy-laboratory&auto_play=false&show_artwork=false&visual=false" width="1" height="1" allow="autoplay" style="position:fixed; top:-100px;"></iframe>
+    <div class="audio-control" onclick="window.toggleAudio()" style="position:fixed; bottom:20px; right:20px; z-index:100; font-size:2em; cursor:pointer;">🔊</div>
 
     <div class="title-wrapper">
         <h1 class="main-title">HydroNeal</h1>
@@ -77,7 +72,6 @@
                 <h2>L'Alchimiste Sauvage</h2>
                 <div class="divider">~ ❦ ~</div>
                 <p class="drop-cap">Né sous les ombrages d'une forêt que les cartes ignorent, là où les hivers mordent plus fort qu'un loup affamé, Neal fut bercé par le chant de la meute.</p>
-                <p>Aujourd'hui, il œuvre dans l'ombre, fusionnant l'instinct animal et la rigueur scientifique pour <strong>façonner</strong> un hydromel unique.</p>
             </div></div>
 
             <!-- 3: RITUEL -->
@@ -86,10 +80,6 @@
                 <h2>Le Rituel Interdit</h2>
                 <h4>I — L’Alliance Nocturne</h4>
                 <p>Le miel de sarrasin, noir et dense, est versé lentement dans l'eau de source purifiée.</p>
-                <h4>II — La Chambre des Eaux</h4>
-                <p>Le breuvage sacré est scellé et transporté dans le <strong>Sanctuaire de Faïence</strong>.</p>
-                <h4>III — La Transmutation</h4>
-                <p>Au fil des lunes, le sucre meurt pour renaître en esprit.</p>
             </div></div>
 
             <!-- 4: SAVEURS -->
@@ -101,10 +91,6 @@
                 </div>
                 <div class="divider">~ ❧ ~</div>
                 <p style="text-align:center; font-weight:bold; color:#5d0000;">Cuvée Sarrasin Noir (🌑)</p>
-                <ul class="flavor-list">
-                    <li><span class="tag">Robe :</span> Sombre comme l'ambre fossile.</li>
-                    <li><span class="tag">Nez :</span> Puissant. Miel brut, cuir tanné.</li>
-                </ul>
             </div></div>
 
             <!-- 5: RUMEURS (IA) -->
@@ -114,11 +100,11 @@
                 <p style="text-align:center; opacity:0.8;">Ce que l'on murmure dans les auberges...</p>
                 
                 <div id="ai-rumor-zone" class="generated-content" style="display:none;"></div>
-                <div class="loader" id="rumor-loader"></div>
+                <div class="loader" id="rumor-loader" style="display:none;">... Invocation ...</div>
                 
                 <div class="rune-container">
-                    <!-- Note: onclick appelle une fonction attachée à window -->
-                    <button class="btn-rune" onclick="window.generateRumor(event)">Consulter les Esprits</button>
+                    <!-- Note: onclick fonctionne car gemini.js attache la fonction à window -->
+                    <button class="btn-rune" onclick="if(window.generateRumor) window.generateRumor(event); else alert('Le grimoire charge encore...');">Consulter les Esprits</button>
                 </div>
             </div></div>
 
@@ -126,12 +112,11 @@
             <div class="page page-loaded"><div class="page-content">
                 <h2>Le Creuset des Légendes</h2>
                 <p style="text-align:center;">Proposez un ingrédient rare...</p>
-                <input type="text" id="ingredient-input" class="input-magic" placeholder="Ex: Larmes de Dragon..." 
-                       onclick="event.stopPropagation()">
+                <input type="text" id="ingredient-input" class="input-magic" placeholder="Ex: Larmes de Dragon..." onclick="event.stopPropagation()">
                 <div class="rune-container">
-                    <button class="btn-rune" onclick="window.generateLegend(event)">Transmuter</button>
+                    <button class="btn-rune" onclick="if(window.generateLegend) window.generateLegend(event); else alert('Le grimoire charge encore...');">Transmuter</button>
                 </div>
-                <div class="loader" id="legend-loader"></div>
+                <div class="loader" id="legend-loader" style="display:none;">... Transmutation ...</div>
                 <div id="legend-output" class="generated-content"></div>
             </div></div>
 
@@ -168,7 +153,7 @@
             <!-- 10: RUNES -->
             <div class="page page-loaded"><div class="page-content">
                 <h2>Sceau Runique</h2>
-                <input type="text" id="rune-input" class="input-magic" placeholder="Votre Nom..." oninput="window.translateRunes(this.value)" onclick="event.stopPropagation()">
+                <input type="text" id="rune-input" class="input-magic" placeholder="Votre Nom..." oninput="window.translateRunes && window.translateRunes(this.value)" onclick="event.stopPropagation()">
                 <div id="rune-display" style="font-family:'Uncial Antiqua'; font-size:3em; text-align:center; margin-top:30px; color:#8a0b0b;"></div>
             </div></div>
 
@@ -182,11 +167,13 @@
     </footer>
 
     <!-- SCRIPTS -->
+    <!-- 1. Config (API Key) -->
     <script src="js/config.js"></script>
     
-    <!-- IMPORTANT: gemini.js est maintenant un module -->
+    <!-- 2. Fonctions IA (Module) -->
     <script type="module" src="js/gemini.js"></script>
     
+    <!-- 3. Logique du site (Livre, Audio) -->
     <script src="js/main.js"></script>
 </body>
 </html>
