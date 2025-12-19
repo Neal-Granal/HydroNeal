@@ -165,7 +165,7 @@ p { font-size: 1.1em; line-height: 1.5; text-align: justify; margin: 0 0 15px 0;
 .deco-icon { width: 100px; display: block; margin: 0 auto 15px auto; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); }
 
 .label-img {
-    height: 180px; width: auto; max-width: 45%; object-fit: contain; border: none; 
+    height: 220px; width: auto; max-width: 45%; object-fit: contain; border: none; 
     filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3)); transition: transform 0.3s;
 }
 .label-img:hover { transform: scale(1.05) rotate(2deg); filter: drop-shadow(0 10px 15px rgba(0,0,0,0.4)); }
