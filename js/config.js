@@ -1,8 +1,6 @@
 // CONFIGURATION GLOBALE
-// Sépare les données sensibles et les paramètres du reste du code.
-
 const CONFIG = {
-    // ⚠️ Clé API : À ne pas exposer sur un dépôt public GitHub sans précaution.
+    // Ta clé API (Celle fournie dans ton message)
     API_KEY: "AIzaSyCMfqbhNp1vVVP6gNjNchr_veh7PjyFePI", 
     
     // Réglages du livre interactif
