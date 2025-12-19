@@ -154,7 +154,7 @@ async function generateLegend(e) {
     Crée une recette d'hydromel magique.
     1. Donne un Nom Épique pour la recette.
     2. Liste 3 à 6 ingrédients (mélange de fantastique et commun).
-    3. Décris l'effet magique en une phrase courte.
+    3. Décris l'effet magique en 2-3 phrases.
     
     Réponds UNIQUEMENT en JSON sous ce format :
     {
