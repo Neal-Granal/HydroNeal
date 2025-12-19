@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HydroNeal - Chemin Perdu</title>
+    <link rel="icon" href="icone-loup.png" type="image/png">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=MedievalSharp&family=Cinzel+Decorative:wght@700&display=swap');
+
+        body {
+            margin: 0; padding: 0;
+            background-color: #0a0505;
+            background-image: radial-gradient(circle at center, #1a0a0a 0%, #000000 100%);
+            height: 100vh;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            font-family: 'MedievalSharp', cursive; color: #8a0b0b;
+            text-align: center; overflow: hidden;
+        }
+
+        h1 {
+            font-family: 'Cinzel Decorative', cursive; font-size: 8em; margin: 0;
+            color: #3a0000; text-shadow: 0 0 20px #ff0000;
+            animation: pulse 3s infinite;
+        }
+
+        p { font-size: 1.5em; color: #dcbfa0; max-width: 600px; padding: 0 20px; line-height: 1.6; }
+
+        .btn-return {
+            margin-top: 40px; padding: 15px 40px;
+            background: transparent; color: #d4af37;
+            border: 2px solid #d4af37; font-size: 1.2em;
+            font-family: 'Cinzel Decorative'; text-decoration: none;
+            transition: 0.3s; cursor: pointer; text-transform: uppercase;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+        }
+        .btn-return:hover {
+            background: #d4af37; color: #000;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.6);
+        }
+
+        @keyframes pulse {
+            0%, 100% { text-shadow: 0 0 20px #4a0000; opacity: 0.8; }
+            50% { text-shadow: 0 0 40px #ff0000; opacity: 1; }
+        }
+
+        /* Particules de cendre */
+        .ash {
+            position: absolute; background: #555; border-radius: 50%;
+            animation: fall linear infinite; opacity: 0;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
+            20% { opacity: 0.6; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Génération de cendres en CSS/JS inline simple -->
+    <script>
+        for(let i=0; i<20; i++) {
+            let ash = document.createElement('div');
+            ash.className = 'ash';
+            ash.style.left = Math.random() * 100 + 'vw';
+            ash.style.width = Math.random() * 5 + 2 + 'px';
+            ash.style.height = ash.style.width;
+            ash.style.animationDuration = Math.random() * 5 + 5 + 's';
+            ash.style.animationDelay = Math.random() * 5 + 's';
+            document.body.appendChild(ash);
+        }
+    </script>
+
+    <h1>404</h1>
+    <p>Vous vous êtes aventuré trop loin dans les ténèbres...<br>Ce chemin ne mène nulle part, si ce n'est à l'oubli.</p>
+    
+    <a href="/" class="btn-return">Retourner à la Lumière</a>
+
+</body>
+</html>
