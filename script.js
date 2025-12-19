@@ -20,9 +20,13 @@ document.addEventListener('DOMContentLoaded', function() {
         pageFlip.loadFromHTML(document.querySelectorAll('.page'));
         document.body.classList.remove('fallback-mode');
         
-        // Stop propagation des clics
-        document.querySelectorAll('input, button, a').forEach(el => {
-            el.addEventListener('touchstart', (e) => e.stopPropagation());
+        // Stop propagation des clics pour les inputs, boutons ET IMAGES (Zoom)
+        // Cela empêche de tourner la page quand on clique sur ces éléments
+        document.querySelectorAll('input, button, a, .label-img, .beast-img').forEach(el => {
+            el.addEventListener('touchstart', (e) => {
+                e.stopPropagation(); 
+                // Important : on ne met pas preventDefault() pour que le 'click' fonctionne
+            });
             el.addEventListener('mousedown', (e) => e.stopPropagation());
             el.addEventListener('click', (e) => e.stopPropagation());
         });
@@ -47,7 +51,7 @@ function zoomImage(src, captionText) {
     const modalImg = document.getElementById('img-in-modal');
     const caption = document.getElementById('caption');
     
-    modal.style.display = "flex";
+    modal.style.display = "flex"; // Utilisation de flex pour centrer
     modalImg.src = src;
     caption.innerHTML = captionText || "";
 }
