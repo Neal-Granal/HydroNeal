@@ -1,5 +1,5 @@
 /* =========================================
-   1. TYPOGRAPHIE & VARIABLES 
+   1. TYPOGRAPHIE & VARIABLES
    ========================================= */
 @import url('https://fonts.googleapis.com/css2?family=MedievalSharp&family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;700&family=Uncial+Antiqua&family=Noto+Sans+Runic&display=swap');
 
@@ -174,7 +174,8 @@ h3.sub-title {
 /* Couvertures */
 .page--cover-front .page-content {
     padding: 0 !important; border: none !important; background-color: #050505;
-    background-image: url('../couverturegrimoire.png'); background-size: cover; background-position: center;
+    /* UPDATE : Ajout de ../images/ */
+    background-image: url('../images/couverturegrimoire.png'); background-size: cover; background-position: center;
     box-shadow: inset 0 0 50px rgba(0,0,0,0.9);
 }
 .page--cover-front .hint {
@@ -187,7 +188,8 @@ h3.sub-title {
 
 .page--cover-back .page-content {
     padding: 0 !important; border: none !important; background-color: #050505;
-    background-image: url('../couverturearriere.png'); background-size: cover; background-position: center;
+    /* UPDATE : Ajout de ../images/ */
+    background-image: url('../images/couverturearriere.png'); background-size: cover; background-position: center;
     box-shadow: inset 0 0 50px rgba(0,0,0,0.9);
 }
 
