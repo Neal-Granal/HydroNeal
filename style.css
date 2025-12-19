@@ -1,160 +1,85 @@
-/* =========================================
-   STYLE GLOBAL HYDRONEAL (Version Réparée)
-   ========================================= */
+/* STYLE HYDRONEAL (Version Finale) */
 @import url('https://fonts.googleapis.com/css2?family=MedievalSharp&family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;700&family=Uncial+Antiqua&family=Noto+Sans+Runic&display=swap');
 
 :root {
-    --blood-red: #8a0b0b;
-    --gold: #FFD700; 
-    --parchment-bg: #d4c5a3; 
-    --ink-color: #2a1a0a;
+    --blood-red: #8a0b0b; --gold: #FFD700; --parchment-bg: #d4c5a3; --ink-color: #2a1a0a;
 }
 
 body {
     margin: 0; padding: 0;
     background-color: #1a0a0a;
-    background-image: 
-        radial-gradient(circle at 50% 50%, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.95) 100%),
-        url('https://www.transparenttextures.com/patterns/wood-pattern.png');
+    background-image: radial-gradient(circle at 50% 50%, rgba(0,0,0,0.2), rgba(0,0,0,0.95)), url('https://www.transparenttextures.com/patterns/wood-pattern.png');
     min-height: 100vh;
     display: flex; flex-direction: column; align-items: center;
-    font-family: 'MedievalSharp', cursive;
-    overflow-x: hidden; color: #dcbfa0;
+    font-family: 'MedievalSharp', cursive; overflow-x: hidden; color: #dcbfa0;
 }
 
-/* --- PARTICULES MAGIQUES (Fireflies) --- */
+/* PARTICULES */
 .firefly {
-    position: fixed; left: 50%; top: 50%; width: 4px; height: 4px;
-    background-color: #FFF8C6; border-radius: 50%;
-    box-shadow: 0 0 10px 2px rgba(255, 215, 0, 0.4);
-    animation: fly 25s linear infinite; pointer-events: none; z-index: 100;
+    position: fixed; width: 4px; height: 4px; background: #FFF8C6; border-radius: 50%;
+    box-shadow: 0 0 10px 2px rgba(255, 215, 0, 0.4); animation: fly 20s linear infinite; pointer-events: none;
 }
-.firefly:nth-child(1) { animation-duration: 20s; animation-delay: 0s; }
-.firefly:nth-child(2) { animation-duration: 25s; animation-delay: 2s; }
-.firefly:nth-child(3) { animation-duration: 18s; animation-delay: 5s; }
+.firefly:nth-child(1) { left: 20%; top: 80%; animation-duration: 15s; }
+.firefly:nth-child(2) { left: 80%; top: 20%; animation-duration: 25s; }
+.firefly:nth-child(3) { left: 50%; top: 50%; animation-duration: 20s; }
+@keyframes fly { 0% { opacity:0; transform:translate(0,0); } 50% { opacity:1; transform:translate(50px, -50px); } 100% { opacity:0; transform:translate(-50px, -100px); } }
 
-@keyframes fly { 
-    0% { transform: translate(-50vw, 50vh) scale(0); opacity: 0; }
-    20% { opacity: 0.6; }
-    50% { transform: translate(20vw, -20vh) scale(1.5); }
-    80% { opacity: 0.6; }
-    100% { transform: translate(50vw, -50vh) scale(0); opacity: 0; }
+/* TITRES ANIMÉS */
+h1.main-title {
+    font-family: 'Cinzel Decorative'; font-size: 4em; text-align: center; margin-top: 30px;
+    background: linear-gradient(to bottom, #FFD700, #FFF8C6, #D4AF37);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3));
+    animation: glow 3s infinite alternate;
 }
-
-/* --- BOUGIES --- */
-.candle-container { position: fixed; top: 45%; z-index: 5; pointer-events: none; display: flex; gap: 20px; align-items: flex-end; }
-.candle-left { left: 5%; }
-.candle-right { right: 5%; }
-
-.candle-item { position: relative; filter: drop-shadow(0 0 20px rgba(0,0,0,0.8)); }
-.candle-small { transform: scale(0.7); margin-bottom: -15px; }
-
-.candle-flame {
-    width: 20px; height: 45px;
-    background: radial-gradient(ellipse at bottom, #ffffa0 0%, #ffaa00 50%, transparent 90%);
-    border-radius: 50% 50% 35% 35%;
-    animation: flicker 0.1s infinite alternate, flameWaver 3s infinite ease-in-out;
-    box-shadow: 0 -10px 20px 5px #ffaa00, 0 -20px 40px 10px rgba(255, 100, 0, 0.3);
-    margin: 0 auto; transform-origin: bottom center;
-    position: absolute; top: -35px; left: 50%; transform: translateX(-50%);
-}
-@keyframes flicker { 0% { transform: translateX(-50%) scale(1) rotate(-1deg); opacity: 0.9; } 100% { transform: translateX(-50%) scale(1.05) rotate(1deg); opacity: 1; } }
-@keyframes flameWaver { 0%, 100% { transform: translateX(-50%) rotate(0deg); } 50% { transform: translateX(-50%) rotate(2deg); } }
-
-.candle-base {
-    width: 45px; height: 140px; 
-    background: linear-gradient(90deg, #3e2723, #5d4037, #281815);
-    margin: 0 auto; border-radius: 4px; position: relative;
-    box-shadow: inset 0 -30px 40px rgba(0,0,0,0.9), 0 10px 20px rgba(0,0,0,0.5);
-}
-.candle-wick { width: 2px; height: 10px; background: #111; position: absolute; top: -10px; left: 50%; transform: translateX(-50%); }
-
-/* --- LIVRE & PAGES --- */
-.book-wrapper {
-    margin: 30px 0 60px 0;
-    filter: drop-shadow(0 60px 100px rgba(0,0,0,0.95)); 
-    width: 95vw; display: flex; justify-content: center; z-index: 10;
-}
-
-.page { background-color: var(--parchment-bg); width: 480px; height: 720px; display: none; }
-.page-loaded { display: block; }
-
-.page-content {
-    width: 100%; height: 100%; padding: 40px 35px; box-sizing: border-box;
-    background-color: var(--parchment-bg);
-    background-image: url('https://www.transparenttextures.com/patterns/aged-paper.png');
-    box-shadow: inset 0 0 100px rgba(60, 40, 20, 0.25);
-    color: var(--ink-color); border: 1px solid rgba(139, 69, 19, 0.15);
-    position: relative; overflow: hidden; display: flex; flex-direction: column;
-}
-
-/* --- COUVERTURES & IMAGES --- */
-.page--cover-front .page-content {
-    padding: 0 !important; background-color: #050505; border: none !important;
-    background-image: url('images/couverturegrimoire.png'); 
-    background-size: cover; background-position: center;
-}
-.page--cover-back .page-content {
-    padding: 0 !important; background-color: #050505; border: none !important;
-    background-image: url('images/couverturearriere.png'); 
-    background-size: cover; background-position: center;
-}
-.page--inside-cover .page-content {
-    background-image: url('https://www.transparenttextures.com/patterns/dark-leather.png');
-    background-color: #2a1a0a; color: #C5A059; text-align: center;
-    justify-content: center; align-items: center;
-}
-
-.deco-icon { width: 100px; display: block; margin: 0 auto 15px auto; filter: sepia(1); }
-.map-image { width: 100%; mix-blend-mode: multiply; filter: sepia(0.3); margin: 20px 0; }
-.beast-card { display: flex; gap: 15px; border: 1px solid #C5A059; padding: 10px; margin-top: 15px; background: rgba(0,0,0,0.05); }
-.beast-img { width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--blood-red); object-fit: cover; }
-.beast-card.alt { flex-direction: row-reverse; text-align: left; }
-
-/* --- UI (Boutons, Inputs) --- */
-.btn-rune {
-    background: #251610; color: var(--gold); padding: 12px 25px;
-    font-family: 'Cinzel'; border: 2px solid #C5A059; cursor: pointer; margin: 20px auto; display: block;
-}
-.input-magic {
-    background: transparent; border: none; border-bottom: 2px solid var(--blood-red);
-    font-family: 'MedievalSharp'; font-size: 1.4em; width: 80%; margin: 20px auto; display: block; text-align: center;
-}
-.generated-content { min-height: 50px; padding: 10px; color: #6a0000; font-style: italic; text-align: center; }
-
-/* --- TITRES ANIMÉS --- */
-h1.main-title { 
-    font-family: 'Cinzel Decorative'; 
-    color: var(--gold); 
-    font-size: 4em; 
-    text-align: center; 
-    margin-top: 30px; 
-    /* Effet or et ombre */
-    text-shadow: 0 4px 10px #000;
-    background: linear-gradient(to bottom, #FFD700 0%, #FFF8C6 30%, #D4AF37 50%, #B8860B 100%);
-    -webkit-background-clip: text; 
-    -webkit-text-fill-color: transparent;
-    animation: floatTitle 6s ease-in-out infinite;
-}
-
-@keyframes floatTitle {
-    0%, 100% { transform: translateY(0); filter: drop-shadow(0 5px 15px rgba(0,0,0,0.8)); }
-    50% { transform: translateY(-8px); filter: drop-shadow(0 15px 25px rgba(212, 175, 55, 0.4)); }
-}
+@keyframes glow { from { filter: drop-shadow(0 0 5px rgba(255,215,0,0.3)); } to { filter: drop-shadow(0 0 20px rgba(255,215,0,0.8)); } }
 
 h3.sub-title { font-family: 'Cinzel'; color: #dcbfa0; text-align: center; letter-spacing: 2px; }
-h2 { font-family: 'Cinzel Decorative'; color: var(--blood-red); text-align: center; border-bottom: 3px double rgba(138,11,11,0.3); }
 
-/* --- FOOTER (Bas de page) --- */
-footer {
-    width: 100%; background-color: #0a0505; color: #b8aa8a; padding: 20px;
-    margin-top: auto; text-align: center; border-top: 2px solid var(--gold-dim);
-    font-family: 'Cinzel'; z-index: 20; position: relative;
-    background-image: url('https://www.transparenttextures.com/patterns/black-scales.png');
+/* BOUGIES */
+.candle-container { position: fixed; top: 45%; z-index: 5; display: flex; gap: 10px; align-items: flex-end; }
+.candle-left { left: 5%; } .candle-right { right: 5%; }
+.candle-item { position: relative; }
+.candle-flame {
+    width: 15px; height: 35px; background: radial-gradient(ellipse at bottom, #ffffa0, #ffaa00, transparent);
+    border-radius: 50% 50% 35% 35%; animation: flicker 0.1s infinite alternate;
+    margin: 0 auto; transform-origin: bottom center; position: absolute; top: -30px; left: 50%; transform: translateX(-50%);
 }
-.legal { opacity: 0.6; font-size: 0.8em; }
+@keyframes flicker { 0% { transform:translateX(-50%) scale(1); opacity:0.9; } 100% { transform:translateX(-50%) scale(1.1); opacity:1; } }
+.candle-base { width: 30px; height: 100px; background: linear-gradient(90deg, #3e2723, #5d4037, #281815); margin: 0 auto; border-radius: 3px; }
 
-/* Mobile */
+/* LIVRE */
+.book-wrapper { margin: 30px 0; width: 95vw; display: flex; justify-content: center; }
+.page { background: var(--parchment-bg); width: 480px; height: 720px; display: none; }
+.page-loaded { display: block; }
+.page-content {
+    width: 100%; height: 100%; padding: 40px; box-sizing: border-box;
+    background: url('https://www.transparenttextures.com/patterns/aged-paper.png');
+    box-shadow: inset 0 0 80px rgba(60,40,20,0.2);
+    border: 1px solid rgba(139,69,19,0.2); position: relative;
+    color: var(--ink-color);
+}
+
+/* PAGES SPÉCIALES */
+.page--cover-front .page-content { padding:0 !important; background:#050505; border:none; background-image:url('images/couverturegrimoire.png'); background-size:cover; }
+.page--cover-back .page-content { padding:0 !important; background:#050505; border:none; background-image:url('images/couverturearriere.png'); background-size:cover; }
+.page--inside-cover .page-content { background:#2a1a0a; color:#C5A059; text-align:center; display:flex; flex-direction:column; justify-content:center; }
+
+/* IMAGES & UI */
+.deco-icon { width: 80px; display: block; margin: 0 auto 15px; filter: sepia(1); }
+.map-image { width: 100%; mix-blend-mode: multiply; filter: sepia(0.4); margin: 15px 0; }
+.beast-card { display: flex; gap: 10px; border: 1px solid #C5A059; padding: 10px; margin-top: 15px; background: rgba(0,0,0,0.05); }
+.beast-img { width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--blood-red); object-fit: cover; }
+.btn-rune { background: #251610; color: var(--gold); padding: 10px 20px; border: 1px solid #C5A059; cursor: pointer; display: block; margin: 20px auto; font-family: 'Cinzel'; }
+.input-magic { background: transparent; border: none; border-bottom: 2px solid var(--blood-red); font-family: 'MedievalSharp'; font-size: 1.2em; width: 80%; margin: 10px auto; display: block; text-align: center; }
+.loader { width: 30px; height: 30px; border: 3px solid var(--gold); border-top-color: transparent; border-radius: 50%; animation: spin 1s linear infinite; margin: 10px auto; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* START SCREEN */
+#start-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; display: flex; justify-content: center; align-items: center; }
+.start-btn { padding: 20px 40px; font-size: 1.5em; background: transparent; color: var(--gold); border: 2px solid var(--gold); cursor: pointer; font-family: 'Cinzel Decorative'; text-transform: uppercase; }
+
+/* MOBILE */
 @media (max-width: 1000px) {
     h1.main-title { font-size: 2.5em; }
     .candle-container { display: none; }
