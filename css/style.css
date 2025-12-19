@@ -174,7 +174,7 @@ h3.sub-title {
 /* Couvertures */
 .page--cover-front .page-content {
     padding: 0 !important; border: none !important; background-color: #050505;
-    /* UPDATE : Ajout de ../images/ */
+    /* CORRECTION : url relative + .png */
     background-image: url('../images/couverturegrimoire.png'); background-size: cover; background-position: center;
     box-shadow: inset 0 0 50px rgba(0,0,0,0.9);
 }
@@ -188,7 +188,7 @@ h3.sub-title {
 
 .page--cover-back .page-content {
     padding: 0 !important; border: none !important; background-color: #050505;
-    /* UPDATE : Ajout de ../images/ */
+    /* CORRECTION : url relative + .png */
     background-image: url('../images/couverturearriere.png'); background-size: cover; background-position: center;
     box-shadow: inset 0 0 50px rgba(0,0,0,0.9);
 }
