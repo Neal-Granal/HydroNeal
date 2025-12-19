@@ -7,12 +7,19 @@
     
     <title>HydroNeal – Hydromel artisanal & Grimoire Alchimique</title>
     
-    <!-- LIEN CSS : Doit être à côté de index.html -->
     <link rel="stylesheet" href="style.css">
     
-    <!-- LIBRAIRIES -->
     <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.min.js"></script>
     <script src="https://w.soundcloud.com/player/api.js"></script>
+
+    <!-- NOUVEAU : Import Map pour l'API Google -->
+    <script type="importmap">
+      {
+        "imports": {
+          "@google/generative-ai": "https://esm.run/@google/generative-ai"
+        }
+      }
+    </script>
 </head>
 <body class="fallback-mode" style="background-color: #1a0a0a; color: #dcbfa0; font-family: serif;">
 
@@ -90,7 +97,6 @@
                 <h2>Grimoire des Saveurs</h2>
                 <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 20px;">
                     <img src="images/front-label.png" alt="Face" style="height: 250px; object-fit: contain;">
-                    <!-- CORRECTION DU CHEMIN ICI -->
                     <img src="images/back-label.png" alt="Dos" style="height: 250px; object-fit: contain;">
                 </div>
                 <div class="divider">~ ❧ ~</div>
@@ -111,6 +117,7 @@
                 <div class="loader" id="rumor-loader"></div>
                 
                 <div class="rune-container">
+                    <!-- Note: onclick appelle une fonction attachée à window -->
                     <button class="btn-rune" onclick="window.generateRumor(event)">Consulter les Esprits</button>
                 </div>
             </div></div>
@@ -176,7 +183,10 @@
 
     <!-- SCRIPTS -->
     <script src="js/config.js"></script>
-    <script src="js/gemini.js"></script>
+    
+    <!-- IMPORTANT: gemini.js est maintenant un module -->
+    <script type="module" src="js/gemini.js"></script>
+    
     <script src="js/main.js"></script>
 </body>
 </html>
