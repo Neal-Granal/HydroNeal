@@ -54,7 +54,11 @@
     </div>
 
     <!-- Lecteur Audio Invisible & Contrôle -->
-    <iframe id="sc-player" src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/michael-ghelfi/alchemy-laboratory&auto_play=true&show_artwork=false&visual=false&volume=30" width="1" height="1" scrolling="no" frameborder="0" allow="autoplay" style="position:fixed; top:-100px;"></iframe>
+    <!-- Ajout de allow="autoplay; encrypted-media" pour corriger l'erreur de permissions -->
+    <iframe id="sc-player" src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/michael-ghelfi/alchemy-laboratory&auto_play=true&show_artwork=false&visual=false&volume=30" 
+            width="1" height="1" scrolling="no" frameborder="0" 
+            allow="autoplay; encrypted-media" 
+            style="position:fixed; top:-100px;"></iframe>
     <div class="audio-control" onclick="toggleAudio()">🔊</div>
 
     <!-- ================================================================= -->
@@ -241,7 +245,7 @@
                     <p>On ne boit pas l'HydroNeal à la légère. Le premier verre se lève toujours vers le Nord, en hommage aux forêts anciennes.</p>
 
                     <h4>II — Le Partage</h4>
-                    <p>Un flacon ouvert ne se referme pas avant d'avoir été partagé. L'hydromel est le lien sacré qui unit les membres de la meute.</p>
+                    <p>Un flacon ouvert ne se referme pas avant d'avoir été partagé. L'hydromel est le lien sacré qui unit les membres de la meute, qu'ils soient de sang ou de cœur.</p>
 
                     <h4>III — La Modération</h4>
                     <p>La bête qui sommeille en chacun doit être nourrie, pas réveillée violemment. Buvez avec la sagesse du vieux loup.</p>
@@ -258,7 +262,7 @@
                     <p style="font-size:0.95em;">R: Une chambre mystique aux murs lisses et blancs, vouée à la purification.</p>
                     
                     <strong style="color:#8a0b0b;">Q: Comment conserver ce nectar ?</strong>
-                    <p style="font-size:0.95em;">R: À l'abri de la lumière, au frais, debout comme une sentinelle.</p>
+                    <p style="font-size:0.95em;">R: À l'abri de la lumière, au frais, debout comme une sentinelle. Il se bonifie avec le temps.</p>
                     
                     <strong style="color:#8a0b0b;">Q: Avec quoi le boire ?</strong>
                     <p style="font-size:0.95em;">R: Viandes fumées, fromages forts, ou bon pain.</p>
@@ -287,7 +291,7 @@
                             <span style="font-size:0.95em; font-style:italic;">Fermenté avec des bleuets sauvages.</span>
                         </div>
                         
-                        <p style="margin-top:40px; font-style:italic; font-size:0.9em; opacity:0.7;">"D'autres expériences dorment dans le noir..."</p>
+                        <p style="margin-top:40px; font-style:italic; font-size:0.9em; opacity:0.7;">"D'autres expériences dorment dans le noir, attendant leur heure..."</p>
                     </div>
                 </div>
             </div>
@@ -347,6 +351,34 @@
     <!-- 6. SCRIPTS LOGIQUES (RELIÉS)                                      -->
     <!-- ================================================================= -->
     <script src="script.js"></script>
+    <script>
+    // Ajout spécifique pour corriger l'appel API dans le même fichier
+    const apiKey = "AIzaSyCMfqbhNp1vVVP6gNjNchr_veh7PjyFePI"; 
+    // CORRECTION API : Utilisation de gemini-1.5-flash-latest
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
+
+    async function callGemini(prompt) {
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+            });
+            const data = await response.json();
+            if (!response.ok) {
+                console.error("API Error:", data);
+                throw new Error("Erreur API: " + (data.error?.message || "Inconnue"));
+            }
+            return data.candidates[0].content.parts[0].text;
+        } catch (error) { 
+            console.error("Fetch Error:", error);
+            return "Les esprits sont brouillés... (Erreur API)"; 
+        }
+    }
+    
+    // Surcharge de la fonction dans script.js si elle existe déjà
+    window.callGemini = callGemini;
+    </script>
 
 </body>
 </html>
