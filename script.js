@@ -1,4 +1,4 @@
-// URL Backend Render (NE PAS TOUCHER)
+// URL Backend Render
 const BACKEND_URL = "https://backend-hydroneal.onrender.com/generate"; 
 const TYPING_SPEED = 30;
 
@@ -12,14 +12,16 @@ document.addEventListener('DOMContentLoaded', function() {
             width: 480, height: 720, size: 'stretch',
             minWidth: 315, maxWidth: 650, 
             minHeight: 450, maxHeight: 950,
-            maxShadowOpacity: 0.5, showCover: true, mobileScrollSupport: false
+            maxShadowOpacity: 0.5, 
+            showCover: true, 
+            mobileScrollSupport: false
         });
 
         pageFlip.loadFromHTML(document.querySelectorAll('.page'));
         document.body.classList.remove('fallback-mode');
         
-        // Stop propagation des clics pour les inputs/boutons
-        document.querySelectorAll('input, button').forEach(el => {
+        // Stop propagation des clics
+        document.querySelectorAll('input, button, a').forEach(el => {
             el.addEventListener('touchstart', (e) => e.stopPropagation());
             el.addEventListener('mousedown', (e) => e.stopPropagation());
             el.addEventListener('click', (e) => e.stopPropagation());
@@ -39,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Fonction Appel Backend (RESTÉE INCHANGÉE)
+// Appel Backend
 async function callBackend(prompt) {
     try {
         const response = await fetch(BACKEND_URL, {
@@ -58,12 +60,14 @@ async function callBackend(prompt) {
     }
 }
 
+// Fonction Typewriter améliorée qui cible un élément spécifique
 function typeWriter(text, elementId) {
     const t = document.getElementById(elementId);
     if (!t) return;
     t.innerHTML = ""; 
     let i = 0; 
-    const clean = text.replace(/^"|"$/g, '').replace(/\*\*/g, '');
+    const clean = text.replace(/^"|"$/g, '').replace(/\*/g, '');
+    
     function type() { 
         if(i < clean.length) { 
             t.innerHTML += clean.charAt(i); 
@@ -74,24 +78,66 @@ function typeWriter(text, elementId) {
     type();
 }
 
-// --- NOUVEAU PROMPT RUMEURS ---
+// IA Rumeurs (Format Voyageur)
 async function generateRumor(e) {
     if(e) { e.stopPropagation(); e.preventDefault(); }
     
     const out = document.getElementById('ai-rumor-zone');
     const load = document.getElementById('rumor-loader');
     
-    out.style.display = 'none'; load.style.display = 'block';
+    out.style.display = 'none'; 
+    load.style.display = 'block';
+    out.innerHTML = ''; // Nettoyer l'ancienne rumeur
     
-    // PROMPT MODIFIÉ SELON LA DEMANDE : "Commentaire avec un nom"
-    const prompt = "Incarne un personnage de fantasy (Nain, Elfe, Voleur ou Sorcier) qui vient de goûter l'hydromel HydroNeal. Écris une critique courte (1 phrase) et drôle ou mystérieuse. Termine OBLIGATOIREMENT par : ' - [Nom du Personnage]'. Exemple: 'Par la barbe de mon grand-père, ça réchauffe les os ! - Gimli'.";
+    // Prompt demandant du JSON strict pour séparer Citation et Auteur
+    const prompt = `Incarne un personnage de fantasy avec une caractéristique (par exemple Nain petit, Elfe fourbu, Voleur rabat-joi ou Sorcier souple) qui vient de goûter l'hydromel HydroNeal.
+    Invente UNE SEULE rumeur courte (1 phrase) et drôle ou mystérieuse en lien avec la boisson et son effet.
+    Réponds UNIQUEMENT en JSON sous ce format :
+    {
+        "citation": "Le texte de la rumeur ici",
+        "auteur": "- Nom du Personnage, Classe"
+    }`;
     
     const text = await callBackend(prompt);
     
-    load.style.display = 'none'; out.style.display = 'block';
-    typeWriter(text, 'ai-rumor-zone');
+    load.style.display = 'none'; 
+    out.style.display = 'block';
+
+    try {
+        // Nettoyage pour extraire le JSON (au cas où l'IA ajoute du texte autour)
+        const jsonStr = text.replace(/```json/g, '').replace(/```/g, '').trim();
+        const data = JSON.parse(jsonStr);
+
+        // Construction du HTML identique à l'exemple statique
+        const container = document.createElement('div');
+        container.style.cssText = "background:rgba(138,11,11,0.05); padding:10px; border-left:4px solid #8a0b0b; margin-bottom:10px;";
+        
+        // Paragraphe pour la citation (vide pour l'instant, rempli par typeWriter)
+        const pQuote = document.createElement('p');
+        pQuote.id = "dynamic-quote-text"; // ID pour le typewriter
+        pQuote.style.cssText = "margin:0; font-style:italic; font-size:1.1em;";
+        
+        // Signature
+        const spanAuthor = document.createElement('span');
+        spanAuthor.style.cssText = "display:block; text-align:right; font-family:'Cinzel'; color:#b8860b; font-size:0.9em; margin-top:5px;";
+        spanAuthor.innerText = data.auteur;
+
+        // Assemblage
+        container.appendChild(pQuote);
+        container.appendChild(spanAuthor);
+        out.appendChild(container);
+
+        // Lancement de l'effet d'écriture sur la citation seulement
+        typeWriter(data.citation, "dynamic-quote-text");
+
+    } catch (error) {
+        console.error("Erreur parsing JSON:", error);
+        // Fallback si l'IA ne renvoie pas du JSON
+        out.innerHTML = `<p style="color:#5d0000; font-style:italic;">${text}</p>`;
+    }
 }
 
+// IA Légendes (Recette avec Ingrédients)
 async function generateLegend(e) {
     if(e) { e.stopPropagation(); e.preventDefault(); }
     
@@ -103,23 +149,75 @@ async function generateLegend(e) {
     
     load.style.display = 'block'; out.innerHTML = '';
     
-    const prompt = `Agis comme un vieil alchimiste. L'utilisateur te donne l'ingrédient : "${inp}". Invente un nom d'hydromel épique utilisant cet ingrédient et une courte description (2 phrases max) de ses effets magiques.`;
+    const prompt = `Agis comme un vieil alchimiste. L'utilisateur te donne l'ingrédient principal : "${inp}".
+    Crée une recette d'hydromel magique.
+    1. Donne un Nom Épique.
+    2. Liste 3 à 6 ingrédients (mélange de fantastique et commun).
+    3. Décris l'effet magique en une ou 2 phrases.
+    
+    Réponds UNIQUEMENT en JSON sous ce format :
+    {
+        "nom": "Nom de la Recette",
+        "ingredients": ["Ingrédient 1", "Ingrédient 2", "Ingrédient 3"],
+        "description": "Description de l'effet."
+    }`;
     
     const text = await callBackend(prompt);
     
     load.style.display = 'none';
-    out.innerText = text;
+    
+    try {
+        const jsonStr = text.replace(/```json/g, '').replace(/```/g, '').trim();
+        const data = JSON.parse(jsonStr);
+        
+        // Construction de la liste HTML
+        let ingredientsHtml = '<ul style="text-align:left; font-size:0.9em; margin: 15px 0 15px 20px;">';
+        data.ingredients.forEach(ing => {
+            ingredientsHtml += `<li style="margin-bottom:5px;">• ${ing}</li>`;
+        });
+        ingredientsHtml += '</ul>';
+
+        out.innerHTML = `
+            <h3 style="font-family:'Cinzel Decorative'; color:#8a0b0b; font-size:1.5em; margin-bottom:5px;">${data.nom}</h3>
+            <div style="width:50px; height:2px; background:var(--gold); margin:0 auto 10px auto;"></div>
+            
+            ${ingredientsHtml}
+            
+            <p id="legend-desc" style="font-size:1em; font-style:italic; border-top:1px dashed #8a0b0b; padding-top:10px;"></p>
+        `;
+        
+        // Effet écriture sur la description de l'effet uniquement
+        typeWriter(data.description, 'legend-desc');
+
+    } catch (e) {
+        console.error("Erreur JSON Legend:", e);
+        out.innerText = text; // Affiche le texte brut en cas d'erreur
+    }
 }
 
-// Audio
+// --- GESTION AUDIO FIABLE ---
 var widget;
 function enterSite() {
     const s = document.getElementById('start-screen');
-    s.style.opacity = '0'; setTimeout(() => s.remove(), 1000);
-    try { widget = SC.Widget(document.querySelector('#sc-player')); widget.setVolume(30); widget.play(); } catch(e){}
+    // Animation de disparition
+    s.style.opacity = '0'; 
+    setTimeout(() => s.remove(), 1000);
+    
+    // Lancement du son après interaction utilisateur
+    try { 
+        widget = SC.Widget(document.querySelector('#sc-player')); 
+        widget.setVolume(50); 
+        widget.play(); 
+    } catch(e){
+        console.log("Erreur lecture audio:", e);
+    }
 }
-function toggleAudio() { if(widget) widget.toggle(); }
 
+function toggleAudio() { 
+    if(widget) widget.toggle(); 
+}
+
+// Exposition Globale
 window.generateRumor = generateRumor;
 window.generateLegend = generateLegend;
 window.enterSite = enterSite;
