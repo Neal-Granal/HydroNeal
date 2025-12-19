@@ -1,91 +1,354 @@
-/* STYLE HYDRONEAL (Sans filtres couleur) */
+/* --- STYLE HYDRONEAL (Version Cuir & Sang) --- */
 @import url('https://fonts.googleapis.com/css2?family=MedievalSharp&family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;700&family=Uncial+Antiqua&family=Noto+Sans+Runic&display=swap');
 
 :root {
-    --blood-red: #8a0b0b; --gold: #FFD700; --parchment-bg: #d4c5a3; --ink-color: #2a1a0a;
+    /* Palette Sang & Or */
+    --blood-red: #8a0b0b;
+    --blood-dark: #4a0000;
+    
+    --gold: #d4af37;
+    --gold-bright: #ffd700;
+    --gold-dim: #8a7020;
+    --gold-antique: #c5a059;
+    
+    /* Papier & Encre */
+    --parchment-bg: #d4c5a3;
+    --ink-color: #2a1a0a;
+    
+    /* Cuir & Ombres */
+    --leather-red: #3a0505;
+    --leather-dark: #1a0a0a;
+    
+    /* Magie */
+    --magic-glow: rgba(255, 215, 0, 0.4);
 }
 
 body {
     margin: 0; padding: 0;
-    background-color: #1a0a0a;
-    background-image: radial-gradient(circle at 50% 50%, rgba(0,0,0,0.2), rgba(0,0,0,0.95)), url('https://www.transparenttextures.com/patterns/wood-pattern.png');
+    background-color: var(--leather-red);
+    /* Superposition : Vignette sombre + Texture Cuir + Dégradé Rouge */
+    background-image: 
+        radial-gradient(circle at 50% 50%, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.85) 100%),
+        url('https://www.transparenttextures.com/patterns/dark-leather.png'),
+        linear-gradient(to bottom, #2a0a0a 0%, #4a0505 50%, #1a0000 100%);
     min-height: 100vh;
     display: flex; flex-direction: column; align-items: center;
-    font-family: 'MedievalSharp', cursive; overflow-x: hidden; color: #dcbfa0;
+    font-family: 'MedievalSharp', cursive; 
+    overflow-x: hidden; 
+    color: #dcbfa0;
 }
 
-/* Particules */
+/* --- Particules (Poussière Magique) --- */
 .firefly {
-    position: fixed; width: 4px; height: 4px; background: #FFF8C6; border-radius: 50%;
-    box-shadow: 0 0 10px 2px rgba(255, 215, 0, 0.4); animation: fly 20s linear infinite; pointer-events: none;
+    position: fixed; left: 50%; top: 50%; width: 4px; height: 4px; 
+    background-color: var(--gold-bright); border-radius: 50%;
+    box-shadow: 0 0 10px 2px var(--magic-glow); 
+    animation: fly 25s linear infinite; pointer-events: none; z-index: 1; opacity: 0;
 }
-.firefly:nth-child(1) { left: 20%; top: 80%; animation-duration: 15s; }
-.firefly:nth-child(2) { left: 80%; top: 20%; animation-duration: 25s; }
-.firefly:nth-child(3) { left: 50%; top: 50%; animation-duration: 20s; }
-@keyframes fly { 0% { opacity:0; transform:translate(0,0); } 50% { opacity:1; transform:translate(50px, -50px); } 100% { opacity:0; transform:translate(-50px, -100px); } }
+.firefly:nth-child(1) { animation-duration: 20s; animation-delay: 0s; }
+.firefly:nth-child(2) { animation-duration: 25s; animation-delay: 2s; }
+.firefly:nth-child(3) { animation-duration: 18s; animation-delay: 5s; }
+.firefly:nth-child(4) { animation-duration: 22s; animation-delay: 1s; }
+.firefly:nth-child(5) { animation-duration: 30s; animation-delay: 8s; }
 
-/* Titres */
+@keyframes fly { 
+    0% { transform: translate(-50vw, 50vh) scale(0); opacity: 0; } 
+    20% { opacity: 0.6; }
+    50% { transform: translate(50vw, -50vh) scale(1.5); opacity: 1; }
+    80% { opacity: 0.6; }
+    100% { transform: translate(-50vw, -50vh) scale(0); opacity: 0; } 
+}
+
+/* --- Titres --- */
+.title-wrapper { 
+    margin-top: 30px; margin-bottom: 20px; text-align: center; 
+    z-index: 10; padding: 0 20px; position: relative; 
+}
+/* Lueur derrière le titre */
+.title-wrapper::after {
+    content: ''; position: absolute; top: 50%; left: 50%; 
+    width: 60%; height: 60%; transform: translate(-50%, -50%);
+    background: radial-gradient(ellipse, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
+    z-index: -1; filter: blur(30px);
+}
+
 h1.main-title {
-    font-family: 'Cinzel Decorative'; font-size: 4em; text-align: center; margin-top: 30px;
-    background: linear-gradient(to bottom, #FFD700, #FFF8C6, #D4AF37);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3));
-    animation: glow 3s infinite alternate;
+    font-family: 'Cinzel Decorative', cursive; font-size: 5em; color: var(--gold);
+    text-transform: uppercase; margin: 0;
+    /* Effet Métallique */
+    background: linear-gradient(to bottom, #cfc09f 22%, #634f2c 24%, #cfc09f 26%, #cfc09f 27%, #ffecb3 40%, #3a2c0f 78%); 
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
+    filter: drop-shadow(0 4px 0px rgba(0,0,0,0.6));
+    animation: floatTitle 6s ease-in-out infinite;
+    line-height: 1; letter-spacing: 2px;
 }
-@keyframes glow { from { filter: drop-shadow(0 0 5px rgba(255,215,0,0.3)); } to { filter: drop-shadow(0 0 20px rgba(255,215,0,0.8)); } }
-h3.sub-title { font-family: 'Cinzel'; color: #dcbfa0; text-align: center; letter-spacing: 2px; }
 
-/* Bougies */
-.candle-container { position: fixed; top: 45%; z-index: 5; display: flex; gap: 10px; align-items: flex-end; }
+@keyframes floatTitle { 
+    0%, 100% { transform: translateY(0); filter: drop-shadow(0 5px 15px rgba(0,0,0,0.6)); } 
+    50% { transform: translateY(-8px); filter: drop-shadow(0 15px 25px rgba(212, 175, 55, 0.3)); }
+}
+
+h3.sub-title { 
+    font-family: 'Cinzel', serif; color: #e0c0a0; letter-spacing: 5px; 
+    margin-top: 15px; font-size: 1.2em; 
+    text-shadow: 0 2px 10px rgba(0,0,0,1);
+    opacity: 0.9; text-transform: uppercase;
+    border-top: 1px solid rgba(224, 192, 160, 0.3);
+    border-bottom: 1px solid rgba(224, 192, 160, 0.3);
+    padding: 5px 20px; display: inline-block;
+}
+
+/* --- Bougies Réalistes --- */
+.candle-container { position: fixed; top: 50%; z-index: 5; pointer-events: none; transition: opacity 1s; }
 .candle-left { left: 5%; } .candle-right { right: 5%; }
+
+@media (max-width: 1400px) { .candle-container { opacity: 0.3; transform: scale(0.8); } }
+@media (max-width: 1000px) { .candle-container { display: none; } }
+
 .candle-item { position: relative; }
 .candle-flame {
-    width: 15px; height: 35px; background: radial-gradient(ellipse at bottom, #ffffa0, #ffaa00, transparent);
-    border-radius: 50% 50% 35% 35%; animation: flicker 0.1s infinite alternate;
-    margin: 0 auto; transform-origin: bottom center; position: absolute; top: -30px; left: 50%; transform: translateX(-50%);
+    width: 20px; height: 45px; 
+    background: radial-gradient(ellipse at bottom, #ffffa0 0%, #ffaa00 50%, transparent 90%);
+    border-radius: 50% 50% 35% 35%; 
+    animation: flameFlicker 0.1s infinite alternate, flameWaver 3s infinite ease-in-out;
+    box-shadow: 0 -10px 20px 5px #ffaa00, 0 -20px 40px 10px rgba(255, 100, 0, 0.3);
+    margin: 0 auto; transform-origin: bottom center; 
+    position: absolute; top: -35px; left: 50%; transform: translateX(-50%);
 }
-@keyframes flicker { 0% { transform:translateX(-50%) scale(1); opacity:0.9; } 100% { transform:translateX(-50%) scale(1.1); opacity:1; } }
-.candle-base { width: 30px; height: 100px; background: linear-gradient(90deg, #3e2723, #5d4037, #281815); margin: 0 auto; border-radius: 3px; }
 
-/* Livre */
-.book-wrapper { margin: 30px 0; width: 95vw; display: flex; justify-content: center; z-index: 10;}
-.page { background: var(--parchment-bg); width: 480px; height: 720px; display: none; }
+@keyframes flameFlicker { 
+    0% { transform: translateX(-50%) scale(1) rotate(-1deg); opacity: 0.9; } 
+    100% { transform: translateX(-50%) scale(1.05) rotate(1deg); opacity: 1; } 
+}
+@keyframes flameWaver {
+    0%, 100% { transform: translateX(-50%) rotate(0deg); }
+    25% { transform: translateX(-52%) rotate(-2deg); }
+    75% { transform: translateX(-48%) rotate(2deg); }
+}
+
+.candle-base { 
+    width: 45px; height: 140px; 
+    background: linear-gradient(90deg, #3e2723, #5d4037, #281815); 
+    margin: 0 auto; border-radius: 4px; 
+    box-shadow: inset 0 -30px 40px rgba(0,0,0,0.9), 0 10px 20px rgba(0,0,0,0.5); 
+    position: relative; 
+}
+.candle-base::before { content: ''; position: absolute; top: 0; left: 10px; width: 6px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 3px; }
+.candle-wick { width: 2px; height: 10px; background: #111; position: absolute; top: -10px; left: 50%; transform: translateX(-50%); }
+
+/* --- Livre 3D --- */
+.book-wrapper { 
+    margin: 30px 0 60px 0; 
+    filter: drop-shadow(0 60px 100px rgba(0,0,0,0.95)); 
+    width: 95vw; display: flex; justify-content: center; 
+    z-index: 10; perspective: 2000px; 
+}
+
+.page { background-color: var(--parchment-bg); width: 480px; height: 720px; display: none; }
 .page-loaded { display: block; }
+
 .page-content {
-    width: 100%; height: 100%; padding: 40px; box-sizing: border-box;
-    background: url('https://www.transparenttextures.com/patterns/aged-paper.png');
-    box-shadow: inset 0 0 80px rgba(60,40,20,0.2);
-    border: 1px solid rgba(139,69,19,0.2); position: relative;
-    color: var(--ink-color);
+    width: 100%; height: 100%; padding: 40px 35px; box-sizing: border-box;
+    background-color: var(--parchment-bg);
+    background-image: 
+        url('https://www.transparenttextures.com/patterns/aged-paper.png'),
+        linear-gradient(to right, rgba(0,0,0,0.05), transparent 5%, transparent 95%, rgba(0,0,0,0.05));
+    box-shadow: inset 0 0 100px rgba(60, 40, 20, 0.25), inset 0 0 20px rgba(0,0,0,0.1);
+    color: var(--ink-color); 
+    border: 1px solid rgba(139, 69, 19, 0.15); 
+    position: relative; overflow: hidden; 
+    display: flex; flex-direction: column;
 }
 
-/* Images & Couvertures */
-.page--cover-front .page-content { padding:0 !important; background:#050505; border:none; background-image:url('couverturegrimoire.png'); background-size:cover; }
-.page--cover-back .page-content { padding:0 !important; background:#050505; border:none; background-image:url('couverturearriere.png'); background-size:cover; }
-.page--inside-cover .page-content { background:#2a1a0a; color:#C5A059; text-align:center; display:flex; flex-direction:column; justify-content:center; }
+/* Filigrane 'H' */
+.watermark {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    font-size: 250px; opacity: 0.03; color: var(--blood-red); 
+    font-family: 'Cinzel Decorative'; pointer-events: none; z-index: 0;
+}
 
-.deco-icon { width: 100px; display: block; margin: 0 auto 15px; } /* Pas de filtre */
-.map-image { width: 100%; margin: 20px 0; } /* Pas de filtre */
-.beast-card { display: flex; gap: 15px; border: 1px solid #b8860b; padding: 10px; margin-top: 15px; background: rgba(0,0,0,0.05); }
-.beast-img { width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--blood-red); object-fit: cover; }
-.beast-card.alt { flex-direction: row-reverse; text-align: left; }
+/* Pages Spécifiques */
+.page--cover-front .page-content { 
+    padding:0 !important; background:#050505; border:none; 
+    /* Assure-toi que cette image existe ou utilise un fallback */
+    background-image: url('couverturegrimoire.png'); 
+    background-size: cover; background-position: center;
+    box-shadow: inset 0 0 50px rgba(0,0,0,0.9), inset 5px 0 10px rgba(255,255,255,0.1);
+    display: flex; justify-content: flex-end; align-items: center; flex-direction: column;
+}
+.page--cover-front .hint {
+    color: #ccc; font-family: 'Cinzel'; margin-bottom: 40px; animation: pulse 2s infinite; text-shadow: 0 0 5px black;
+}
 
-.btn-magic { background: #251610; color: var(--gold); padding: 12px 25px; border: 2px solid #b8860b; cursor: pointer; display: block; margin: 20px auto; font-family: 'Cinzel'; font-weight: bold; }
-.input-magic { background: transparent; border: none; border-bottom: 2px solid var(--blood-red); font-family: 'MedievalSharp'; font-size: 1.4em; width: 90%; margin: 15px auto; display: block; text-align: center; }
-.loader { display: none; width: 30px; height: 30px; border: 3px solid var(--gold); border-top-color: transparent; border-radius: 50%; animation: spin 1s linear infinite; margin: 10px auto; }
+.page--cover-back .page-content { padding:0 !important; background:#050505; border:none; background-image:url('couverturearriere.png'); background-size:cover; background-position: center; box-shadow: inset 0 0 50px rgba(0,0,0,0.9); }
+
+.page--inside-cover .page-content { 
+    background-image: url('https://www.transparenttextures.com/patterns/dark-leather.png');
+    background-color: #2a1a0a; 
+    box-shadow: inset 0 0 150px rgba(0,0,0,0.95); 
+    justify-content: center; align-items: center; border:none;
+}
+.ex-libris {
+    border: 4px double var(--gold-antique); padding: 30px; 
+    color: var(--gold-antique); font-family: 'Cinzel Decorative'; 
+    font-size: 2.5em; text-align: center; text-transform: uppercase;
+    transform: rotate(-2deg); box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+}
+
+/* --- Typographie Interne --- */
+h2 {
+    font-family: 'Cinzel Decorative', cursive; color: var(--blood-red); font-size: 2.2em; 
+    text-align: center; border-bottom: 3px double rgba(138, 11, 11, 0.3); 
+    padding-bottom: 12px; margin-bottom: 25px; 
+    text-shadow: 1px 1px 0 rgba(255,255,255,0.4); position: relative;
+}
+h2::after { content: '❧'; display: block; font-size: 0.6em; color: var(--gold-dim); margin-top: 5px; opacity: 0.7; }
+
+h4 { 
+    font-family: 'Cinzel', serif; color: #4a0404; font-size: 1.3em; margin: 25px 0 8px 0; 
+    text-transform: uppercase; font-weight: bold; border-bottom: 1px solid rgba(138, 11, 11, 0.2); 
+    display: inline-block; padding-right: 20px;
+}
+
+p { font-size: 1.15em; line-height: 1.6; text-align: justify; margin: 0 0 18px 0; z-index: 1; position: relative; }
+
+.drop-cap::first-letter { 
+    font-family: 'Uncial Antiqua', cursive; font-size: 4em; float: left; margin-right: 12px; margin-top: -5px; 
+    color: var(--blood-red); text-shadow: 2px 2px 0px rgba(0,0,0,0.1); 
+}
+
+.divider { 
+    text-align: center; color: var(--gold-dim); font-size: 1.8em; margin: 15px 0; 
+    font-family: 'MedievalSharp'; opacity: 0.6; line-height: 0.5; 
+}
+
+.deco-icon { 
+    width: 130px; display: block; margin: 0 auto 20px auto; 
+    filter: sepia(1) hue-rotate(-30deg) saturate(1.2) contrast(1.1) drop-shadow(0 5px 8px rgba(0,0,0,0.2)); 
+    opacity: 0.95; transition: transform 0.5s; 
+}
+.deco-icon:hover { transform: scale(1.05); }
+
+/* Mise en page cartes */
+.beast-card { 
+    display: flex; align-items: center; gap: 15px; 
+    border: 1px solid var(--gold-dim); padding: 10px; margin-top: 15px; 
+    background: rgba(0,0,0,0.05); 
+}
+.beast-card.alt { flex-direction: row-reverse; text-align: right; }
+.beast-img { 
+    width: 100px; height: 100px; object-fit: cover; 
+    border-radius: 50%; border: 2px solid var(--blood-red); 
+    flex-shrink: 0; mix-blend-mode: multiply; filter: sepia(0.3); 
+}
+.beast-info { flex: 1; }
+.beast-name { color: #8a0b0b; font-size: 1.1em; text-transform: uppercase; display: block; margin-bottom: 5px; font-weight: bold; }
+.beast-desc { font-size: 0.9em; margin: 0; text-align: inherit; }
+
+ul.flavor-list { padding-left: 10px; list-style: none; text-align: left; margin-top: 20px;}
+ul.flavor-list li { 
+    margin-bottom: 15px; font-size: 1.15em; 
+    padding-bottom: 10px; border-bottom: 1px dashed rgba(138, 11, 11, 0.2); 
+    display: flex; align-items: baseline; 
+}
+ul.flavor-list li::before { content: "✦"; color: var(--gold-dim); margin-right: 10px; font-size: 0.8em; }
+.tag { color: #8a0b0b; font-family: 'Cinzel'; font-weight: bold; font-size: 0.95em; margin-right: 5px; text-transform: uppercase;}
+
+/* --- Interactivité --- */
+.btn-rune { 
+    background: #251610; color: var(--gold); padding: 15px 35px; 
+    font-family: 'Cinzel', serif; font-size: 1.1em; font-weight: bold; 
+    text-transform: uppercase; letter-spacing: 2px;
+    border: 2px solid var(--gold-dim); outline: 1px solid #251610; outline-offset: -5px;
+    cursor: pointer; transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(0,0,0,0.4); 
+    display: block; margin: 30px auto; position: relative; z-index: 1000; overflow: hidden;
+}
+.btn-rune:hover { 
+    border-color: var(--gold-bright); color: var(--gold-bright); 
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.4); text-shadow: 0 0 8px var(--gold); 
+    transform: translateY(-2px); 
+}
+.btn-rune:active { transform: translateY(1px); }
+
+.input-magic { 
+    background: transparent; border: none; border-bottom: 3px solid var(--blood-red); 
+    font-family: 'MedievalSharp', cursive; font-size: 1.5em; color: var(--ink-color); 
+    width: 80%; text-align: center; margin: 20px auto; display: block; outline: none; 
+    transition: border-color 0.3s; position: relative; z-index: 1000;
+}
+.input-magic:focus { border-bottom-color: var(--gold); }
+.input-magic::placeholder { color: rgba(90, 74, 58, 0.5); font-style: italic; font-size: 0.8em;}
+
+.generated-content { 
+    min-height: 80px; border: none; padding: 10px; margin-top: 25px; 
+    background: transparent; 
+    white-space: pre-wrap; font-size: 1.3em; 
+    text-align: center; color: #6a0000; font-family: 'MedievalSharp', cursive; 
+    font-style: italic; line-height: 1.4; 
+}
+
+.loader { 
+    display: none; width: 40px; height: 40px; 
+    border: 4px solid rgba(212, 175, 55, 0.3); border-radius: 50%;
+    border-top-color: var(--blood-red); 
+    animation: spin 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite; 
+    margin: 15px auto; 
+}
 @keyframes spin { to { transform: rotate(360deg); } }
-.generated-content { min-height: 80px; padding: 10px; margin-top: 20px; font-style: italic; text-align: center; color: #5d0000; }
 
-/* UI */
-#start-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; display: flex; justify-content: center; align-items: center; }
-.start-btn { padding: 20px 40px; font-size: 1.5em; background: transparent; color: var(--gold); border: 2px solid var(--gold); cursor: pointer; font-family: 'Cinzel Decorative'; text-transform: uppercase; }
-.audio-control { position: fixed; bottom: 20px; right: 20px; z-index: 100; font-size: 1.5em; cursor: pointer; background: rgba(0,0,0,0.7); color: var(--gold); width: 50px; height: 50px; border-radius: 50%; display: flex; justify-content: center; align-items: center; border: 2px solid var(--gold); }
-
-@media (max-width: 1000px) {
-    h1.main-title { font-size: 2.5em; }
-    .candle-container { display: none; }
-    .book-wrapper { width: 100%; padding: 0 10px; box-sizing: border-box;}
-    .page { width: 100% !important; height: auto !important; margin-bottom: 20px; display: block !important; }
+/* --- UI Flottante --- */
+#start-screen { 
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+    background: #080404; z-index: 9999; display: flex; 
+    justify-content: center; align-items: center; transition: opacity 1s;
 }
+.start-btn { 
+    padding: 20px 40px; font-size: 1.5em; background: rgba(0,0,0,0.5); 
+    color: var(--gold); border: 2px solid var(--gold); cursor: pointer; 
+    font-family: 'Cinzel Decorative'; text-transform: uppercase; letter-spacing: 2px;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.2); transition: 0.3s;
+}
+.start-btn:hover { background: rgba(184, 134, 11, 0.2); box-shadow: 0 0 40px rgba(255, 215, 0, 0.5); }
+
+.audio-control { 
+    position: fixed; bottom: 20px; right: 20px; z-index: 100; 
+    background: rgba(0,0,0,0.6); color: var(--gold); 
+    width: 40px; height: 40px; border-radius: 50%; 
+    display: flex; justify-content: center; align-items: center; 
+    cursor: pointer; border: 2px solid var(--gold-dim); 
+    font-size: 1.2em; transition: 0.3s; 
+}
+.audio-control:hover { transform: scale(1.1); background: rgba(0,0,0,0.8); }
+
+/* --- SEO SECTION --- */
+.seo-content {
+    max-width: 800px; margin: 40px auto; text-align: center; color: #b8aa8a;
+    font-family: 'MedievalSharp', cursive; padding: 20px;
+    border-top: 1px solid var(--gold-dim); border-bottom: 1px solid var(--gold-dim);
+    background-color: rgba(0,0,0,0.3);
+}
+.seo-content h1 { font-family: 'Cinzel Decorative', cursive; color: var(--gold); font-size: 1.8em; margin-bottom: 20px; }
+.seo-content p { margin-bottom: 15px; font-size: 1.1em; line-height: 1.6; color: #dcbfa0; }
+
+footer { 
+    width: 100%; background-color: #0a0505; color: #b8aa8a; padding: 50px 20px; 
+    text-align: center; border-top: 3px solid var(--gold-dim); font-family: 'Cinzel', serif; position: relative; z-index: 20;
+}
+.footer-content { max-width: 1000px; margin: 0 auto; display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; }
+.footer-col a { color: #dcbfa0; text-decoration: none; display: block; margin: 8px 0; transition: 0.3s; }
+.footer-col a:hover { color: var(--gold-bright); text-shadow: 0 0 5px var(--gold); }
+.legal { margin-top: 40px; font-size: 0.85em; opacity: 0.5; font-style: italic; }
+
+/* --- RESPONSIVE --- */
+@media (max-width: 1000px) {
+    h1.main-title { font-size: 3em; }
+    .book-wrapper { width: 100%; padding: 0 5px; box-sizing: border-box; }
+    .page-content { padding: 25px 20px; }
+    .candle-container { display: none; }
+}
+
 .fallback-mode .book-wrapper { flex-direction: column; align-items: center; gap: 40px; }
-.fallback-mode .page { position: relative !important; width: 100% !important; max-width: 600px; height: auto !important; margin-bottom: 30px; display: block !important; }
+.fallback-mode .page { 
+    position: relative !important; width: 100% !important; max-width: 500px; 
+    height: auto !important; min-height: 600px; margin-bottom: 30px; display: block !important; 
+}
