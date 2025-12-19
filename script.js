@@ -1,119 +1,158 @@
-// SCRIPT LIVRE
+/**
+ * script.js - TOUTE LA LOGIQUE DU SITE
+ * Contient : Config, Gemini AI, Livre (PageFlip), Audio, Runes.
+ */
+
+// 1. CONFIGURATION
+const CONFIG = {
+    API_KEY: "AIzaSyCMfqbhNp1vVVP6gNjNchr_veh7PjyFePI", 
+    TYPING_SPEED: 30
+};
+
+// On importe la librairie Gemini depuis le CDN (nécessite type="module" dans le HTML)
+import { GoogleGenerativeAI } from "@google/generative-ai";
+
+// 2. INITIALISATION AU CHARGEMENT
 document.addEventListener('DOMContentLoaded', function() {
+    console.log("Démarrage du site...");
+    initBook();
+    initAudioListener();
+    
+    // Runes
+    const runeInput = document.getElementById('rune-input');
+    if(runeInput) {
+        runeInput.addEventListener('input', (e) => translateRunes(e.target.value));
+    }
+});
+
+// 3. GESTION DU LIVRE (PageFlip)
+function initBook() {
     try {
-        if (typeof St === 'undefined' || typeof St.PageFlip === 'undefined') throw new Error("Lib Manquante");
+        if (typeof St === 'undefined' || typeof St.PageFlip === 'undefined') {
+            console.warn("PageFlip non chargé. Mode fallback.");
+            document.body.classList.add('fallback-mode');
+            return;
+        }
 
         const pageFlip = new St.PageFlip(document.getElementById('book'), {
             width: 480, height: 720,
             size: 'stretch',
-            minWidth: 315, maxWidth: 650, minHeight: 450, maxHeight: 950,
+            minWidth: 315, maxWidth: 650,
+            minHeight: 450, maxHeight: 950,
             maxShadowOpacity: 0.5, showCover: true, mobileScrollSupport: false 
         });
+        
         pageFlip.loadFromHTML(document.querySelectorAll('.page'));
         document.body.classList.remove('fallback-mode');
 
-        // Correction pour que les boutons soient cliquables sur mobile sans tourner la page
-        const inputs = document.querySelectorAll('input, button');
-        inputs.forEach(el => {
+        // Patch Mobile
+        document.querySelectorAll('input, button').forEach(el => {
             el.addEventListener('touchstart', (e) => e.stopPropagation());
             el.addEventListener('mousedown', (e) => e.stopPropagation());
         });
-    } catch(e) { console.log("Mode Fallback"); }
-});
 
-// WIDGET SOUNDCLOUD (AUDIO)
-var widget;
-function startAudioOnFirstClick() {
-    var iframe = document.querySelector('#sc-player');
-    widget = SC.Widget(iframe);
-    widget.setVolume(30);
-    widget.play(); 
-}
-
-function toggleAudio() {
-    if (!widget) widget = SC.Widget(document.querySelector('#sc-player'));
-    widget.toggle();
-}
-
-// TRADUCTEUR RUNIQUE
-const runesMap = {'a':'ᚨ', 'b':'ᛒ', 'c':'ᚲ', 'd':'ᛞ', 'e':'ᛖ', 'f':'ᚠ', 'g':'ᚷ', 'h':'ᚺ', 'i':'ᛁ', 'j':'ᛃ', 'k':'ᚲ', 'l':'ᛚ', 'm':'ᛗ', 'n':'ᚾ', 'o':'ᛟ', 'p':'ᛈ', 'q':'ᚲ', 'r':'ᚱ', 's':'ᛊ', 't':'ᛏ', 'u':'ᚢ', 'v':'ᚢ', 'w':'ᚹ', 'x':'ᚲᛊ', 'y':'ᛃ', 'z':'ᛉ', ' ':' '};
-function translateRunes(text) {
-    let res = ""; for (let c of text.toLowerCase()) { res += runesMap[c] || c; }
-    document.getElementById('rune-display').textContent = res;
-}
-
-// API GEMINI (CORRIGÉE & ROBUSTE)
-// Clé API : AIzaSyCMfqbhNp1vVVP6gNjNchr_veh7PjyFePI
-const apiKey = "AIzaSyCMfqbhNp1vVVP6gNjNchr_veh7PjyFePI"; 
-
-async function callGemini(prompt) {
-    // Essai 1 : Modèle standard
-    let url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
-    
-    try {
-        let response = await fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-        });
-        
-        // Essai 2 : Fallback si erreur 404 (Modèle non trouvé)
-        if (response.status === 404) {
-            console.log("Tentative avec modèle de secours...");
-            url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`;
-            response = await fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-            });
-        }
-
-        const data = await response.json();
-        if (!response.ok) {
-            throw new Error(data.error?.message || "Erreur inconnue");
-        }
-        return data.candidates[0].content.parts[0].text;
-    } catch (error) { 
-        console.error("Erreur API:", error);
-        return "Les esprits sont brouillés... (Erreur API)"; 
+    } catch(e) { 
+        console.error("Erreur Livre:", e);
+        document.body.classList.add('fallback-mode');
     }
 }
 
-function typeWriter(text, elementId, speed = 30) {
-    let i = 0; const target = document.getElementById(elementId);
-    target.innerHTML = ""; const cleanText = text.replace(/^"|"$/g, '').replace(/\*/g, '');
-    function type() { if (i < cleanText.length) { target.innerHTML += cleanText.charAt(i); i++; setTimeout(type, speed); } }
+// 4. AUDIO
+let scWidget;
+function initAudioListener() {
+    const startScreen = document.getElementById('start-screen');
+    if(startScreen) {
+        const btn = startScreen.querySelector('button');
+        if(btn) btn.addEventListener('click', () => {
+            startScreen.style.opacity = '0';
+            setTimeout(() => startScreen.remove(), 1000);
+            try {
+                const iframe = document.querySelector('#sc-player');
+                if(iframe && typeof SC !== 'undefined') {
+                    scWidget = SC.Widget(iframe);
+                    scWidget.setVolume(30);
+                    scWidget.play();
+                }
+            } catch(e) { console.warn("Audio error", e); }
+        });
+    }
+}
+
+window.toggleAudio = function() {
+    if (!scWidget && typeof SC !== 'undefined') scWidget = SC.Widget(document.querySelector('#sc-player'));
+    if(scWidget) scWidget.toggle();
+};
+
+// 5. FONCTIONS IA (Gemini)
+async function callGemini(prompt) {
+    if (!CONFIG.API_KEY) return "Clé API manquante.";
+    try {
+        const genAI = new GoogleGenerativeAI(CONFIG.API_KEY);
+        // Utilisation du modèle 1.5 Flash (Standard actuel)
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+        
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        return response.text();
+    } catch (error) {
+        console.error("Erreur Gemini:", error);
+        return "Les esprits sont silencieux... (Erreur connexion)";
+    }
+}
+
+function typeWriter(text, elementId) {
+    const target = document.getElementById(elementId);
+    if (!target) return;
+    target.innerHTML = ""; 
+    let i = 0;
+    const cleanText = text.replace(/^"|"$/g, '').replace(/\*/g, '');
+    function type() { 
+        if (i < cleanText.length) { 
+            target.innerHTML += cleanText.charAt(i); 
+            i++; 
+            setTimeout(type, CONFIG.TYPING_SPEED); 
+        } 
+    }
     type();
 }
 
-async function generateRumor(e) {
+// Exposé globalement pour les onclick HTML
+window.generateRumor = async function(e) {
     if(e) { e.stopPropagation(); e.preventDefault(); }
-    const output = document.getElementById('ai-rumor-zone');
-    const loader = document.getElementById('rumor-loader');
-    output.style.display = 'none'; loader.style.display = 'block';
-    const prompt = "Personnage fantasy ivre taverne. Rumeur courte drôle sur hydromel HydroNeal (salle faïence). Français.";
-    const text = await callGemini(prompt);
-    loader.style.display = 'none'; output.style.display = 'block';
+    const ui = { out: document.getElementById('ai-rumor-zone'), load: document.getElementById('rumor-loader') };
+    ui.out.style.display = 'none'; ui.load.style.display = 'block';
+    
+    const text = await callGemini("Rumeur drôle courte taverne fantasy sur hydromel HydroNeal.");
+    
+    ui.load.style.display = 'none'; ui.out.style.display = 'block';
     typeWriter(text, 'ai-rumor-zone');
-}
+};
 
-async function generateLegend(e) {
+window.generateLegend = async function(e) {
     if(e) { e.stopPropagation(); e.preventDefault(); }
     const input = document.getElementById('ingredient-input').value;
-    if (!input) return;
-    const loader = document.getElementById('legend-loader');
-    const output = document.getElementById('legend-output');
-    loader.style.display = 'block'; output.innerHTML = '';
-    const prompt = `Alchimiste médiéval. Ingrédient: "${input}". Nom hydromel épique + desc courte. JSON: {"nom": "...", "description": "..."}`;
-    const text = await callGemini(prompt);
-    loader.style.display = 'none';
-    if (text && text.includes("{")) {
+    if(!input) return;
+    
+    const ui = { out: document.getElementById('legend-output'), load: document.getElementById('legend-loader') };
+    ui.load.style.display = 'block'; ui.out.innerHTML = '';
+    
+    const text = await callGemini(`Alchimiste. Ingrédient: "${input}". Nom hydromel épique + desc courte. JSON: {"nom": "...", "description": "..."}`);
+    ui.load.style.display = 'none';
+
+    if (text.includes("{")) {
         try {
-            // Nettoyage JSON agressif pour éviter les erreurs de format
-            const jsonStr = text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1);
-            const data = JSON.parse(jsonStr);
-            output.innerHTML = `<h4 style="color:#8a0b0b; border:none; margin:0;">${data.nom}</h4><div style="width:30px; height:2px; background:var(--gold); margin:5px auto;"></div><p id="gen-desc" style="font-size:1em;"></p>`;
-            typeWriter(data.description, 'gen-desc', 30);
-        } catch (e) { output.innerHTML = text; } // Si JSON rate, on affiche le texte brut
-    } else { output.innerHTML = text || "Échec."; }
-}
+            const json = JSON.parse(text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1));
+            ui.out.innerHTML = `<h4 style="color:#8a0b0b; margin:0;">${json.nom}</h4><p id="gen-desc"></p>`;
+            typeWriter(json.description, 'gen-desc');
+        } catch(e) { ui.out.innerHTML = text; }
+    } else { ui.out.innerHTML = "Échec transmutation."; }
+};
+
+// 6. RUNES
+window.translateRunes = function(text) {
+    const map = {'a':'ᚨ', 'b':'ᛒ', 'c':'ᚲ', 'd':'ᛞ', 'e':'ᛖ', 'f':'ᚠ', 'g':'ᚷ', 'h':'ᚺ', 'i':'ᛁ', 'j':'ᛃ', 'k':'ᚲ', 'l':'ᛚ', 'm':'ᛗ', 'n':'ᚾ', 'o':'ᛟ', 'p':'ᛈ', 'q':'ᚲ', 'r':'ᚱ', 's':'ᛊ', 't':'ᛏ', 'u':'ᚢ', 'v':'ᚢ', 'w':'ᚹ', 'x':'ᚲᛊ', 'y':'ᛃ', 'z':'ᛉ', ' ':' '};
+    let res = ""; 
+    for (let c of text.toLowerCase()) { res += map[c] || c; }
+    const disp = document.getElementById('rune-display');
+    if(disp) disp.textContent = res;
+};
