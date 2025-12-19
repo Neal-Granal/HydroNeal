@@ -1,6 +1,7 @@
 /**
- * Logique principale de l'interface utilisateur
- * Gère le livre (PageFlip), l'audio et les événements de clic.
+ * js/main.js - Logique principale de l'interface
+ * Gère le livre (PageFlip), l'audio, et les Runes.
+ * Les fonctions IA sont dans gemini.js
  */
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -9,23 +10,34 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialisation Runes (si besoin au chargement)
     const runeInput = document.getElementById('rune-input');
-    if(runeInput && runeInput.value) window.translateRunes(runeInput.value);
+    if(runeInput && runeInput.value && window.translateRunes) {
+        window.translateRunes(runeInput.value);
+    }
 });
 
 // --- 1. GESTION DU LIVRE ---
 function initBook() {
     try {
-        if (typeof St === 'undefined' || typeof St.PageFlip === 'undefined') throw new Error("Bibliothèque PageFlip manquante");
+        // Vérifie si la librairie PageFlip est chargée
+        if (typeof St === 'undefined' || typeof St.PageFlip === 'undefined') {
+            console.warn("Bibliothèque PageFlip manquante ou pas encore chargée.");
+            // On laisse le CSS gérer le mode fallback
+            return;
+        }
 
         const pageFlip = new St.PageFlip(document.getElementById('book'), {
             size: 'stretch',
-            width: CONFIG.BOOK.width, height: CONFIG.BOOK.height,
-            minWidth: CONFIG.BOOK.minWidth, maxWidth: CONFIG.BOOK.maxWidth,
-            minHeight: CONFIG.BOOK.minHeight, maxHeight: CONFIG.BOOK.maxHeight,
-            maxShadowOpacity: 0.5, showCover: true, mobileScrollSupport: false 
+            width: 480, height: 720,
+            minWidth: 315, maxWidth: 650,
+            minHeight: 450, maxHeight: 950,
+            maxShadowOpacity: 0.5, 
+            showCover: true, 
+            mobileScrollSupport: false 
         });
         
         pageFlip.loadFromHTML(document.querySelectorAll('.page'));
+        
+        // Si tout va bien, on retire la classe fallback
         document.body.classList.remove('fallback-mode');
 
         // Patch Mobile : empêche de tourner la page quand on clique sur un input/bouton
@@ -47,98 +59,45 @@ function initAudioListener() {
     const startScreen = document.getElementById('start-screen');
     
     if(startScreen) {
-        startScreen.addEventListener('click', () => {
-            // Animation de disparition
-            startScreen.style.opacity = '0';
-            
-            setTimeout(() => {
-                // CORRECTION : Vérifie si l'élément existe encore avant de le supprimer
-                if (startScreen && startScreen.parentNode) {
-                    startScreen.parentNode.removeChild(startScreen);
+        // Le bouton pour entrer
+        const btn = startScreen.querySelector('button');
+        if(btn) {
+            btn.addEventListener('click', () => {
+                // Animation de disparition
+                startScreen.style.transition = 'opacity 1s';
+                startScreen.style.opacity = '0';
+                
+                setTimeout(() => {
+                    if (startScreen && startScreen.parentNode) {
+                        startScreen.parentNode.removeChild(startScreen);
+                    }
+                }, 1000);
+                
+                // Démarrage Audio
+                try {
+                    const iframe = document.querySelector('#sc-player');
+                    if(iframe && typeof SC !== 'undefined') {
+                        scWidget = SC.Widget(iframe);
+                        scWidget.setVolume(30);
+                        scWidget.play();
+                    }
+                } catch(e) {
+                    console.warn("Impossible de lancer l'audio auto :", e);
                 }
-            }, 1000);
-            
-            // Démarrage Audio
-            try {
-                const iframe = document.querySelector('#sc-player');
-                scWidget = SC.Widget(iframe);
-                scWidget.setVolume(30);
-                scWidget.play();
-            } catch(e) {
-                console.warn("Impossible de lancer l'audio auto :", e);
-            }
-        });
+            });
+        }
     }
 }
 
 // Fonction globale accessible via onclick="" dans le HTML
 window.toggleAudio = function() {
-    if (!scWidget) scWidget = SC.Widget(document.querySelector('#sc-player'));
-    scWidget.toggle();
-};
-
-// --- 3. INTERACTION IA (Pont vers gemini.js) ---
-
-// Générateur de Rumeurs
-window.generateRumor = async function(e) {
-    if(e) { e.stopPropagation(); e.preventDefault(); }
-    
-    const ui = {
-        output: document.getElementById('ai-rumor-zone'),
-        loader: document.getElementById('rumor-loader')
-    };
-
-    ui.output.style.display = 'none'; 
-    ui.loader.style.display = 'block';
-
-    const prompt = "Personnage fantasy ivre taverne. Rumeur courte drôle sur hydromel HydroNeal. Français.";
-    const text = await callGeminiAPI(prompt); // Appel à gemini.js
-
-    ui.loader.style.display = 'none'; 
-    ui.output.style.display = 'block';
-    
-    if(text) typeWriter(text, 'ai-rumor-zone');
-    else ui.output.innerHTML = "Les esprits sont silencieux... (Erreur API)";
-};
-
-// Générateur de Légendes (Objets)
-window.generateLegend = async function(e) {
-    if(e) { e.stopPropagation(); e.preventDefault(); }
-    
-    const input = document.getElementById('ingredient-input').value;
-    if (!input) return;
-
-    const ui = {
-        output: document.getElementById('legend-output'),
-        loader: document.getElementById('legend-loader')
-    };
-
-    ui.loader.style.display = 'block'; 
-    ui.output.innerHTML = '';
-
-    const prompt = `Alchimiste. Ingrédient: "${input}". Nom hydromel épique + desc courte. JSON: {"nom": "...", "description": "..."}`;
-    const rawText = await callGeminiAPI(prompt);
-
-    ui.loader.style.display = 'none';
-
-    if (rawText && rawText.includes("{")) {
-        try {
-            // Extraction du JSON même si le modèle ajoute du texte autour
-            const jsonStr = rawText.substring(rawText.indexOf('{'), rawText.lastIndexOf('}') + 1);
-            const data = JSON.parse(jsonStr);
-            
-            ui.output.innerHTML = `<h4 style="color:#8a0b0b; margin:0;">${data.nom}</h4><p id="gen-desc" style="font-size:1em;"></p>`;
-            typeWriter(data.description, 'gen-desc');
-        } catch (e) { 
-            console.error("Erreur parsing JSON", e);
-            ui.output.innerHTML = rawText; // Fallback texte brut
-        }
-    } else { 
-        ui.output.innerHTML = "La transmutation a échoué."; 
+    if (!scWidget && typeof SC !== 'undefined') {
+        scWidget = SC.Widget(document.querySelector('#sc-player'));
     }
+    if(scWidget) scWidget.toggle();
 };
 
-// --- 4. RUNES ---
+// --- 3. RUNES ---
 window.translateRunes = function(text) {
     const runesMap = {'a':'ᚨ', 'b':'ᛒ', 'c':'ᚲ', 'd':'ᛞ', 'e':'ᛖ', 'f':'ᚠ', 'g':'ᚷ', 'h':'ᚺ', 'i':'ᛁ', 'j':'ᛃ', 'k':'ᚲ', 'l':'ᛚ', 'm':'ᛗ', 'n':'ᚾ', 'o':'ᛟ', 'p':'ᛈ', 'q':'ᚲ', 'r':'ᚱ', 's':'ᛊ', 't':'ᛏ', 'u':'ᚢ', 'v':'ᚢ', 'w':'ᚹ', 'x':'ᚲᛊ', 'y':'ᛃ', 'z':'ᛉ', ' ':' '};
     let res = ""; 
