@@ -5,7 +5,7 @@
 // --- CONFIGURATION ---
 // Une fois déployé sur Render, collez l'URL ici !
 // Exemple : const BACKEND_URL = "https://hydroneal-backend-xyz.onrender.com/generate";
-const BACKEND_URL = "https://backend-hydroneal.onrender.com"; 
+const BACKEND_URL = "https://backend-hydroneal.onrender.com/generate"; 
 const TYPING_SPEED = 30;
 
 // --- FONCTIONS IA (Via Backend) ---
