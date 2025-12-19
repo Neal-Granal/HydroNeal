@@ -78,7 +78,7 @@ function typeWriter(text, elementId) {
     type();
 }
 
-// IA Rumeurs (Format Voyageur)
+// IA Rumeurs (Format Voyageur - JSON Strict)
 async function generateRumor(e) {
     if(e) { e.stopPropagation(); e.preventDefault(); }
     
@@ -89,9 +89,9 @@ async function generateRumor(e) {
     load.style.display = 'block';
     out.innerHTML = ''; // Nettoyer l'ancienne rumeur
     
-    // Prompt demandant du JSON strict pour séparer Citation et Auteur
-    const prompt = `Incarne un personnage de fantasy avec une caractéristique (par exemple Nain petit, Elfe fourbu, Voleur rabat-joi ou Sorcier souple) qui vient de goûter l'hydromel HydroNeal.
-    Invente UNE SEULE rumeur courte (1 phrase) et drôle ou mystérieuse en lien avec la boisson et son effet.
+    // Prompt demandant du JSON strict pour reproduire le format "Voyageur"
+    const prompt = `Incarne un personnage de fantasy (Nain, Elfe, Voleur ou Sorcier) qui vient de goûter l'hydromel HydroNeal.
+    Invente UNE SEULE rumeur courte (1 phrase) et drôle ou mystérieuse.
     Réponds UNIQUEMENT en JSON sous ce format :
     {
         "citation": "Le texte de la rumeur ici",
@@ -110,16 +110,17 @@ async function generateRumor(e) {
 
         // Construction du HTML identique à l'exemple statique
         const container = document.createElement('div');
-        container.style.cssText = "background:rgba(138,11,11,0.05); padding:10px; border-left:4px solid #8a0b0b; margin-bottom:10px;";
+        // Style calqué sur l'exemple statique du "vieux voyageur"
+        container.style.cssText = "background:rgba(138,11,11,0.05); padding:15px; border-left:4px solid #8a0b0b; margin-bottom:15px;";
         
         // Paragraphe pour la citation (vide pour l'instant, rempli par typeWriter)
         const pQuote = document.createElement('p');
         pQuote.id = "dynamic-quote-text"; // ID pour le typewriter
-        pQuote.style.cssText = "margin:0; font-style:italic; font-size:1.1em;";
+        pQuote.style.cssText = "margin:0; font-style:italic; font-size:1em;";
         
         // Signature
         const spanAuthor = document.createElement('span');
-        spanAuthor.style.cssText = "display:block; text-align:right; font-family:'Cinzel'; color:#b8860b; font-size:0.9em; margin-top:5px;";
+        spanAuthor.style.cssText = "display:block; text-align:right; font-family:'Cinzel'; color:#b8860b; font-size:0.85em; margin-top:5px;";
         spanAuthor.innerText = data.auteur;
 
         // Assemblage
@@ -131,13 +132,13 @@ async function generateRumor(e) {
         typeWriter(data.citation, "dynamic-quote-text");
 
     } catch (error) {
-        console.error("Erreur parsing JSON:", error);
-        // Fallback si l'IA ne renvoie pas du JSON
-        out.innerHTML = `<p style="color:#5d0000; font-style:italic;">${text}</p>`;
+        console.error("Erreur parsing JSON Rumeur:", error);
+        // Fallback propre
+        out.innerHTML = `<p style="color:#5d0000; font-style:italic;">Les esprits murmurent... mais le message est brouillé.<br><small>${text}</small></p>`;
     }
 }
 
-// IA Légendes (Recette avec Ingrédients)
+// IA Légendes (Recette avec Ingrédients - JSON Strict)
 async function generateLegend(e) {
     if(e) { e.stopPropagation(); e.preventDefault(); }
     
@@ -151,9 +152,9 @@ async function generateLegend(e) {
     
     const prompt = `Agis comme un vieil alchimiste. L'utilisateur te donne l'ingrédient principal : "${inp}".
     Crée une recette d'hydromel magique.
-    1. Donne un Nom Épique.
+    1. Donne un Nom Épique pour la recette.
     2. Liste 3 à 6 ingrédients (mélange de fantastique et commun).
-    3. Décris l'effet magique en une ou 2 phrases.
+    3. Décris l'effet magique en une phrase courte.
     
     Réponds UNIQUEMENT en JSON sous ce format :
     {
@@ -170,8 +171,8 @@ async function generateLegend(e) {
         const jsonStr = text.replace(/```json/g, '').replace(/```/g, '').trim();
         const data = JSON.parse(jsonStr);
         
-        // Construction de la liste HTML
-        let ingredientsHtml = '<ul style="text-align:left; font-size:0.9em; margin: 15px 0 15px 20px;">';
+        // Construction de la liste HTML pour les ingrédients
+        let ingredientsHtml = '<ul style="text-align:left; font-size:0.9em; margin: 15px 0 15px 20px; list-style:none;">';
         data.ingredients.forEach(ing => {
             ingredientsHtml += `<li style="margin-bottom:5px;">• ${ing}</li>`;
         });
@@ -183,7 +184,7 @@ async function generateLegend(e) {
             
             ${ingredientsHtml}
             
-            <p id="legend-desc" style="font-size:1em; font-style:italic; border-top:1px dashed #8a0b0b; padding-top:10px;"></p>
+            <p id="legend-desc" style="font-size:1em; font-style:italic; border-top:1px dashed #8a0b0b; padding-top:10px; margin-top:10px;"></p>
         `;
         
         // Effet écriture sur la description de l'effet uniquement
@@ -191,7 +192,7 @@ async function generateLegend(e) {
 
     } catch (e) {
         console.error("Erreur JSON Legend:", e);
-        out.innerText = text; // Affiche le texte brut en cas d'erreur
+        out.innerHTML = `<p style="color:#5d0000;">L'alchimie a échoué... <br><small>${text}</small></p>`;
     }
 }
 
