@@ -1,37 +1,16 @@
-/* =========================================
-   1. TYPOGRAPHIE & VARIABLES
-   ========================================= */
+/* --- STYLE GLOBAL SIMPLIFIÉ --- */
 @import url('https://fonts.googleapis.com/css2?family=MedievalSharp&family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;700&family=Uncial+Antiqua&family=Noto+Sans+Runic&display=swap');
 
 :root {
-    /* Palette Sang & Or */
     --blood-red: #8a0b0b;
-    --blood-dark: #4a0000;
-    
     --gold: #FFD700; 
-    --gold-bright: #FFF8C6;
-    --gold-dim: #C5A059;
-    --gold-antique: #c5a059;
-    
-    /* Papier & Encre */
-    --parchment-bg: #d4c5a3;
+    --parchment-bg: #d4c5a3; 
     --ink-color: #2a1a0a;
-    
-    /* Cuir & Ombres */
-    --leather-red: #3a0505;
-    --leather-dark: #1a0a0a;
-    
-    /* Magie */
-    --magic-glow: rgba(255, 215, 0, 0.4);
 }
 
-/* =========================================
-   2. FOND D'ÉCRAN & AMBIANCE
-   ========================================= */
 body {
     margin: 0; padding: 0;
-    background-color: var(--leather-dark);
-    /* Superposition : Vignette + Bois + Obscurité */
+    background-color: #1a0a0a;
     background-image: 
         radial-gradient(circle at 50% 50%, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.95) 100%),
         url('https://www.transparenttextures.com/patterns/wood-pattern.png');
@@ -41,117 +20,20 @@ body {
     overflow-x: hidden; color: #dcbfa0;
 }
 
-/* Particules (Lucioles) */
+/* --- BOUGIES, PARTICULES, ETC. (Copie simplifiée) --- */
 .firefly {
     position: fixed; left: 50%; top: 50%; width: 4px; height: 4px;
-    background-color: var(--gold-bright); border-radius: 50%;
-    box-shadow: 0 0 10px 2px var(--magic-glow);
-    animation: fly 25s linear infinite; pointer-events: none; z-index: 1; opacity: 0;
+    background-color: #FFF8C6; border-radius: 50%;
+    box-shadow: 0 0 10px 2px rgba(255, 215, 0, 0.4);
+    animation: fly 25s linear infinite; pointer-events: none;
 }
-.firefly:nth-child(1) { animation-duration: 20s; animation-delay: 0s; }
-.firefly:nth-child(2) { animation-duration: 25s; animation-delay: 2s; }
-.firefly:nth-child(3) { animation-duration: 18s; animation-delay: 5s; }
+@keyframes fly { 50% { transform: translate(20vw, -20vh) scale(1.5); } }
 
-@keyframes fly {
-    0% { transform: translate(-50vw, 50vh) scale(0); opacity: 0; }
-    20% { opacity: 0.6; }
-    50% { transform: translate(20vw, -20vh) scale(1.5); }
-    80% { opacity: 0.6; }
-    100% { transform: translate(50vw, -50vh) scale(0); opacity: 0; }
-}
-
-/* --- ÉCRAN D'ACCUEIL --- */
-#start-screen {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: #0a0505; z-index: 9999;
-    display: flex; flex-direction: column; justify-content: center; align-items: center;
-    transition: opacity 1s ease;
-    background-image: url('https://www.transparenttextures.com/patterns/dark-leather.png');
-}
-.start-btn {
-    padding: 20px 40px; font-size: 2em; color: var(--gold);
-    background: rgba(0,0,0,0.5); border: 3px solid var(--gold);
-    font-family: 'Cinzel Decorative'; cursor: pointer;
-    text-transform: uppercase; letter-spacing: 3px;
-    animation: pulseBtn 2s infinite; box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
-}
-.start-btn:hover { background: rgba(255, 215, 0, 0.1); transform: scale(1.05); transition: 0.3s; }
-@keyframes pulseBtn { 0%, 100% { box-shadow: 0 0 10px rgba(255, 215, 0, 0.3); } 50% { box-shadow: 0 0 25px rgba(255, 215, 0, 0.6); } }
-
-/* --- TITRE OR --- */
-.title-wrapper {
-    margin-top: 30px; margin-bottom: 20px; text-align: center;
-    z-index: 10; padding: 0 20px; position: relative;
-}
-
-h1.main-title {
-    font-family: 'Cinzel Decorative', cursive; font-size: 5em;
-    text-transform: uppercase; margin: 0;
-    color: #FFD700;
-    background: linear-gradient(to bottom, #FFD700 0%, #FFF8C6 30%, #D4AF37 50%, #B8860B 100%);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
-    filter: drop-shadow(0 4px 0px rgba(0,0,0,0.8));
-    animation: floatTitle 6s ease-in-out infinite;
-    line-height: 1; letter-spacing: 2px;
-}
-@keyframes floatTitle {
-    0%, 100% { transform: translateY(0); filter: drop-shadow(0 5px 15px rgba(0,0,0,0.8)); }
-    50% { transform: translateY(-8px); filter: drop-shadow(0 15px 25px rgba(212, 175, 55, 0.4)); }
-}
-
-h3.sub-title {
-    font-family: 'Cinzel', serif; color: #e0c0a0; letter-spacing: 5px;
-    margin-top: 15px; font-size: 1.2em; text-shadow: 0 2px 10px rgba(0,0,0,1);
-    opacity: 0.9; text-transform: uppercase;
-    border-top: 1px solid rgba(224, 192, 160, 0.3); border-bottom: 1px solid rgba(224, 192, 160, 0.3);
-    padding: 5px 20px; display: inline-block;
-}
-
-/* --- BOUGIES --- */
-.candle-container { position: fixed; top: 45%; z-index: 5; pointer-events: none; display: flex; gap: 20px; align-items: flex-end; }
-.candle-left { left: 5%; }
-.candle-right { right: 5%; }
-
-.candle-item { position: relative; filter: drop-shadow(0 0 20px rgba(0,0,0,0.8)); }
-.candle-small { transform: scale(0.7); margin-bottom: -15px; }
-
-.candle-flame {
-    width: 20px; height: 45px;
-    background: radial-gradient(ellipse at bottom, #ffffa0 0%, #ffaa00 50%, transparent 90%);
-    border-radius: 50% 50% 35% 35%;
-    animation: flicker 0.1s infinite alternate, flameWaver 3s infinite ease-in-out;
-    box-shadow: 0 -10px 20px 5px #ffaa00, 0 -20px 40px 10px rgba(255, 100, 0, 0.3);
-    margin: 0 auto; transform-origin: bottom center;
-    position: absolute; top: -35px; left: 50%; transform: translateX(-50%);
-}
-@keyframes flicker { 0% { transform: translateX(-50%) scale(1) rotate(-1deg); opacity: 0.9; } 100% { transform: translateX(-50%) scale(1.05) rotate(1deg); opacity: 1; } }
-@keyframes flameWaver { 0%, 100% { transform: translateX(-50%) rotate(0deg); } 25% { transform: translateX(-52%) rotate(-2deg); } 75% { transform: translateX(-48%) rotate(2deg); } }
-
-.candle-base {
-    width: 45px; height: 140px; 
-    background: linear-gradient(90deg, #3e2723, #5d4037, #281815);
-    margin: 0 auto; border-radius: 4px;
-    box-shadow: inset 0 -30px 40px rgba(0,0,0,0.9), 0 10px 20px rgba(0,0,0,0.5);
-    position: relative;
-}
-.candle-base::before { content: ''; position: absolute; top: 0; left: 10px; width: 6px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 3px; }
-.candle-wick { width: 2px; height: 10px; background: #111; position: absolute; top: -10px; left: 50%; transform: translateX(-50%); }
-
-@media (max-width: 1400px) { .candle-container { opacity: 0.4; transform: scale(0.8); } }
-@media (max-width: 1000px) { .candle-container { display: none; } }
-
-/* --- LE LIVRE --- */
+/* --- LIVRE & PAGES --- */
 .book-wrapper {
     margin: 30px 0 60px 0;
     filter: drop-shadow(0 60px 100px rgba(0,0,0,0.95)); 
     width: 95vw; display: flex; justify-content: center;
-    z-index: 10; perspective: 2000px;
-}
-.fallback-mode .book-wrapper { flex-direction: column; align-items: center; gap: 40px; }
-.fallback-mode .page {
-    position: relative !important; width: 100% !important; max-width: 600px; height: auto !important;
-    margin-bottom: 30px; display: block !important; transform: none !important;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important;
 }
 
 .page { background-color: var(--parchment-bg); width: 480px; height: 720px; display: none; }
@@ -160,171 +42,64 @@ h3.sub-title {
 .page-content {
     width: 100%; height: 100%; padding: 40px 35px; box-sizing: border-box;
     background-color: var(--parchment-bg);
-    background-image: url('https://www.transparenttextures.com/patterns/aged-paper.png'), linear-gradient(to right, rgba(0,0,0,0.05), transparent 5%, transparent 95%, rgba(0,0,0,0.05));
-    box-shadow: inset 0 0 100px rgba(60, 40, 20, 0.25), inset 0 0 20px rgba(0,0,0,0.1);
+    background-image: url('https://www.transparenttextures.com/patterns/aged-paper.png');
+    box-shadow: inset 0 0 100px rgba(60, 40, 20, 0.25);
     color: var(--ink-color); border: 1px solid rgba(139, 69, 19, 0.15);
     position: relative; overflow: hidden; display: flex; flex-direction: column;
 }
 
-.watermark {
-    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    font-size: 250px; opacity: 0.03; color: var(--blood-red); font-family: 'Cinzel Decorative'; pointer-events: none; z-index: 0;
-}
-
-/* Couvertures */
+/* --- COUVERTURES (CHEMINS SIMPLES : images/...) --- */
 .page--cover-front .page-content {
-    padding: 0 !important; border: none !important; background-color: #050505;
-    /* CORRECTION : url relative + .png */
-    background-image: url('../images/couverturegrimoire.png'); background-size: cover; background-position: center;
-    box-shadow: inset 0 0 50px rgba(0,0,0,0.9);
+    padding: 0 !important; background-color: #050505; border: none !important;
+    background-image: url('images/couverturegrimoire.png'); 
+    background-size: cover; background-position: center;
 }
-.page--cover-front .hint {
-    position: absolute; bottom: 30px; width: 100%; text-align: center;
-    color: rgba(255, 255, 255, 0.8); text-shadow: 0 2px 10px rgba(0,0,0,1);
-    font-weight: bold; z-index: 10; font-size: 1.2em; letter-spacing: 2px;
-    animation: pulse 2s infinite; font-family: 'Cinzel';
-}
-@keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
-
 .page--cover-back .page-content {
-    padding: 0 !important; border: none !important; background-color: #050505;
-    /* CORRECTION : url relative + .png */
-    background-image: url('../images/couverturearriere.png'); background-size: cover; background-position: center;
-    box-shadow: inset 0 0 50px rgba(0,0,0,0.9);
+    padding: 0 !important; background-color: #050505; border: none !important;
+    background-image: url('images/couverturearriere.png'); 
+    background-size: cover; background-position: center;
 }
-
 .page--inside-cover .page-content {
     background-image: url('https://www.transparenttextures.com/patterns/dark-leather.png');
-    background-color: #2a1a0a; box-shadow: inset 0 0 150px rgba(0,0,0,0.95);
-    justify-content: center; align-items: center; border:none;
-}
-.ex-libris {
-    border: 2px solid var(--gold-dim); padding: 20px 40px;
-    color: var(--gold-antique); font-family: 'Cinzel'; font-style: italic; 
-    font-size: 1.5em; text-align: center; background: rgba(0,0,0,0.3);
-    transform: rotate(-2deg); box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    background-color: #2a1a0a; color: #C5A059; text-align: center;
+    justify-content: center; align-items: center;
 }
 
-/* --- TYPOGRAPHIE CONTENU --- */
-h2 {
-    font-family: 'Cinzel Decorative', cursive; color: var(--blood-red); font-size: 2.2em;
-    text-align: center; border-bottom: 3px double rgba(138, 11, 11, 0.3); padding-bottom: 12px; margin-bottom: 25px;
-    text-shadow: 1px 1px 0 rgba(255,255,255,0.4); position: relative;
-}
-h2::after { content: '❧'; display: block; font-size: 0.6em; color: var(--gold-dim); margin-top: 5px; opacity: 0.7; }
-
-h4 {
-    font-family: 'Cinzel', serif; color: #4a0404; font-size: 1.3em; margin: 25px 0 8px 0;
-    text-transform: uppercase; font-weight: bold; border-bottom: 1px solid rgba(138, 11, 11, 0.2); display: inline-block; padding-right: 20px;
-}
-p { font-size: 1.15em; line-height: 1.6; text-align: justify; margin: 0 0 18px 0; z-index: 1; position: relative;}
-
-.divider {
-    text-align: center; color: var(--gold-dim); font-size: 1.8em; margin: 15px 0;
-    font-family: 'MedievalSharp'; opacity: 0.6; line-height: 0.5;
-}
-
-.drop-cap::first-letter {
-    font-family: 'Uncial Antiqua', cursive; font-size: 4em; float: left; margin-right: 12px; margin-top: -5px; 
-    color: var(--blood-red); text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
-}
-.deco-icon { width: 130px; display: block; margin: 0 auto 20px auto; filter: sepia(1) hue-rotate(-30deg) saturate(1.2) drop-shadow(0 5px 8px rgba(0,0,0,0.2)); opacity: 0.95; }
-
-/* --- BESTIAIRE & CARTE --- */
-.map-image { 
-    width: 100%; height: auto; 
-    border: none; filter: sepia(0.3); mix-blend-mode: multiply; 
-    display: block; margin: 20px auto; 
-}
-
-.beast-card {
-    display: flex; align-items: flex-start; gap: 15px;
-    border: 1px solid var(--gold-dim); padding: 12px; margin-top: 20px;
-    background: rgba(0,0,0,0.05);
-}
+/* --- IMAGES --- */
+.deco-icon { width: 100px; display: block; margin: 0 auto 15px auto; filter: sepia(1); }
+.map-image { width: 100%; mix-blend-mode: multiply; filter: sepia(0.3); margin: 20px 0; }
+.beast-card { display: flex; gap: 15px; border: 1px solid #C5A059; padding: 10px; margin-top: 15px; background: rgba(0,0,0,0.05); }
+.beast-img { width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--blood-red); object-fit: cover; }
 .beast-card.alt { flex-direction: row-reverse; text-align: left; }
 
-.beast-img {
-    width: 140px; height: 140px; object-fit: cover; 
-    border-radius: 50%; border: 3px solid var(--blood-red);
-    flex-shrink: 0; mix-blend-mode: multiply; filter: sepia(0.2);
-    background-color: transparent;
-}
-.beast-info { flex: 1; }
-.beast-name { color: #8a0b0b; font-size: 1.1em; text-transform: uppercase; font-weight: bold; display: block; margin-bottom: 5px; }
-.beast-desc { font-size: 0.9em; line-height: 1.3; }
-
-ul.flavor-list { padding-left: 10px; list-style: none; text-align: left; margin-top: 20px;}
-ul.flavor-list li { 
-    margin-bottom: 15px; font-size: 1.15em; 
-    padding-bottom: 10px; border-bottom: 1px dashed rgba(138, 11, 11, 0.2); 
-    display: flex; align-items: baseline;
-}
-ul.flavor-list li::before { content: "✦"; color: var(--gold-dim); margin-right: 10px; font-size: 0.8em; }
-.tag { color: #8a0b0b; font-family: 'Cinzel'; font-weight: bold; font-size: 0.95em; margin-right: 5px; text-transform: uppercase;}
-
-/* --- INTERACTIF --- */
+/* --- UI --- */
 .btn-rune {
-    background: #251610; color: var(--gold); padding: 15px 35px;
-    font-family: 'Cinzel'; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;
-    border: 2px solid var(--gold-dim); outline: 1px solid #251610; outline-offset: -4px;
-    cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.4); margin: 20px auto; display: block;
-    position: relative; z-index: 1000;
+    background: #251610; color: var(--gold); padding: 12px 25px;
+    font-family: 'Cinzel'; border: 2px solid #C5A059; cursor: pointer; margin: 20px auto; display: block;
 }
-.btn-rune:active { transform: translateY(2px); }
-
 .input-magic {
-    background: transparent; border: none; border-bottom: 3px solid var(--blood-red);
-    font-family: 'MedievalSharp', cursive; font-size: 1.5em; color: var(--ink-color);
-    width: 80%; text-align: center; margin: 20px auto; display: block; outline: none;
-    position: relative; z-index: 1000;
+    background: transparent; border: none; border-bottom: 2px solid var(--blood-red);
+    font-family: 'MedievalSharp'; font-size: 1.4em; width: 80%; margin: 20px auto; display: block; text-align: center;
 }
+.generated-content { min-height: 50px; padding: 10px; color: #6a0000; font-style: italic; text-align: center; }
 
-.generated-content {
-    min-height: 80px; border: none; padding: 10px; margin-top: 25px;
-    background: transparent; white-space: pre-wrap; font-size: 1.3em;
-    text-align: center; color: #6a0000; font-family: 'MedievalSharp'; font-style: italic;
+/* --- Start Screen & Audio --- */
+#start-screen {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: #0a0505; z-index: 9999; display: flex; justify-content: center; align-items: center;
 }
+.start-btn { padding: 20px; font-size: 1.5em; background: #000; color: var(--gold); border: 2px solid var(--gold); cursor: pointer; }
+.audio-control { position: fixed; bottom: 20px; right: 20px; z-index: 100; font-size: 2em; cursor: pointer; }
 
-.loader {
-    display: none; width: 40px; height: 40px; border: 4px solid rgba(212, 175, 55, 0.3); border-radius: 50%;
-    border-top-color: var(--blood-red); animation: spin 1.5s infinite linear; margin: 15px auto;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
+/* Titres */
+h1.main-title { font-family: 'Cinzel Decorative'; color: var(--gold); font-size: 4em; text-align: center; margin-top: 30px; text-shadow: 0 4px 10px #000; }
+h3.sub-title { font-family: 'Cinzel'; color: #dcbfa0; text-align: center; letter-spacing: 2px; }
+h2 { font-family: 'Cinzel Decorative'; color: var(--blood-red); text-align: center; border-bottom: 3px double rgba(138,11,11,0.3); }
 
-.audio-control {
-    position: fixed; bottom: 20px; right: 20px; z-index: 100;
-    background: rgba(0,0,0,0.7); color: var(--gold); width: 50px; height: 50px; border-radius: 50%;
-    display: flex; justify-content: center; align-items: center; cursor: pointer; border: 2px solid var(--gold);
-    font-size: 1.5em;
-}
-
-/* --- FOOTER --- */
-.seo-content {
-    max-width: 800px; margin: 40px auto; text-align: center; color: #b8aa8a;
-    font-family: 'MedievalSharp', cursive; padding: 20px;
-    border-top: 1px solid var(--gold-dim); border-bottom: 1px solid var(--gold-dim);
-    background-color: rgba(0,0,0,0.3);
-}
-.seo-content h1 { font-family: 'Cinzel Decorative'; color: var(--gold); font-size: 1.8em; margin-bottom: 20px; }
-.seo-content p { margin-bottom: 15px; font-size: 1.1em; line-height: 1.6; color: #dcbfa0; }
-
-footer {
-    width: 100%; background-color: #0a0505; color: #b8aa8a; padding: 50px 20px;
-    margin-top: auto; text-align: center; border-top: 4px solid var(--gold-dim);
-    font-family: 'Cinzel', serif; z-index: 20; position: relative;
-    background-image: url('https://www.transparenttextures.com/patterns/black-scales.png');
-    box-shadow: 0 -10px 30px rgba(0,0,0,0.8);
-}
-.footer-content { max-width: 1200px; margin: 0 auto; display: flex; justify-content: center; gap: 60px; flex-wrap: wrap; }
-.footer-col h4 { color: var(--gold); margin-bottom: 20px; font-size: 1.2em; border-bottom: 1px solid #444; padding-bottom: 10px; letter-spacing: 1px; }
-.footer-col a { color: #907060; text-decoration: none; display: block; margin: 10px 0; transition: color 0.3s; }
-.footer-col a:hover { color: var(--gold-bright); text-shadow: 0 0 5px var(--gold); }
-.legal { margin-top: 40px; font-size: 0.85em; opacity: 0.5; font-style: italic; }
-
+/* Mobile */
 @media (max-width: 1000px) {
-    h1.main-title { font-size: 3em; }
-    .book-wrapper { width: 100%; padding: 0 5px; box-sizing: border-box; }
-    .page-content { padding: 25px 20px; }
+    h1.main-title { font-size: 2.5em; }
     .candle-container { display: none; }
+    .page { width: 100% !important; height: auto !important; margin-bottom: 20px; display: block !important; }
+    .book-wrapper { flex-direction: column; }
 }
